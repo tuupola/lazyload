@@ -14,11 +14,12 @@
             
             $(self).attr("original", $(self).attr("src"));
             if ($.belowthefold(self, settings)) {
-                $(self).attr("src", "");                
+                $(self).removeAttr("src");                
             }
 
             $(window).bind("scroll", function(event) {
                 if (!$(self).attr("src") && $.abovethefold(self, settings)) {
+
                     $(self).attr("src", $(self).attr("original"));                
                 };
             });
