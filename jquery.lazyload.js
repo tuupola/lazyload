@@ -17,7 +17,7 @@
                 $(self).attr("src", "");                
             }
 
-            $(document).bind("scroll", function(event) {
+            $(window).bind("scroll", function(event) {
                 if (!$(self).attr("src") && $.abovethefold(self, settings)) {
                     $(self).attr("src", $(self).attr("original"));                
                 };
