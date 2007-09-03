@@ -1,3 +1,14 @@
+/*
+ * Lazy Load - jQuery plugin for lazy loading images
+ *
+ * Copyright (c) 2007 Mika Tuupola
+ *
+ * Licensed under the MIT license:
+ *   http://www.opensource.org/licenses/mit-license.php
+ *
+ * Revision: $Id$
+ *
+ */
 (function($) {
     
     $.fn.lazyload = function(options) {
