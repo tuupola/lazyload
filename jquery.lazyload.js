@@ -24,7 +24,7 @@
             var self = this;
             
             $(self).attr("original", $(self).attr("src"));
-            if ($.belowthefold(self, settings)) {
+            if (settings.event || $.belowthefold(self, settings)) {
                 if (settings.placeholder) {
                     $(self).attr("src", settings.placeholder);                    
                 } else {
