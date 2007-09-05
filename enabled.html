@@ -18,7 +18,7 @@
   <script src="jquery.lazyload.js" type="text/javascript" charset="utf-8"></script>
   <script type="text/javascript" charset="utf-8">
       $(function() {
-          $("img").lazyload();
+          $("img").lazyload({placeholder : "img/grey.gif"});
       });
   </script>  
   <style type="text/css">
@@ -33,6 +33,7 @@
   </style>
 
 </head>
+
 <body>
   <div id="wrap"> 
     <div id="header">
