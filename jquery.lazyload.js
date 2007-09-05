@@ -13,9 +13,10 @@
     
     $.fn.lazyload = function(options) {
         var settings = {
-            threshold : 0
+            threshold : 0,
+            placeholder : "data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="
         };
-        
+                
         if(options) {
             $.extend(settings, options);
         };
@@ -25,13 +26,14 @@
             
             $(self).attr("original", $(self).attr("src"));
             if ($.belowthefold(self, settings)) {
-                $(self).removeAttr("src");                
+                $(self).attr("src", settings.placeholder);                
+                self.loaded = false;
             }
 
             $(window).bind("scroll", function(event) {
-                if (!$(self).attr("src") && $.abovethefold(self, settings)) {
-
-                    $(self).attr("src", $(self).attr("original"));                
+                if (!self.loaded && $.abovethefold(self, settings)) {
+                    $(self).attr("src", $(self).attr("original"));   
+                    self.loaded = true;             
                 };
             });
         });
