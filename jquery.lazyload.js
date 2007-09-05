@@ -33,12 +33,21 @@
                 self.loaded = false;
             }
 
-            $(window).bind("scroll", function(event) {
-                if (!self.loaded && $.abovethefold(self, settings)) {
-                    $(self).attr("src", $(self).attr("original"));   
-                    self.loaded = true;             
-                };
-            });
+            if (settings.event) {
+                $(self)[settings.event](function(event) {
+                    if (!self.loaded) {
+                        $(self).attr("src", $(self).attr("original"));   
+                        self.loaded = true;                        
+                    };
+                });
+            } else {
+                $(window).bind("scroll", function(event) {
+                    if (!self.loaded && $.abovethefold(self, settings)) {
+                        $(self).attr("src", $(self).attr("original"));   
+                        self.loaded = true;             
+                    };
+                });                
+            };
         });
     };
 
