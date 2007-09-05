@@ -13,8 +13,7 @@
     
     $.fn.lazyload = function(options) {
         var settings = {
-            threshold : 0,
-            placeholder : "data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="
+            threshold : 0
         };
                 
         if(options) {
@@ -26,7 +25,11 @@
             
             $(self).attr("original", $(self).attr("src"));
             if ($.belowthefold(self, settings)) {
-                $(self).attr("src", settings.placeholder);                
+                if (settings.placeholder) {
+                    $(self).attr("src", settings.placeholder);                    
+                } else {
+                    $(self).removeAttr("src");
+                }
                 self.loaded = false;
             }
 
