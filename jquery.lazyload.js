@@ -22,34 +22,42 @@
 
         return this.each(function() {
             var self = this;
-            
+        
+            /* TODO: why to use attr? Possible memory leak. */
             $(self).attr("original", $(self).attr("src"));
-            if (settings.event || $.belowthefold(self, settings)) {
+            if (settings.event || $.belowthefold(self, settings) 
+                               || $.rightoffold(self, settings)) {
                 if (settings.placeholder) {
                     $(self).attr("src", settings.placeholder);                    
                 } else {
                     $(self).removeAttr("src");
                 }
                 self.loaded = false;
+            } else {
+                self.loaded = true;
             }
 
             if (settings.event) {
                 $(self)[settings.event](function(event) {
                     if (!self.loaded) {
                         $(self).attr("src", $(self).attr("original"));   
-                        self.loaded = true;                        
+                        self.loaded = true;
                     };
                 });
             } else {
                 $(window).bind("scroll", function(event) {
-                    if (!self.loaded && $.abovethefold(self, settings)) {
+                    if (!self.loaded && $.abovethefold(self, settings) 
+                                     && $.leftoffold(self, settings)) {
                         $(self).attr("src", $(self).attr("original"));   
-                        self.loaded = true;             
+                        self.loaded = true;  
                     };
                 });                
             };
         });
     };
+
+    /* Convenience methods in jQuery namespace.           */
+    /* Use as  $.belowthefold(element, {threshold : 100}) */
 
     $.belowthefold = function(element, settings) {
         var fold = $(window).height() + $(window).scrollTop();
@@ -59,6 +67,25 @@
     $.abovethefold = function(element, settings) {
         return !$.belowthefold(element, settings);
     }
+    
+    $.rightoffold = function(element, settings) {
+        var fold = $(window).width() + $(window).scrollLeft();
+        return fold <= $(element).offset().left - settings.threshold;
+    }
+
+    $.leftoffold = function(element, settings) {
+        return !$.rightoffold(element, settings);
+    }
+    
+    /* Custom selectors for your convenience.   */
+    /* Use as $("img:belowthefold").something() */
+
+    $.extend($.expr[':'], {
+        belowthefold : "$.belowthefold(a, {threshold : 0})",
+        abovethefold : "$.abovethefold(a, {threshold : 0})",
+        rightoffold  : "$.rightoffold(a,  {threshold : 0})",
+        leftoffold   : "$.leftoffold(a,   {threshold : 0})"
+    });
     
 })(jQuery);
 
