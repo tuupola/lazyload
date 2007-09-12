@@ -46,8 +46,8 @@
                 });
             } else {
                 $(window).bind("scroll", function(event) {
-                    if (!self.loaded && $.abovethefold(self, settings) 
-                                     && $.leftoffold(self, settings)) {
+                    if (!self.loaded && !$.belowthefold(self, settings) 
+                                     && !$.rightoffold(self, settings)) {
                         $(self).attr("src", $(self).attr("original"));   
                         self.loaded = true;  
                     };
@@ -63,18 +63,10 @@
         var fold = $(window).height() + $(window).scrollTop();
         return fold <= $(element).offset().top - settings.threshold;
     }
-
-    $.abovethefold = function(element, settings) {
-        return !$.belowthefold(element, settings);
-    }
     
     $.rightoffold = function(element, settings) {
         var fold = $(window).width() + $(window).scrollLeft();
         return fold <= $(element).offset().left - settings.threshold;
-    }
-
-    $.leftoffold = function(element, settings) {
-        return !$.rightoffold(element, settings);
     }
     
     /* Custom selectors for your convenience.   */
@@ -82,9 +74,9 @@
 
     $.extend($.expr[':'], {
         belowthefold : "$.belowthefold(a, {threshold : 0})",
-        abovethefold : "$.abovethefold(a, {threshold : 0})",
+        abovethefold : "!$.belowthefold(a, {threshold : 0})",
         rightoffold  : "$.rightoffold(a,  {threshold : 0})",
-        leftoffold   : "$.leftoffold(a,   {threshold : 0})"
+        leftoffold   : "!$.rightoffold(a,   {threshold : 0})"
     });
     
 })(jQuery);
