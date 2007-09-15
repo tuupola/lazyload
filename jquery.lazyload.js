@@ -27,10 +27,16 @@
                 elements.each(function() {
                     if (!this.loaded && !$.belowthefold(this, settings) 
                                      && !$.rightoffold(this, settings)) {
-                                         $(this).attr("src", $(this).attr("original"));   
-                                         this.loaded = true;  
+                                         $(this).attr("src", $(this).attr("original"));
+                                         this.loaded = true;
                     };
                 });
+                /* Remove image from array so it is not looped next time. */
+                var temp = $.grep(elements, function(element) {
+                    return !element.loaded;
+                });
+                elements = $(temp);
+                console.log(elements);
             });
         };
 
