@@ -36,7 +36,6 @@
                     return !element.loaded;
                 });
                 elements = $(temp);
-                console.log(elements);
             });
         };
 
