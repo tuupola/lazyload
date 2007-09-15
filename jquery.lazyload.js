@@ -20,6 +20,20 @@
             $.extend(settings, options);
         };
 
+        /* Fire one scroll event per scoll. Not one scroll event per image. */
+        var elements = this;
+        if (!settings.event) {
+            $(window).bind("scroll", function(event) {
+                elements.each(function() {
+                    if (!this.loaded && !$.belowthefold(this, settings) 
+                                     && !$.rightoffold(this, settings)) {
+                                         $(this).attr("src", $(this).attr("original"));   
+                                         this.loaded = true;  
+                    };
+                });
+            });
+        };
+
         return this.each(function() {
             var self = this;
         
@@ -44,16 +58,9 @@
                         self.loaded = true;
                     };
                 });
-            } else {
-                $(window).bind("scroll", function(event) {
-                    if (!self.loaded && !$.belowthefold(self, settings) 
-                                     && !$.rightoffold(self, settings)) {
-                        $(self).attr("src", $(self).attr("original"));   
-                        self.loaded = true;  
-                    };
-                });                
             };
         });
+
     };
 
     /* Convenience methods in jQuery namespace.           */
@@ -75,8 +82,8 @@
     $.extend($.expr[':'], {
         belowthefold : "$.belowthefold(a, {threshold : 0})",
         abovethefold : "!$.belowthefold(a, {threshold : 0})",
-        rightoffold  : "$.rightoffold(a,  {threshold : 0})",
-        leftoffold   : "!$.rightoffold(a,   {threshold : 0})"
+        rightoffold  : "$.rightoffold(a, {threshold : 0})",
+        leftoffold   : "!$.rightoffold(a, {threshold : 0})"
     });
     
 })(jQuery);
