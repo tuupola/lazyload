@@ -13,7 +13,8 @@
     
     $.fn.lazyload = function(options) {
         var settings = {
-            threshold : 0
+            threshold : 0,
+            failurelimit : 0
         };
                 
         if(options) {
@@ -24,12 +25,17 @@
         var elements = this;
         if (!settings.event) {
             $(window).bind("scroll", function(event) {
+                var counter = 0;
                 elements.each(function() {
-                    if (!this.loaded && !$.belowthefold(this, settings) 
-                                     && !$.rightoffold(this, settings)) {
-                                         $(this).attr("src", $(this).attr("original"));
-                                         this.loaded = true;
-                    };
+                    if (!$.belowthefold(this, settings) 
+                        && !$.rightoffold(this, settings)) {
+                            $(this).attr("src", $(this).attr("original"));
+                            this.loaded = true;
+                    } else {
+                        if (counter++ > settings.failurelimit) {
+                            return false;
+                        };
+                    }
                 });
                 /* Remove image from array so it is not looped next time. */
                 var temp = $.grep(elements, function(element) {
