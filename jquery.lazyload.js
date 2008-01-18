@@ -10,7 +10,7 @@
  *
  */
 (function($) {
-    
+
     $.fn.lazyload = function(options) {
         var settings = {
             threshold : 0,

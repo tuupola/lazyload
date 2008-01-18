@@ -13,12 +13,13 @@
     _uacct = "UA-190966-1";
     urchinTracker();
   </script>
-  <script src="http://static.taevas.ee/js/jquery-1.2.1.mini.js" type="text/javascript" charset="utf-8"></script>
-  <script src="http://static.taevas.ee/js/jquery.dimensions.mini.js" type="text/javascript" charset="utf-8"></script>
+  <script src="http://static.taevas.ee/js/jquery-1.2.2.mini.js" type="text/javascript" charset="utf-8"></script>
+  <script src="http://static.taevas.ee/js/jquery.dimensions-1.2.0.mini.js" type="text/javascript" charset="utf-8"></script>
   <script src="jquery.lazyload.js" type="text/javascript" charset="utf-8"></script>
   <script type="text/javascript" charset="utf-8">
       $(function() {          
           $("img").lazyload({placeholder : "img/grey.gif"});
+          console.log($(window).height());
       });
   </script>  
   <style type="text/css">
