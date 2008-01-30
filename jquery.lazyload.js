@@ -44,7 +44,14 @@
                 elements = $(temp);
             });
         };
-
+        
+        /* add custom event if it does not exist */
+        if  (!$.isFunction($(this)[settings.event])) {
+            $.fn[settings.event] = function(fn){
+                return fn ? this.bind(settings.event, fn) : this.trigger(settings.event);
+            }
+        }
+        
         return this.each(function() {
             var self = this;
         
@@ -53,7 +60,7 @@
             if (settings.event || $.belowthefold(self, settings) 
                                || $.rightoffold(self, settings)) {
                 if (settings.placeholder) {
-                    $(self).attr("src", settings.placeholder);                    
+                    $(self).attr("src", settings.placeholder);      
                 } else {
                     $(self).removeAttr("src");
                 }
