@@ -51,7 +51,7 @@
                 return fn ? this.bind(settings.event, fn) : this.trigger(settings.event);
             }
         }
-        
+
         return this.each(function() {
             var self = this;
         
@@ -95,13 +95,13 @@
     }
     
     /* Custom selectors for your convenience.   */
-    /* Use as $("img:belowthefold").something() */
+    /* Use as $("img:below-the-fold").something() */
 
     $.extend($.expr[':'], {
-        belowthefold : "$.belowthefold(a, {threshold : 0})",
-        abovethefold : "!$.belowthefold(a, {threshold : 0})",
-        rightoffold  : "$.rightoffold(a, {threshold : 0})",
-        leftoffold   : "!$.rightoffold(a, {threshold : 0})"
+        below-the-fold : "$.belowthefold(a, {threshold : 0})",
+        above-the-fold : "!$.belowthefold(a, {threshold : 0})",
+        right-of-fold  : "$.rightoffold(a, {threshold : 0})",
+        left-of-fold   : "!$.rightoffold(a, {threshold : 0})"
     });
     
 })(jQuery);
