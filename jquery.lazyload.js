@@ -98,10 +98,10 @@
     /* Use as $("img:below-the-fold").something() */
 
     $.extend($.expr[':'], {
-        below-the-fold : "$.belowthefold(a, {threshold : 0})",
-        above-the-fold : "!$.belowthefold(a, {threshold : 0})",
-        right-of-fold  : "$.rightoffold(a, {threshold : 0})",
-        left-of-fold   : "!$.rightoffold(a, {threshold : 0})"
+        "below-the-fold" : "$.belowthefold(a, {threshold : 0})",
+        "above-the-fold" : "!$.belowthefold(a, {threshold : 0})",
+        "right-of-fold"  : "$.rightoffold(a, {threshold : 0})",
+        "left-of-fold"   : "!$.rightoffold(a, {threshold : 0})"
     });
     
 })(jQuery);
