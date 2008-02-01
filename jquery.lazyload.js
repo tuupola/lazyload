@@ -19,7 +19,7 @@
                 
         if(options) {
             $.extend(settings, options);
-        };
+        }
 
         /* Fire one scroll event per scoll. Not one scroll event per image. */
         var elements = this;
@@ -27,14 +27,14 @@
             $(window).bind("scroll", function(event) {
                 var counter = 0;
                 elements.each(function() {
-                    if (!$.belowthefold(this, settings) 
-                        && !$.rightoffold(this, settings)) {
+                    if (!$.belowthefold(this, settings) &&
+                        !$.rightoffold(this, settings)) {
                             $(this).attr("src", $(this).attr("original"));
                             this.loaded = true;
                     } else {
                         if (counter++ > settings.failurelimit) {
                             return false;
-                        };
+                        }
                     }
                 });
                 /* Remove image from array so it is not looped next time. */
@@ -43,13 +43,13 @@
                 });
                 elements = $(temp);
             });
-        };
+        }
         
         /* add custom event if it does not exist */
         if  (!$.isFunction($(this)[settings.event])) {
             $.fn[settings.event] = function(fn){
                 return fn ? this.bind(settings.event, fn) : this.trigger(settings.event);
-            }
+            };
         }
 
         return this.each(function() {
@@ -57,8 +57,8 @@
         
             /* TODO: why to use attr? Possible memory leak. */
             $(self).attr("original", $(self).attr("src"));
-            if (settings.event || $.belowthefold(self, settings) 
-                               || $.rightoffold(self, settings)) {
+            if (settings.event || $.belowthefold(self, settings) ||
+                                  $.rightoffold(self, settings)) {
                 if (settings.placeholder) {
                     $(self).attr("src", settings.placeholder);      
                 } else {
@@ -74,9 +74,9 @@
                     if (!self.loaded) {
                         $(self).attr("src", $(self).attr("original"));   
                         self.loaded = true;
-                    };
+                    }
                 });
-            };
+            }
         });
 
     };
@@ -87,12 +87,12 @@
     $.belowthefold = function(element, settings) {
         var fold = $(window).height() + $(window).scrollTop();
         return fold <= $(element).offset().top - settings.threshold;
-    }
+    };
     
     $.rightoffold = function(element, settings) {
         var fold = $(window).width() + $(window).scrollLeft();
         return fold <= $(element).offset().left - settings.threshold;
-    }
+    };
     
     /* Custom selectors for your convenience.   */
     /* Use as $("img:below-the-fold").something() */
