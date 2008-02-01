@@ -1,6 +1,6 @@
 # $Id: Makefile 193 2007-08-13 15:03:17Z tuupola $
 
-VERSION = 1.2.0
+VERSION = 1.2.1
 SHELL = /bin/sh
 DOWNLOAD = /export/home/tuupola/rails/mephisto-svn/public/download
 JSPACKER = /export/home/tuupola/bin/jspacker
