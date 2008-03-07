@@ -1,7 +1,7 @@
 /*
  * Lazy Load - jQuery plugin for lazy loading images
  *
- * Copyright (c) 2007 Mika Tuupola
+ * Copyright (c) 2007-2008 Mika Tuupola
  *
  * Licensed under the MIT license:
  *   http://www.opensource.org/licenses/mit-license.php
@@ -32,8 +32,7 @@
                 elements.each(function() {
                     if (!$.belowthefold(this, settings) &&
                         !$.rightoffold(this, settings)) {
-                            $(this).attr("src", $(this).attr("original"));
-                            this.loaded = true;
+                            $(this).trigger("appear");  
                     } else {
                         if (counter++ > settings.failurelimit) {
                             return false;
@@ -71,12 +70,24 @@
             } else {
                 self.loaded = true;
             }
+            
+            $(self).bind("appear", function() {
+//                console.log("appear");
+                $("<img>")
+                    .attr("src", $(self).attr("original"))
+                    .bind("load", function() {
+                        $(self)
+//                            .hide()
+                            .attr("src", $(self).attr("original"));
+//                            .fadeIn("fast");
+                        self.loaded = true;
+                    });
+            });
 
             if (settings.event) {
                 $(self)[settings.event](function(event) {
                     if (!self.loaded) {
-                        $(self).attr("src", $(self).attr("original"));   
-                        self.loaded = true;
+                        $(self).trigger("appear");
                     }
                 });
             }
