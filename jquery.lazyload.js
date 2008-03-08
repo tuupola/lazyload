@@ -18,7 +18,8 @@
         var settings = {
             threshold    : 0,
             failurelimit : 0,
-            event        : "scroll"
+            event        : "scroll",
+            effect       : "show"
         };
                 
         if(options) {
@@ -51,7 +52,7 @@
         return this.each(function() {
             var self = this;
         
-            /* TODO: why to use attr? Possible memory leak. */
+            /* TODO: use .data() instead of .attr() */
             $(self).attr("original", $(self).attr("src"));
             if ("scroll" != settings.event 
                          || $.belowthefold(self, settings) 
@@ -66,19 +67,21 @@
                 self.loaded = true;
             }
             
+            /* When appear is triggered load original image. */
             $(self).bind("appear", function() {
-//                console.log("appear");
                 $("<img>")
                     .attr("src", $(self).attr("original"))
                     .bind("load", function() {
                         $(self)
-//                            .hide()
-                            .attr("src", $(self).attr("original"));
-//                            .fadeIn("fast");
+                            .hide()
+                            .attr("src", $(self).attr("original"))
+                            [settings.effect](settings.effectspeed);
                         self.loaded = true;
                     });
             });
 
+            /* When wanted event is triggered load original image */
+            /* by triggering appear.                              */
             if ("scroll" != settings.event) {
                 $(self).bind(settings.event, function(event) {
                     if (!self.loaded) {
