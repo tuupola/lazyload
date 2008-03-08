@@ -16,8 +16,9 @@
 
     $.fn.lazyload = function(options) {
         var settings = {
-            threshold : 0,
-            failurelimit : 0
+            threshold    : 0,
+            failurelimit : 0,
+            event        : "scroll"
         };
                 
         if(options) {
@@ -26,7 +27,7 @@
 
         /* Fire one scroll event per scoll. Not one scroll event per image. */
         var elements = this;
-        if (!settings.event) {
+        if ("scroll" == settings.event) {
             $(window).bind("scroll", function(event) {
                 var counter = 0;
                 elements.each(function() {
@@ -47,20 +48,14 @@
             });
         }
         
-        /* add custom event if it does not exist */
-        if  (!$.isFunction($(this)[settings.event])) {
-            $.fn[settings.event] = function(fn){
-                return fn ? this.bind(settings.event, fn) : this.trigger(settings.event);
-            };
-        }
-
         return this.each(function() {
             var self = this;
         
             /* TODO: why to use attr? Possible memory leak. */
             $(self).attr("original", $(self).attr("src"));
-            if (settings.event || $.belowthefold(self, settings) ||
-                                  $.rightoffold(self, settings)) {
+            if ("scroll" != settings.event 
+                         || $.belowthefold(self, settings) 
+                         || $.rightoffold(self, settings)) {
                 if (settings.placeholder) {
                     $(self).attr("src", settings.placeholder);      
                 } else {
@@ -84,8 +79,8 @@
                     });
             });
 
-            if (settings.event) {
-                $(self)[settings.event](function(event) {
+            if ("scroll" != settings.event) {
+                $(self).bind(settings.event, function(event) {
                     if (!self.loaded) {
                         $(self).trigger("appear");
                     }
