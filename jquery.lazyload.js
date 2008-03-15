@@ -33,10 +33,9 @@
             $(window).bind("scroll", function(event) {
                 var counter = 0;
                 elements.each(function() {
-                    if (!this.loaded &&
-                        !$.belowthefold(this, settings) &&
+                    if (!$.belowthefold(this, settings) &&
                         !$.rightoffold(this, settings)) {
-                            $(this).trigger("appear");  
+                            $(this).trigger("appear");
                     } else {
                         if (counter++ > settings.failurelimit) {
                             return false;
@@ -71,15 +70,17 @@
             
             /* When appear is triggered load original image. */
             $(self).one("appear", function() {
-                $("<img>")
-                    .attr("src", $(self).attr("original"))
-                    .bind("load", function() {
-                        $(self)
-                            .hide()
-                            .attr("src", $(self).attr("original"))
-                            [settings.effect](settings.effectspeed);
-                        self.loaded = true;
-                    });
+                if (!this.loaded) {
+                    $("<img>")
+                        .attr("src", $(self).attr("original"))
+                        .bind("load", function() {
+                            $(self)
+                                .hide()
+                                .attr("src", $(self).attr("original"))
+                                [settings.effect](settings.effectspeed);
+                            self.loaded = true;
+                        });                    
+                };
             });
 
             /* When wanted event is triggered load original image */
