@@ -10,6 +10,7 @@
  *   http://www.appelsiini.net/projects/lazyload
  *
  * Revision: $Id$
+ * Version:  1.3.0
  *
  */
 (function($) {
@@ -32,7 +33,8 @@
             $(window).bind("scroll", function(event) {
                 var counter = 0;
                 elements.each(function() {
-                    if (!$.belowthefold(this, settings) &&
+                    if (!this.loaded &&
+                        !$.belowthefold(this, settings) &&
                         !$.rightoffold(this, settings)) {
                             $(this).trigger("appear");  
                     } else {
@@ -68,7 +70,7 @@
             }
             
             /* When appear is triggered load original image. */
-            $(self).bind("appear", function() {
+            $(self).one("appear", function() {
                 $("<img>")
                     .attr("src", $(self).attr("original"))
                     .bind("load", function() {
