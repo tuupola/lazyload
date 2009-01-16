@@ -72,14 +72,14 @@
             $(self).one("appear", function() {
                 if (!this.loaded) {
                     $("<img />")
-                        .attr("src", $(self).attr("original"))
                         .bind("load", function() {
                             $(self)
                                 .hide()
                                 .attr("src", $(self).attr("original"))
                                 [settings.effect](settings.effectspeed);
                             self.loaded = true;
-                        });                    
+                        })
+                        .attr("src", $(self).attr("original"));
                 };
             });
 
