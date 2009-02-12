@@ -1,6 +1,4 @@
-# $Id: Makefile 193 2007-08-13 15:03:17Z tuupola $
-
-VERSION = 1.3.1
+VERSION = 1.3.2
 SHELL = /bin/sh
 DOWNLOAD = /var/www/www.appelsiini.net/htdocs/download
 JSPACKER = /home/tuupola/bin/jspacker
