@@ -1,4 +1,4 @@
-VERSION = 1.3.2
+VERSION = 1.4.0
 SHELL = /bin/sh
 DOWNLOAD = /var/www/www.appelsiini.net/htdocs/download
 JSPACKER = /home/tuupola/bin/jspacker
