@@ -31,14 +31,14 @@
         var elements = this;
         if ("scroll" == settings.event) {
             $(settings.container).bind("scroll", function(event) {
+                
                 var counter = 0;
                 elements.each(function() {
-                    if ($.belowthetop(this, settings) ||
+                    if ($.abovethetop(this, settings) ||
                         $.leftofbegin(this, settings)) {
-
+                            /* Nothing. */
                     } else if (!$.belowthefold(this, settings) &&
                         !$.rightoffold(this, settings)) {
-                            $(this).next().html('in');
                             $(this).trigger("appear");
                     } else {
                         if (counter++ > settings.failurelimit) {
@@ -60,7 +60,7 @@
             $(self).attr("original", $(self).attr("src"));
 
             if ("scroll" != settings.event || (
-                         $.belowthetop(self, settings) ||
+                         $.abovethetop(self, settings) ||
                          $.leftofbegin(self, settings) || 
                          $.belowthefold(self, settings) || 
                          $.rightoffold(self, settings) )) {
@@ -122,8 +122,8 @@
         }
         return fold <= $(element).offset().left - settings.threshold;
     };
-    
-    $.belowthetop = function(element, settings) {
+        
+    $.abovethetop = function(element, settings) {
         if (settings.container === undefined || settings.container === window) {
             var fold = $(window).scrollTop();
         } else {
