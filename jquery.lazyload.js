@@ -56,8 +56,7 @@
         
         return this.each(function() {
             var self = this;
-            /* TODO: use .data() instead of .attr() */
-            $(self).attr("original", $(self).attr("src"));
+            $(self).data("original", $(self).attr("src"));
 
             if ("scroll" != settings.event || (
                          $.abovethetop(self, settings) ||
@@ -81,11 +80,11 @@
                         .bind("load", function() {
                             $(self)
                                 .hide()
-                                .attr("src", $(self).attr("original"))
+                                .attr("src", $(self).data("original"))
                                 [settings.effect](settings.effectspeed);
                             self.loaded = true;
                         })
-                        .attr("src", $(self).attr("original"));
+                        .attr("src", $(self).data("original"));
                 };
             });
 
