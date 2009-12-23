@@ -52,9 +52,17 @@
     
     <p>
       Images below the fold (the ones lower than window bottom) are not loaded. When scrolling down
-      they are loaded when needed. Shift-reload to test again. Compare this to page where plugin is 
-      <a href="disabled.html">disabled</a> or page with <a href="enabled.html">larger images</a>.
+      they are loaded when needed. This example uses additional possibility of putting placeholder 
+      image to <i>src</i> attribute already in html. Real image url is stored in <i>original</i> property. 
+      This is not needed but gives additional speed increase. Shift-reload to test again. Compare this to 
+      page where plugin is <a href="disabled.html">disabled</a> or page with 
+      <a href="enabled.html">larger images</a>.
     </p>
+
+    <code>
+     <pre>
+ &lt;img original="img/example.jpg" src="img/grey.gif"&gt;</pre>     
+    </code>
 
     <code>
       <pre>
