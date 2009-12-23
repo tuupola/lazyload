@@ -9,7 +9,7 @@
  * Project home:
  *   http://www.appelsiini.net/projects/lazyload
  *
- * Version:  1.4.0
+ * Version:  1.5.0-dev
  *
  */
 (function($) {
@@ -54,15 +54,22 @@
             });
         }
         
-        return this.each(function() {
+        this.each(function() {
             var self = this;
-            $(self).data("original", $(self).attr("src"));
+            
+            /* Save original only if it is not defined in HTML. */
+            if (undefined == $(self).attr("original")) {
+                $(self).attr("original", $(self).attr("src"));     
+            }
 
-            if ("scroll" != settings.event || (
-                         $.abovethetop(self, settings) ||
-                         $.leftofbegin(self, settings) || 
-                         $.belowthefold(self, settings) || 
-                         $.rightoffold(self, settings) )) {
+            if ("scroll" != settings.event || 
+                    undefined == $(self).attr("src") || 
+                    settings.placeholder == $(self).attr("src") || 
+                    ($.abovethetop(self, settings) ||
+                     $.leftofbegin(self, settings) || 
+                     $.belowthefold(self, settings) || 
+                     $.rightoffold(self, settings) )) {
+                        
                 if (settings.placeholder) {
                     $(self).attr("src", settings.placeholder);      
                 } else {
@@ -80,11 +87,11 @@
                         .bind("load", function() {
                             $(self)
                                 .hide()
-                                .attr("src", $(self).data("original"))
+                                .attr("src", $(self).attr("original"))
                                 [settings.effect](settings.effectspeed);
                             self.loaded = true;
                         })
-                        .attr("src", $(self).data("original"));
+                        .attr("src", $(self).attr("original"));
                 };
             });
 
@@ -98,6 +105,11 @@
                 });
             }
         });
+        
+        /* Force initial check if images should appear. */
+        $(settings.container).trigger(settings.event);
+        
+        return this;
 
     };
 
