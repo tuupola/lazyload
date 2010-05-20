@@ -92,7 +92,9 @@
                             self.loaded = true;
                         })
                         .attr("src", $(self).attr("original"));
-                };
+                } else {
+                    $(self).attr("src", $(self).attr("original"));
+                }
             });
 
             /* When wanted event is triggered load original image */
