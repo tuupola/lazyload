@@ -15,26 +15,24 @@
 (function ($) {
 
     $.fn.lazyload = function(options) {
-        
+
         // Does not work on mobiles so we return
         if (navigator.userAgent.match(/Android|iPhone|iPod|iPad/)) return this;
-        
-        var settings = { threshold: 0
+
+        var elements = this
+          , settings = { threshold: 0
                        , failurelimit: 0
                        , event: "scroll"
                        , effect: "show"
                        , container: window
                        };
-        
-        if(options) {
-            $.extend(settings, options);
-        }
+
+        if(options) $.extend(settings, options);
 
         /* Fire one scroll event per scroll. Not one scroll event per image. */
-        var elements = this;
         if (settings.event === "scroll") {
             $(settings.container).bind("scroll", function(event) {
-                
+
                 var counter = 0;
                 elements.each(function() {
                     if ($.abovethetop(this, settings) ||
@@ -56,25 +54,25 @@
                 elements = $(temp);
             });
         }
-        
+
         this.each(function() {
             var self = this;
-            
+
             /* Save original only if it is not defined in HTML. */
             if (!$(self).attr("original")) {
-                $(self).attr("original", $(self).attr("src"));     
+                $(self).attr("original", $(self).attr("src"));
             }
 
-            if ("scroll" != settings.event || 
-                    !$(self).attr("src") || 
-                    settings.placeholder == $(self).attr("src") || 
+            if ( settings.event !== "scroll" ||
+                    !$(self).attr("src") ||
+                    settings.placeholder == $(self).attr("src") ||
                     ($.abovethetop(self, settings) ||
-                     $.leftofbegin(self, settings) || 
-                     $.belowthefold(self, settings) || 
+                     $.leftofbegin(self, settings) ||
+                     $.belowthefold(self, settings) ||
                      $.rightoffold(self, settings) )) {
-                        
+
                 if (settings.placeholder) {
-                    $(self).attr("src", settings.placeholder);      
+                    $(self).attr("src", settings.placeholder);
                 } else {
                     $(self).removeAttr("src");
                 }
@@ -82,7 +80,7 @@
             } else {
                 self.loaded = true;
             }
-            
+
             /* When appear is triggered load original image. */
             $(self).one("appear", function() {
                 if (!this.loaded) {
@@ -104,16 +102,14 @@
             /* by triggering appear.                              */
             if ("scroll" != settings.event) {
                 $(self).bind(settings.event, function(event) {
-                    if (!self.loaded) {
-                        $(self).trigger("appear");
-                    }
+                    if (!self.loaded) $(self).trigger("appear");
                 });
             }
         });
-        
+
         /* Force initial check if images should appear. */
         $(settings.container).trigger(settings.event);
-        
+
         return this;
 
     };
@@ -122,38 +118,34 @@
     /* Use as  $.belowthefold(element, {threshold : 100, container : window}) */
 
     $.belowthefold = function(element, settings) {
-        if (!settings.container || settings.container === window) {
-            var fold = $(window).height() + $(window).scrollTop();
-        } else {
-            var fold = $(settings.container).offset().top + $(settings.container).height();
-        }
+        var fold = (!settings.container || settings.container === window)
+                 ? $(window).height() + $(window).scrollTop()
+                 : $(settings.container).offset().top + $(settings.container).height();
+
         return fold <= $(element).offset().top - settings.threshold;
     };
-    
+
     $.rightoffold = function(element, settings) {
-        if (!settings.container || settings.container === window) {
-            var fold = $(window).width() + $(window).scrollLeft();
-        } else {
-            var fold = $(settings.container).offset().left + $(settings.container).width();
-        }
+        var fold = (!settings.container || settings.container === window)
+                 ? $(window).width() + $(window).scrollLeft()
+                 : $(settings.container).offset().left + $(settings.container).width();
+
         return fold <= $(element).offset().left - settings.threshold;
     };
-        
+
     $.abovethetop = function(element, settings) {
-        if (!settings.container || settings.container === window) {
-            var fold = $(window).scrollTop();
-        } else {
-            var fold = $(settings.container).offset().top;
-        }
+        var fold = (!settings.container || settings.container === window)
+                 ? $(window).scrollTop()
+                 : $(settings.container).offset().top;
+
         return fold >= $(element).offset().top + settings.threshold  + $(element).height();
     };
-    
+
     $.leftofbegin = function(element, settings) {
-        if (!settings.container || settings.container === window) {
-            var fold = $(window).scrollLeft();
-        } else {
-            var fold = $(settings.container).offset().left;
-        }
+        var fold = (!settings.container || settings.container === window)
+                 ? $(window).scrollLeft()
+                 : $(settings.container).offset().left;
+
         return fold >= $(element).offset().left + settings.threshold + $(element).width();
     };
     /* Custom selectors for your convenience.   */
@@ -165,5 +157,5 @@
         "right-of-fold"  : "$.rightoffold(a, {threshold : 0, container: window})",
         "left-of-fold"   : "!$.rightoffold(a, {threshold : 0, container: window})"
     });
-    
+
 })(jQuery);
