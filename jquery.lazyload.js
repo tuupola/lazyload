@@ -38,7 +38,6 @@
         /* Fire one scroll event per scroll. Not one scroll event per image. */
         if (settings.event === SCROLL) {
             $(settings.container).bind(SCROLL, function(event) {
-
                 var counter = 0;
                 elements.each(function() {
                     if (abovethetop(this, settings) ||
@@ -63,8 +62,8 @@
             var self = this;
 
             /* Save original only if it is not defined in HTML. */
-            if (!$(self).attr(ORIGINAL)) {
-                $(self).attr(ORIGINAL, $(self).attr(SRC));
+            if (!$(self).data(ORIGINAL)) {
+                $(self).data(ORIGINAL, $(self).attr(SRC));
             }
 
             if ( settings.event !== SCROLL ||
@@ -91,13 +90,13 @@
                     $("<img />").bind("load", function() {
                         $(self)
                             .hide()
-                            .attr(SRC, $(self).attr(ORIGINAL))
+                            .attr(SRC, $(self).data(ORIGINAL))
                             [settings.effect](settings.effectspeed);
                         self.loaded = TRUE;
                     })
-                    .attr(SRC, $(self).attr(ORIGINAL));
+                    .attr(SRC, $(self).data(ORIGINAL));
                 } else {
-                    $(self).attr(SRC, $(self).attr(ORIGINAL));
+                    $(self).attr(SRC, $(self).data(ORIGINAL));
                 }
             });
 
@@ -148,6 +147,7 @@
         var fold = (!settings.container || settings.container === window)
                  ? $(window).scrollLeft()
                  : $(settings.container).offset().left;
+
 
         return fold >= $(element).offset().left + settings.threshold + $(element).width();
     };
