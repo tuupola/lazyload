@@ -41,11 +41,11 @@
 
                 var counter = 0;
                 elements.each(function() {
-                    if ($.abovethetop(this, settings) ||
-                        $.leftofbegin(this, settings)) {
+                    if (abovethetop(this, settings) ||
+                        leftofbegin(this, settings)) {
                             /* Nothing. */
-                    } else if (!$.belowthefold(this, settings) &&
-                        !$.rightoffold(this, settings)) {
+                    } else if (!belowthefold(this, settings) &&
+                        !rightoffold(this, settings)) {
                             $(this).trigger(APPEAR);
                     } else if (counter++ > settings.failurelimit) {
                         return false;
@@ -70,10 +70,10 @@
             if ( settings.event !== SCROLL ||
                     !$(self).attr(SRC) ||
                     settings.placeholder == $(self).attr(SRC) ||
-                    ($.abovethetop(self, settings) ||
-                     $.leftofbegin(self, settings) ||
-                     $.belowthefold(self, settings) ||
-                     $.rightoffold(self, settings) )) {
+                    (abovethetop(self, settings) ||
+                     leftofbegin(self, settings) ||
+                     belowthefold(self, settings) ||
+                     rightoffold(self, settings) )) {
 
                 if (settings.placeholder) {
                     $(self).attr(SRC, settings.placeholder);
@@ -118,9 +118,9 @@
     };
 
     /* Convenience methods in jQuery namespace.           */
-    /* Use as  $.belowthefold(element, {threshold : 100, container : window}) */
+    /* Use as  belowthefold(element, {threshold : 100, container : window}) */
 
-    $.belowthefold = function(element, settings) {
+    var belowthefold = function(element, settings) {
         var fold = (!settings.container || settings.container === window)
                  ? $(window).height() + $(window).scrollTop()
                  : $(settings.container).offset().top + $(settings.container).height();
@@ -128,7 +128,7 @@
         return fold <= $(element).offset().top - settings.threshold;
     };
 
-    $.rightoffold = function(element, settings) {
+    var rightoffold = function(element, settings) {
         var fold = (!settings.container || settings.container === window)
                  ? $(window).width() + $(window).scrollLeft()
                  : $(settings.container).offset().left + $(settings.container).width();
@@ -136,7 +136,7 @@
         return fold <= $(element).offset().left - settings.threshold;
     };
 
-    $.abovethetop = function(element, settings) {
+    var abovethetop = function(element, settings) {
         var fold = (!settings.container || settings.container === window)
                  ? $(window).scrollTop()
                  : $(settings.container).offset().top;
@@ -144,22 +144,12 @@
         return fold >= $(element).offset().top + settings.threshold  + $(element).height();
     };
 
-    $.leftofbegin = function(element, settings) {
+    var leftofbegin = function(element, settings) {
         var fold = (!settings.container || settings.container === window)
                  ? $(window).scrollLeft()
                  : $(settings.container).offset().left;
 
         return fold >= $(element).offset().left + settings.threshold + $(element).width();
     };
-    
-    /* Custom selectors for your convenience.   */
-    /* Use as $("img:below-the-fold").something() */
-
-    $.extend($.expr[':'], {
-        "below-the-fold" : "$.belowthefold(a, {threshold : 0, container: window})",
-        "above-the-fold" : "!$.belowthefold(a, {threshold : 0, container: window})",
-        "right-of-fold"  : "$.rightoffold(a, {threshold : 0, container: window})",
-        "left-of-fold"   : "!$.rightoffold(a, {threshold : 0, container: window})"
-    });
 
 })(jQuery,window);
