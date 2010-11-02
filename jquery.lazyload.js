@@ -19,13 +19,12 @@
         // Does not work on mobiles so we return
         if (navigator.userAgent.match(/Android|iPhone|iPod|iPad/)) return this;
         
-        var settings = {
-            threshold    : 0,
-            failurelimit : 0,
-            event        : "scroll",
-            effect       : "show",
-            container    : window
-        };
+        var settings = { threshold: 0
+                       , failurelimit: 0
+                       , event: "scroll"
+                       , effect: "show"
+                       , container: window
+                       };
         
         if(options) {
             $.extend(settings, options);
@@ -33,7 +32,7 @@
 
         /* Fire one scroll event per scroll. Not one scroll event per image. */
         var elements = this;
-        if ("scroll" == settings.event) {
+        if (settings.event === "scroll") {
             $(settings.container).bind("scroll", function(event) {
                 
                 var counter = 0;
@@ -62,12 +61,12 @@
             var self = this;
             
             /* Save original only if it is not defined in HTML. */
-            if (undefined == $(self).attr("original")) {
+            if (!$(self).attr("original")) {
                 $(self).attr("original", $(self).attr("src"));     
             }
 
             if ("scroll" != settings.event || 
-                    undefined == $(self).attr("src") || 
+                    !$(self).attr("src") || 
                     settings.placeholder == $(self).attr("src") || 
                     ($.abovethetop(self, settings) ||
                      $.leftofbegin(self, settings) || 
@@ -123,7 +122,7 @@
     /* Use as  $.belowthefold(element, {threshold : 100, container : window}) */
 
     $.belowthefold = function(element, settings) {
-        if (settings.container === undefined || settings.container === window) {
+        if (!settings.container || settings.container === window) {
             var fold = $(window).height() + $(window).scrollTop();
         } else {
             var fold = $(settings.container).offset().top + $(settings.container).height();
@@ -132,7 +131,7 @@
     };
     
     $.rightoffold = function(element, settings) {
-        if (settings.container === undefined || settings.container === window) {
+        if (!settings.container || settings.container === window) {
             var fold = $(window).width() + $(window).scrollLeft();
         } else {
             var fold = $(settings.container).offset().left + $(settings.container).width();
@@ -141,7 +140,7 @@
     };
         
     $.abovethetop = function(element, settings) {
-        if (settings.container === undefined || settings.container === window) {
+        if (!settings.container || settings.container === window) {
             var fold = $(window).scrollTop();
         } else {
             var fold = $(settings.container).offset().top;
@@ -150,7 +149,7 @@
     };
     
     $.leftofbegin = function(element, settings) {
-        if (settings.container === undefined || settings.container === window) {
+        if (!settings.container || settings.container === window) {
             var fold = $(window).scrollLeft();
         } else {
             var fold = $(settings.container).offset().left;
