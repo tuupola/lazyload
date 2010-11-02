@@ -25,7 +25,6 @@
           , SCROLL = 'scroll'
           , SRC = 'src'
           , TRUE = !FALSE
-          , $window = $(window)
           , elements = this
           , settings = { threshold: 0
                        , failurelimit: 0
@@ -123,7 +122,7 @@
 
     $.belowthefold = function(element, settings) {
         var fold = (!settings.container || settings.container === window)
-                 ? $window.height() + $window.scrollTop()
+                 ? $(window).height() + $(window).scrollTop()
                  : $(settings.container).offset().top + $(settings.container).height();
 
         return fold <= $(element).offset().top - settings.threshold;
@@ -131,7 +130,7 @@
 
     $.rightoffold = function(element, settings) {
         var fold = (!settings.container || settings.container === window)
-                 ? $window.width() + $window.scrollLeft()
+                 ? $(window).width() + $(window).scrollLeft()
                  : $(settings.container).offset().left + $(settings.container).width();
 
         return fold <= $(element).offset().left - settings.threshold;
@@ -139,7 +138,7 @@
 
     $.abovethetop = function(element, settings) {
         var fold = (!settings.container || settings.container === window)
-                 ? $window.scrollTop()
+                 ? $(window).scrollTop()
                  : $(settings.container).offset().top;
 
         return fold >= $(element).offset().top + settings.threshold  + $(element).height();
@@ -147,7 +146,7 @@
 
     $.leftofbegin = function(element, settings) {
         var fold = (!settings.container || settings.container === window)
-                 ? $window.scrollLeft()
+                 ? $(window).scrollLeft()
                  : $(settings.container).offset().left;
 
         return fold >= $(element).offset().left + settings.threshold + $(element).width();
