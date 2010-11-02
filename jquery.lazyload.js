@@ -48,7 +48,7 @@
                         !rightoffold(this, settings)) {
                             $(this).trigger(APPEAR);
                     } else if (counter++ > settings.failurelimit) {
-                        return false;
+                        return FALSE;
                     }
                 });
                 /* Remove image from array so it is not looped next time. */
@@ -80,9 +80,9 @@
                 } else {
                     $(self).removeAttr(SRC);
                 }
-                self.loaded = false;
+                self.loaded = FALSE;
             } else {
-                self.loaded = true;
+                self.loaded = TRUE;
             }
 
             /* When appear is triggered load original image. */
@@ -93,7 +93,7 @@
                             .hide()
                             .attr(SRC, $(self).attr(ORIGINAL))
                             [settings.effect](settings.effectspeed);
-                        self.loaded = true;
+                        self.loaded = TRUE;
                     })
                     .attr(SRC, $(self).attr(ORIGINAL));
                 } else {
