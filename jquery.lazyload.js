@@ -32,7 +32,42 @@
                        , effect: "show"
                        , container: window
                        };
+                       
+       /* Convenience methods in jQuery namespace.           */
+       /* Use as  belowthefold(element, {threshold : 100, container : window}) */
 
+       var belowthefold = function(element) {
+           var fold = (!settings.container || settings.container === window)
+                    ? $(window).height() + $(window).scrollTop()
+                    : $(settings.container).offset().top + $(settings.container).height();
+
+           return fold <= $(element).offset().top - settings.threshold;
+       };
+
+       var rightoffold = function(element) {
+           var fold = (!settings.container || settings.container === window)
+                    ? $(window).width() + $(window).scrollLeft()
+                    : $(settings.container).offset().left + $(settings.container).width();
+
+           return fold <= $(element).offset().left - settings.threshold;
+       };
+
+       var abovethetop = function(element) {
+           var fold = (!settings.container || settings.container === window)
+                    ? $(window).scrollTop()
+                    : $(settings.container).offset().top;
+
+           return fold >= $(element).offset().top + settings.threshold  + $(element).height();
+       };
+
+       var leftofbegin = function(element) {
+           var fold = (!settings.container || settings.container === window)
+                    ? $(window).scrollLeft()
+                    : $(settings.container).offset().left;
+
+           return fold >= $(element).offset().left + settings.threshold + $(element).width();
+       };
+           
         if(options) $.extend(settings, options);
 
         /* Fire one scroll event per scroll. Not one scroll event per image. */
@@ -113,43 +148,8 @@
         $(settings.container).trigger(settings.event);
 
         return this;
-
-    };
-
-    /* Convenience methods in jQuery namespace.           */
-    /* Use as  belowthefold(element, {threshold : 100, container : window}) */
-
-    var belowthefold = function(element, settings) {
-        var fold = (!settings.container || settings.container === window)
-                 ? $(window).height() + $(window).scrollTop()
-                 : $(settings.container).offset().top + $(settings.container).height();
-
-        return fold <= $(element).offset().top - settings.threshold;
-    };
-
-    var rightoffold = function(element, settings) {
-        var fold = (!settings.container || settings.container === window)
-                 ? $(window).width() + $(window).scrollLeft()
-                 : $(settings.container).offset().left + $(settings.container).width();
-
-        return fold <= $(element).offset().left - settings.threshold;
-    };
-
-    var abovethetop = function(element, settings) {
-        var fold = (!settings.container || settings.container === window)
-                 ? $(window).scrollTop()
-                 : $(settings.container).offset().top;
-
-        return fold >= $(element).offset().top + settings.threshold  + $(element).height();
-    };
-
-    var leftofbegin = function(element, settings) {
-        var fold = (!settings.container || settings.container === window)
-                 ? $(window).scrollLeft()
-                 : $(settings.container).offset().left;
-
-
-        return fold >= $(element).offset().left + settings.threshold + $(element).width();
+        
+        
     };
 
 })(jQuery,window);
