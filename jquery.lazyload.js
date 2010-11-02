@@ -12,9 +12,13 @@
  * Version:  1.5.0
  *
  */
-(function($) {
+(function ($) {
 
     $.fn.lazyload = function(options) {
+        
+        // Does not work on mobiles so we return
+        if (navigator.userAgent.match(/Android|iPhone|iPod|iPad/)) return this;
+        
         var settings = {
             threshold    : 0,
             failurelimit : 0,
@@ -22,7 +26,7 @@
             effect       : "show",
             container    : window
         };
-                
+        
         if(options) {
             $.extend(settings, options);
         }
