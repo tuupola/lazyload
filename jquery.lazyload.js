@@ -41,10 +41,8 @@
                     } else if (!$.belowthefold(this, settings) &&
                         !$.rightoffold(this, settings)) {
                             $(this).trigger("appear");
-                    } else {
-                        if (counter++ > settings.failurelimit) {
-                            return false;
-                        }
+                    } else if (counter++ > settings.failurelimit) {
+                        return false;
                     }
                 });
                 /* Remove image from array so it is not looped next time. */
@@ -84,15 +82,14 @@
             /* When appear is triggered load original image. */
             $(self).one("appear", function() {
                 if (!this.loaded) {
-                    $("<img />")
-                        .bind("load", function() {
-                            $(self)
-                                .hide()
-                                .attr("src", $(self).attr("original"))
-                                [settings.effect](settings.effectspeed);
-                            self.loaded = true;
-                        })
-                        .attr("src", $(self).attr("original"));
+                    $("<img />").bind("load", function() {
+                        $(self)
+                            .hide()
+                            .attr("src", $(self).attr("original"))
+                            [settings.effect](settings.effectspeed);
+                        self.loaded = true;
+                    })
+                    .attr("src", $(self).attr("original"));
                 } else {
                     $(self).attr("src", $(self).attr("original"));
                 }
@@ -100,7 +97,7 @@
 
             /* When wanted event is triggered load original image */
             /* by triggering appear.                              */
-            if ("scroll" != settings.event) {
+            if (settings.event !== "scroll") {
                 $(self).bind(settings.event, function(event) {
                     if (!self.loaded) $(self).trigger("appear");
                 });
