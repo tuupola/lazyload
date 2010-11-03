@@ -17,7 +17,7 @@
     $.fn.lazyload = function(options) {
 
         // Does not work on mobiles so we return
-        if (navigator.userAgent.match(/Android|iPhone|iPod|iPad/)) return this;
+        if (navigator.userAgent.match(/Android|iPad/)) return this;
 
         var APPEAR = 'appear'
           , FALSE = !1
@@ -32,9 +32,30 @@
                        , effect: "show"
                        , container: window
                        };
+
+       if(options) $.extend(settings, options);
                        
        /* Convenience methods in jQuery namespace.           */
        /* Use as  belowthefold(element, {threshold : 100, container : window}) */
+       
+        var isInViewport = function (el) {
+            var top = el.offsetTop
+              , left = el.offsetLeft
+              , width = el.offsetWidth
+              , height = el.offsetHeight;
+
+            while(el.offsetParent) {
+                el = el.offsetParent;
+                top += el.offsetTop;
+                left += el.offsetLeft;
+            }
+
+            return top < (window.pageYOffset + window.innerHeight)
+                && left < (window.pageXOffset + window.innerWidth)
+                && (top + height) > window.pageYOffset
+                && (left + width) > window.pageXOffset;
+       }
+       
 
        var belowthefold = function(element) {
            var fold = (!settings.container || settings.container === window)
@@ -67,8 +88,6 @@
 
            return fold >= $(element).offset().left + settings.threshold + $(element).width();
        };
-           
-        if(options) $.extend(settings, options);
 
         /* Fire one scroll event per scroll. Not one scroll event per image. */
         if (settings.event === SCROLL) {
@@ -101,19 +120,18 @@
                 $(self).data(ORIGINAL, $(self).attr(SRC));
             }
 
-            if ( settings.event !== SCROLL ||
-                    !$(self).attr(SRC) ||
-                    settings.placeholder == $(self).attr(SRC) ||
-                    (abovethetop(self, settings) ||
-                     leftofbegin(self, settings) ||
-                     belowthefold(self, settings) ||
-                     rightoffold(self, settings) )) {
+            if ( settings.event !== SCROLL 
+              || !$(self).attr(SRC) 
+              || settings.placeholder == $(self).attr(SRC) 
+              || (abovethetop(self, settings)
+              || leftofbegin(self, settings)
+              || belowthefold(self, settings)
+              || rightoffold(self, settings) )) {
 
-                if (settings.placeholder) {
-                    $(self).attr(SRC, settings.placeholder);
-                } else {
-                    $(self).removeAttr(SRC);
-                }
+                settings.placeholder
+                ? $(self).attr(SRC, settings.placeholder);
+                : $(self).removeAttr(SRC);
+                
                 self.loaded = FALSE;
             } else {
                 self.loaded = TRUE;
@@ -148,8 +166,5 @@
         $(settings.container).trigger(settings.event);
 
         return this;
-        
-        
     };
-
 })(jQuery,window);
