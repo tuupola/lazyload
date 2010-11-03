@@ -15,33 +15,32 @@
 (function ($,window) {
 
     $.fn.lazyload = function(options) {
-
         // Does not work on mobiles so we return
-        if (navigator.userAgent.match(/Android|iPad/)) return this;
+        // if (navigator.userAgent.match(/Android|iPad/)) return this;
 
-        var APPEAR = 'appear'
-          , FALSE = !1
+        var FALSE = !1
           , ORIGINAL = 'original'
           , SCROLL = 'scroll'
           , SRC = 'src'
           , TRUE = !FALSE
           , elements = this
           , settings = { threshold: 0
+                       , container: window
                        , failurelimit: 0
                        , event: SCROLL
                        , effect: "show"
-                       , container: window
                        , namespace: '.lazyload'
                        };
                        
-       if(options) $.extend(settings, options);
+        if(options) $.extend(settings, options);
        
-       var container = $(settings.container);
-                       
-       /* Convenience methods in jQuery namespace.           */
-       /* Use as  belowthefold(element, {threshold : 100, container : window}) */
-       
+        var container = $(settings.container)
+          , namespace = settings.namespace
+          , event = settings.event + namespace
+          , appear = 'appear' + namespace;
+        
         var isInViewport = function (element) {
+            element = $(element);
             if (!element.length) return false;
 
             var threshold = settings.threshold;
@@ -68,16 +67,38 @@
                 && (elementBottom - threshold) >= top
                 && (elementRight - threshold) > left;
         };
-       
+        
+        // based on :
+        // http://stackoverflow.com/questions/123999/how-to-tell-if-a-dom-element-is-visible-in-the-current-viewport
+        if (navigator.userAgent.match(/Android|iPad/)) isInViewport = function (e) {
+            if (!e) return false;
+
+            var top = 0
+            , left = 0
+            , width = e.offsetWidth
+            , height = e.offsetHeight;
+
+            do {
+                e.offsetParent;
+                top += e.offsetTop;
+                left += e.offsetLeft;
+            } while(e = e.offsetParent)
+
+            return top < (window.pageYOffset + window.innerHeight)
+                && left < (window.pageXOffset + window.innerWidth)
+                && (top + height) > window.pageYOffset
+                && (left + width) > window.pageXOffset;
+        };
 
         /* Fire one scroll event per scroll. Not one scroll event per image. */
         if (settings.event === SCROLL) {
-            container.bind(SCROLL, function () {
+            container.bind(event, function () {
                 var counter = 0;
                 elements.each(function() {
-                    if (isInViewport($(this))) {
-                        $(this).trigger(APPEAR);
-                    } else if (counter++ > settings.failurelimit) {
+                    //alert(isInViewport($(this)) + "|" + isInViewport2(this))
+                    if (isInViewport(this)) {
+                        $(this).trigger(appear);
+                    } else if (settings.failurelimit && (counter++ > settings.failurelimit)) {
                         return FALSE;
                     }
                 });
@@ -86,6 +107,8 @@
                     if (e.loaded) $(e).removeData(ORIGINAL);
                     return !e.loaded;
                 }));
+                
+                if (!elements.length) container.unbind(namespace);
             });
         }
 
@@ -96,10 +119,12 @@
             if (!$(self).data(ORIGINAL)) {
                 $(self).data(ORIGINAL, $(self).attr(SRC));
             }
-
-            if ( settings.event !== SCROLL 
+            
+            if (isInViewport($(self))) {
+                self.loaded = TRUE;
+            } else if ( settings.event !== SCROLL 
               || !$(self).attr(SRC) 
-              || settings.placeholder == $(self).attr(SRC) 
+              || settings.placeholder === $(self).attr(SRC) 
               || (!isInViewport($(self)))) {
 
                 settings.placeholder
@@ -107,12 +132,10 @@
                 : $(self).removeAttr(SRC);
                 
                 self.loaded = FALSE;
-            } else {
-                self.loaded = TRUE;
             }
 
             /* When appear is triggered load original image. */
-            $(self).one(APPEAR, function() {
+            $(self).one(appear, function() {
                 if (!this.loaded) {
                     $("<img />").bind("load", function() {
                         $(self)
@@ -130,14 +153,14 @@
             /* When wanted event is triggered load original image */
             /* by triggering appear.                              */
             if (settings.event !== SCROLL) {
-                $(self).bind(settings.event, function(event) {
-                    if (!self.loaded) $(self).trigger(APPEAR);
+                $(self).bind(event, function(event) {
+                    if (!self.loaded) $(self).trigger(appear);
                 });
             }
         });
 
         /* Force initial check if images should appear. */
-        container.trigger(settings.event);
+        container.trigger(event);
 
         return this;
     };
