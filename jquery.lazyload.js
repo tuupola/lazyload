@@ -32,7 +32,7 @@
                        , effect: "show"
                        , container: window
                        };
-
+                       
        if(options) $.extend(settings, options);
                        
        /* Convenience methods in jQuery namespace.           */
@@ -41,8 +41,8 @@
         var isInViewport = function (element) {
             if (!element.length) return false;
 
-            var container = settings.container
-              , treshold = settings.treshold;
+            var container = $(settings.container)
+              , threshold = settings.threshold;
 
             if (container[0] === window) {
                 var bottom = container.height() + container.scrollTop()
@@ -60,66 +60,29 @@
               , elementLeft = element.offset().left
               , elementRight = element.offset().left + element.width()
               , elementTop = element.offset().top;
-
-            return (elementTop + treshold) <= bottom
-                && (elementLeft + treshold) <= right
-                && (elementBottom - treshold) >= top
-                && (elementRight - treshold) > left;
+              
+            return (elementTop + threshold) <= bottom
+                && (elementLeft + threshold) <= right
+                && (elementBottom - threshold) >= top
+                && (elementRight - threshold) > left;
         };
        
 
-       var belowthefold = function(element) {
-           var fold = (!settings.container || settings.container === window)
-                    ? $(window).height() + $(window).scrollTop()
-                    : $(settings.container).offset().top + $(settings.container).height();
-
-           return fold <= $(element).offset().top - settings.threshold;
-       };
-
-       var rightoffold = function(element) {
-           var fold = (!settings.container || settings.container === window)
-                    ? $(window).width() + $(window).scrollLeft()
-                    : $(settings.container).offset().left + $(settings.container).width();
-
-           return fold <= $(element).offset().left - settings.threshold;
-       };
-
-       var abovethetop = function(element) {
-           var fold = (!settings.container || settings.container === window)
-                    ? $(window).scrollTop()
-                    : $(settings.container).offset().top;
-
-           return fold >= $(element).offset().top + settings.threshold  + $(element).height();
-       };
-
-       var leftofbegin = function(element) {
-           var fold = (!settings.container || settings.container === window)
-                    ? $(window).scrollLeft()
-                    : $(settings.container).offset().left;
-
-           return fold >= $(element).offset().left + settings.threshold + $(element).width();
-       };
-
         /* Fire one scroll event per scroll. Not one scroll event per image. */
         if (settings.event === SCROLL) {
-            $(settings.container).bind(SCROLL, function(event) {
+            $(settings.container).bind(SCROLL, function () {
                 var counter = 0;
                 elements.each(function() {
-                    if (abovethetop(this, settings) ||
-                        leftofbegin(this, settings)) {
-                            /* Nothing. */
-                    } else if (!belowthefold(this, settings) &&
-                        !rightoffold(this, settings)) {
-                            $(this).trigger(APPEAR);
+                    if (isInViewport($(this))) {
+                        $(this).trigger(APPEAR);
                     } else if (counter++ > settings.failurelimit) {
                         return FALSE;
                     }
                 });
                 /* Remove image from array so it is not looped next time. */
-                var temp = $.grep(elements, function(element) {
+                elements = $($.grep(elements, function(element) {
                     return !element.loaded;
-                });
-                elements = $(temp);
+                }));
             });
         }
 
@@ -134,10 +97,7 @@
             if ( settings.event !== SCROLL 
               || !$(self).attr(SRC) 
               || settings.placeholder == $(self).attr(SRC) 
-              || (abovethetop(self, settings)
-              || leftofbegin(self, settings)
-              || belowthefold(self, settings)
-              || rightoffold(self, settings) )) {
+              || (!isInViewport($(self)))) {
 
                 settings.placeholder
                 ? $(self).attr(SRC, settings.placeholder)
