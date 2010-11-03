@@ -31,9 +31,12 @@
                        , event: SCROLL
                        , effect: "show"
                        , container: window
+                       , namespace: '.lazyload'
                        };
                        
        if(options) $.extend(settings, options);
+       
+       var container = $(settings.container);
                        
        /* Convenience methods in jQuery namespace.           */
        /* Use as  belowthefold(element, {threshold : 100, container : window}) */
@@ -41,8 +44,7 @@
         var isInViewport = function (element) {
             if (!element.length) return false;
 
-            var container = $(settings.container)
-              , threshold = settings.threshold;
+            var threshold = settings.threshold;
 
             if (container[0] === window) {
                 var bottom = container.height() + container.scrollTop()
@@ -70,7 +72,7 @@
 
         /* Fire one scroll event per scroll. Not one scroll event per image. */
         if (settings.event === SCROLL) {
-            $(settings.container).bind(SCROLL, function () {
+            container.bind(SCROLL, function () {
                 var counter = 0;
                 elements.each(function() {
                     if (isInViewport($(this))) {
@@ -81,7 +83,7 @@
                 });
                 /* Remove image from array so it is not looped next time. */
                 elements = $($.grep(elements, function(e) {
-                    if (e.loaded) e.removeData(ORGINAL);
+                    if (e.loaded) $(e).removeData(ORIGINAL);
                     return !e.loaded;
                 }));
             });
@@ -135,7 +137,7 @@
         });
 
         /* Force initial check if images should appear. */
-        $(settings.container).trigger(settings.event);
+        container.trigger(settings.event);
 
         return this;
     };
