@@ -80,8 +80,9 @@
                     }
                 });
                 /* Remove image from array so it is not looped next time. */
-                elements = $($.grep(elements, function(element) {
-                    return !element.loaded;
+                elements = $($.grep(elements, function(e) {
+                    if (e.loaded) e.removeData(ORGINAL);
+                    return !e.loaded;
                 }));
             });
         }
