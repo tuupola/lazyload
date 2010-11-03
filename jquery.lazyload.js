@@ -38,23 +38,34 @@
        /* Convenience methods in jQuery namespace.           */
        /* Use as  belowthefold(element, {threshold : 100, container : window}) */
        
-        var isInViewport = function (el) {
-            var top = el.offsetTop
-              , left = el.offsetLeft
-              , width = el.offsetWidth
-              , height = el.offsetHeight;
+        var isInViewport = function (element) {
+            if (!element.length) return false;
 
-            while(el.offsetParent) {
-                el = el.offsetParent;
-                top += el.offsetTop;
-                left += el.offsetLeft;
+            var container = settings.container
+              , treshold = settings.treshold;
+
+            if (container[0] === window) {
+                var bottom = container.height() + container.scrollTop()
+                  , left = container.scrollLeft()
+                  , right = container.width() + container.scrollLeft()
+                  , top = container.scrollTop();
+            } else {
+                var bottom = container.offset().top + container.height()
+                  , left = container.offset().left
+                  , right = container.offset().left + container.width()
+                  , top = container.offset().top;
             }
 
-            return top < (window.pageYOffset + window.innerHeight)
-                && left < (window.pageXOffset + window.innerWidth)
-                && (top + height) > window.pageYOffset
-                && (left + width) > window.pageXOffset;
-       }
+            var elementBottom = element.offset().top + element.height()
+              , elementLeft = element.offset().left
+              , elementRight = element.offset().left + element.width()
+              , elementTop = element.offset().top;
+
+            return (elementTop + treshold) <= bottom
+                && (elementLeft + treshold) <= right
+                && (elementBottom - treshold) >= top
+                && (elementRight - treshold) > left;
+        };
        
 
        var belowthefold = function(element) {
@@ -129,7 +140,7 @@
               || rightoffold(self, settings) )) {
 
                 settings.placeholder
-                ? $(self).attr(SRC, settings.placeholder);
+                ? $(self).attr(SRC, settings.placeholder)
                 : $(self).removeAttr(SRC);
                 
                 self.loaded = FALSE;
