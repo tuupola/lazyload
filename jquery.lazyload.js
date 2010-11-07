@@ -38,6 +38,13 @@
           , namespace = settings.namespace
           , event = settings.event + namespace
           , appear = 'appear' + namespace;
+          
+        // don't apply lazy loading if device is iPad or Android
+        // and container is window
+        if ( navigator.userAgent.match(/Android|iPad/)
+          && container[0] !== window ) {
+            return this;
+        }
         
         var isInViewport = function (element) {
             element = $(element);
@@ -74,9 +81,9 @@
             if (!e) return false;
 
             var top = 0
-            , left = 0
-            , width = e.offsetWidth
-            , height = e.offsetHeight;
+              , left = 0
+              , width = e.offsetWidth
+              , height = e.offsetHeight;
 
             do {
                 e.offsetParent;
@@ -123,9 +130,9 @@
             if (isInViewport($(self))) {
                 self.loaded = TRUE;
             } else if ( settings.event !== SCROLL 
-              || !$(self).attr(SRC) 
-              || settings.placeholder === $(self).attr(SRC) 
-              || (!isInViewport($(self)))) {
+                   || !$(self).attr(SRC) 
+                   || settings.placeholder === $(self).attr(SRC) 
+                   || (!isInViewport($(self)))) {
 
                 settings.placeholder
                 ? $(self).attr(SRC, settings.placeholder)
@@ -137,7 +144,7 @@
             /* When appear is triggered load original image. */
             $(self).one(appear, function() {
                 if (!this.loaded) {
-                    $("<img />").bind("load", function() {
+                    $("<img />").load(function() {
                         $(self)
                             .hide()
                             .attr(SRC, $(self).data(ORIGINAL))
