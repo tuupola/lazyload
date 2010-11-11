@@ -18,7 +18,7 @@
         // $.offset.top() reports wrong position after scroll
         // http://bugs.jquery.com/ticket/6446
         if ( /; CPU.*OS (?:3_2|4_0)/i.test(navigator.userAgent)
-          && "getBoundingClientRect" in document.documentElement) {
+          && 'getBoundingClientRect' in document.documentElement) {
             $.fn.offsetOld = $.fn.offset;
             $.fn.offset = function () {
                 var result = this.offsetOld();
@@ -30,24 +30,23 @@
         
         var FALSE = !1
           , ORIGINAL = 'original'
-          , SCROLL = 'scroll'
           , SRC = 'src'
           , TRUE = !FALSE
           , elements = this
           , settings = { threshold: 0
                        , container: window
                        , failurelimit: 0
-                       , event: SCROLL
-                       , effect: "show"
+                       , effect: 'show'
                        , namespace: '.lazyload'
                        };
                        
         if(options) $.extend(settings, options);
        
         var container = $(settings.container)
+          , failurelimit = settings.failurelimit
           , namespace = settings.namespace
-          , event = settings.event + namespace
-          , appear = 'appear' + namespace;
+          , SCROLL = 'scroll' + namespace
+          , APPEAR = 'appear' + namespace;
         
         var isInViewport = function (element) {
             element = $(element);
@@ -78,29 +77,7 @@
                 && (elementRight - threshold) > left;
         };
 
-        /* Fire one scroll event per scroll. Not one scroll event per image. */
-        if (settings.event === SCROLL) {
-            container.bind(event, function () {
-                var counter = 0;
-                elements.each(function() {
-                    //alert(isInViewport($(this)) + "|" + isInViewport2(this))
-                    if (isInViewport(this)) {
-                        $(this).trigger(appear);
-                    } else if (settings.failurelimit && (counter++ > settings.failurelimit)) {
-                        return FALSE;
-                    }
-                });
-                /* Remove image from array so it is not looped next time. */
-                elements = $($.grep(elements, function(e) {
-                    if (e.loaded) $(e).removeData(ORIGINAL);
-                    return !e.loaded;
-                }));
-                
-                if (!elements.length) container.unbind(namespace);
-            });
-        }
-
-        this.each(function() {
+        elements.each( function() {
             var self = this;
 
             /* Save original only if it is not defined in HTML. */
@@ -110,10 +87,9 @@
             
             if (isInViewport($(self))) {
                 self.loaded = TRUE;
-            } else if ( settings.event !== SCROLL 
-                   || !$(self).attr(SRC) 
-                   || settings.placeholder === $(self).attr(SRC) 
-                   || (!isInViewport($(self)))) {
+            } else if ( !$(self).attr(SRC) 
+                     || settings.placeholder === $(self).attr(SRC) 
+                     || (!isInViewport($(self)))) {
 
                 settings.placeholder
                 ? $(self).attr(SRC, settings.placeholder)
@@ -123,13 +99,12 @@
             }
 
             /* When appear is triggered load original image. */
-            $(self).one(appear, function() {
+            $(self).one(APPEAR, function() {
                 if (!this.loaded) {
                     $("<img />").load(function() {
-                        $(self)
-                            .hide()
-                            .attr(SRC, $(self).data(ORIGINAL))
-                            [settings.effect](settings.effectspeed);
+                        $(self).hide()
+                               .attr(SRC, $(self).data(ORIGINAL))
+                               [settings.effect](settings.effectSpeed);
                         self.loaded = TRUE;
                     })
                     .attr(SRC, $(self).data(ORIGINAL));
@@ -137,18 +112,30 @@
                     $(self).attr(SRC, $(self).data(ORIGINAL));
                 }
             });
-
-            /* When wanted event is triggered load original image */
-            /* by triggering appear.                              */
-            if (settings.event !== SCROLL) {
-                $(self).bind(event, function(event) {
-                    if (!self.loaded) $(self).trigger(appear);
-                });
-            }
         });
-
-        /* Force initial check if images should appear. */
-        container.trigger(event);
+        
+        container.bind(SCROLL, function () {
+            var counter = 0;
+            elements.each(function() {
+                var e = this;
+                if (isInViewport(e)) {
+                    $(e).trigger(APPEAR);
+                } else if ( failurelimit && (counter++ > failurelimit)) {
+                    return FALSE;
+                }
+            });
+            
+            // Remove image from array so it is not looped next time.
+            elements = $($.grep(elements, function(e) {
+                if (e.loaded) $(e).removeData(ORIGINAL);
+                return !e.loaded;
+            }));
+            
+            // stop binding if every elements are loaded
+            if (!elements.length) container.unbind(namespace);
+        })
+        // trigger event once loaded
+        .trigger(SCROLL);
 
         return this;
     };
