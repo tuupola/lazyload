@@ -15,9 +15,19 @@
 (function ($,window) {
 
     $.fn.lazyload = function(options) {
-        // Does not work on mobiles so we return
-        // if (navigator.userAgent.match(/Android|iPad/)) return this;
-
+        // $.offset.top() reports wrong position after scroll
+        // http://bugs.jquery.com/ticket/6446
+        if ( /; CPU.*OS (?:3_2|4_0)/i.test(navigator.userAgent)
+          && "getBoundingClientRect" in document.documentElement) {
+            $.fn.offsetOld = $.fn.offset;
+            $.fn.offset = function () {
+                var result = this.offsetOld();
+                result.top -= window.scrollY;
+                result.left -= window.scrollX;
+                return result;
+            };
+        }
+        
         var FALSE = !1
           , ORIGINAL = 'original'
           , SCROLL = 'scroll'
@@ -38,13 +48,6 @@
           , namespace = settings.namespace
           , event = settings.event + namespace
           , appear = 'appear' + namespace;
-          
-        // don't apply lazy loading if device is iPad or Android
-        // and container is window
-        if ( navigator.userAgent.match(/Android|iPad/)
-          && container[0] !== window ) {
-            return this;
-        }
         
         var isInViewport = function (element) {
             element = $(element);
@@ -73,28 +76,6 @@
                 && (elementLeft + threshold) <= right
                 && (elementBottom - threshold) >= top
                 && (elementRight - threshold) > left;
-        };
-        
-        // based on :
-        // http://stackoverflow.com/questions/123999/how-to-tell-if-a-dom-element-is-visible-in-the-current-viewport
-        if (navigator.userAgent.match(/Android|iPad/)) isInViewport = function (e) {
-            if (!e) return false;
-
-            var top = 0
-              , left = 0
-              , width = e.offsetWidth
-              , height = e.offsetHeight;
-
-            do {
-                e.offsetParent;
-                top += e.offsetTop;
-                left += e.offsetLeft;
-            } while(e = e.offsetParent)
-
-            return top < (window.pageYOffset + window.innerHeight)
-                && left < (window.pageXOffset + window.innerWidth)
-                && (top + height) > window.pageYOffset
-                && (left + width) > window.pageXOffset;
         };
 
         /* Fire one scroll event per scroll. Not one scroll event per image. */
