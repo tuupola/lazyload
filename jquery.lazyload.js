@@ -87,8 +87,8 @@
                 return;
             }
 
-            // Save original only if it is not defined in HTML.
-            if (!$(e).data(ORIGINAL)) $(e).data(ORIGINAL, $(e).attr(SRC));
+            // Save original or src attribute
+            $(e).data(ORIGINAL, $(e).attr(ORIGINAL) || $(e).attr(SRC));
             
             if ( !$(e).attr(SRC)
               || settings.placeholder === $(e).attr(SRC) 
