@@ -114,7 +114,7 @@
             });
         });
         
-        container.bind(SCROLL+','+RESIZE, function () {
+        container.bind(SCROLL+' '+RESIZE, function () {
             var counter = 0;
             elements.each(function() {
                 var e = this;
