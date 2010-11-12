@@ -35,7 +35,6 @@
           , elements = this
           , settings = { threshold: 0
                        , container: window
-                       , failurelimit: 0
                        , effect: 'show'
                        , namespace: '.lazyload'
                        };
@@ -43,7 +42,6 @@
         if(options) $.extend(settings, options);
        
         var container = $(settings.container)
-          , failurelimit = settings.failurelimit
           , namespace = settings.namespace
           , SCROLL = 'scroll' + namespace
           , APPEAR = 'appear' + namespace;
@@ -121,8 +119,6 @@
                 var e = this;
                 if (isInViewport(e)) {
                     if (!e.loaded) $(e).trigger(APPEAR);
-                } else if ( failurelimit && (counter++ > failurelimit)) {
-                    return FALSE;
                 }
             });
             
