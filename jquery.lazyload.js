@@ -117,9 +117,7 @@
             var counter = 0;
             elements.each(function() {
                 var e = this;
-                if (isInViewport(e)) {
-                    if (!e.loaded) $(e).trigger(APPEAR);
-                }
+                if (isInViewport(e) && !e.loaded) $(e).trigger(APPEAR);
             });
             
             // Remove image from array so it is not looped next time.
