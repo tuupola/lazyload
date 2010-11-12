@@ -43,8 +43,9 @@
        
         var container = $(settings.container)
           , namespace = settings.namespace
-          , SCROLL = 'scroll' + namespace
-          , APPEAR = 'appear' + namespace;
+          , APPEAR = 'appear' + namespace
+          , RESIZE = 'resize' + namespace
+          , SCROLL = 'scroll' + namespace;
         
         var isInViewport = function (element) {
             element = $(element);
@@ -75,7 +76,7 @@
                 && (elementRight - threshold) > left;
         };
 
-        elements.each( function () {
+        elements.each(function () {
             var e = this;
             
             // skip visible images
@@ -85,9 +86,7 @@
             }
 
             // Save original only if it is not defined in HTML.
-            if (!$(e).data(ORIGINAL)) {
-                $(e).data(ORIGINAL, $(e).attr(SRC));
-            }
+            if (!$(e).data(ORIGINAL)) $(e).data(ORIGINAL, $(e).attr(SRC));
             
             if ( !$(e).attr(SRC)
               || settings.placeholder === $(e).attr(SRC) 
@@ -113,7 +112,7 @@
             });
         });
         
-        container.bind(SCROLL, function () {
+        container.bind(SCROLL+','+RESIZE, function () {
             var counter = 0;
             elements.each(function() {
                 var e = this;
