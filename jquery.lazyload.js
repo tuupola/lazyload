@@ -17,16 +17,15 @@
     $.fn.lazyload = function(options) {
         // $.offset.top() reports wrong position after scroll
         // http://bugs.jquery.com/ticket/6446
-        if ( /; CPU.*OS (?:3_2|4_0)/i.test(navigator.userAgent)
-          && 'getBoundingClientRect' in document.documentElement) {
-            $.fn.offsetOld = $.fn.offset;
-            $.fn.offset = function () {
-                var result = this.offsetOld();
+        var fixedOffset = function (e) {
+            var result = $(e).offset();
+            if ( /; CPU.*OS (?:3_2|4_0)/i.test(navigator.userAgent)
+              && 'getBoundingClientRect' in document.documentElement) {
                 result.top -= window.scrollY;
                 result.left -= window.scrollX;
-                return result;
-            };
-        }
+            }
+            return result;
+        };
         
         var FALSE = !1
           , ORIGINAL = 'original'
@@ -51,7 +50,8 @@
             element = $(element);
             if (!element.length) return false;
 
-            var threshold = settings.threshold;
+            var threshold = settings.threshold
+              , offset;
 
             if (container[0] === window) {
                 var bottom = container.height() + container.scrollTop()
@@ -59,16 +59,18 @@
                   , right = container.width() + container.scrollLeft()
                   , top = container.scrollTop();
             } else {
-                var bottom = container.offset().top + container.height()
-                  , left = container.offset().left
-                  , right = container.offset().left + container.width()
-                  , top = container.offset().top;
+                offset = fixedOffset(container);
+                var bottom = offset.top + container.height()
+                  , left = offset.left
+                  , right = offset.left + container.width()
+                  , top = offset.top;
             }
-
-            var elementBottom = element.offset().top + element.height()
-              , elementLeft = element.offset().left
-              , elementRight = element.offset().left + element.width()
-              , elementTop = element.offset().top;
+            
+            offset = fixedOffset(element);
+            var elementBottom = offset.top + element.height()
+              , elementLeft = offset.left
+              , elementRight = offset.left + element.width()
+              , elementTop = offset.top;
               
             return (elementTop + threshold) <= bottom
                 && (elementLeft + threshold) <= right
