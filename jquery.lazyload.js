@@ -77,40 +77,41 @@
                 && (elementRight - threshold) > left;
         };
 
-        elements.each( function() {
-            var self = this;
+        elements.each( function () {
+            var e = this;
+            
+            // skip visible images
+            if (isInViewport($(e))) {
+                e.loaded = TRUE;
+                return;
+            }
 
-            /* Save original only if it is not defined in HTML. */
-            if (!$(self).data(ORIGINAL)) {
-                $(self).data(ORIGINAL, $(self).attr(SRC));
+            // Save original only if it is not defined in HTML.
+            if (!$(e).data(ORIGINAL)) {
+                $(e).data(ORIGINAL, $(e).attr(SRC));
             }
             
-            if (isInViewport($(self))) {
-                self.loaded = TRUE;
-            } else if ( !$(self).attr(SRC) 
-                     || settings.placeholder === $(self).attr(SRC) 
-                     || (!isInViewport($(self)))) {
+            if ( !$(e).attr(SRC)
+              || settings.placeholder === $(e).attr(SRC) 
+              || (!isInViewport($(e)))) {
 
                 settings.placeholder
-                ? $(self).attr(SRC, settings.placeholder)
-                : $(self).removeAttr(SRC);
+                ? $(e).attr(SRC, settings.placeholder)
+                : $(e).removeAttr(SRC);
                 
-                self.loaded = FALSE;
+                e.loaded = FALSE;
             }
 
-            /* When appear is triggered load original image. */
-            $(self).one(APPEAR, function() {
-                if (!this.loaded) {
-                    $("<img />").load(function() {
-                        $(self).hide()
-                               .attr(SRC, $(self).data(ORIGINAL))
-                               [settings.effect](settings.effectSpeed);
-                        self.loaded = TRUE;
-                    })
-                    .attr(SRC, $(self).data(ORIGINAL));
-                } else {
-                    $(self).attr(SRC, $(self).data(ORIGINAL));
-                }
+            // When appear is triggered load original image.
+            $(e).one(APPEAR, function() {
+                if (this.loaded) return;
+                $("<img />").load(function() {
+                    $(e).hide()
+                        .attr(SRC, $(e).data(ORIGINAL))
+                        [settings.effect](settings.effectSpeed)
+                        .removeData(ORIGINAL);
+                    e.loaded = TRUE;
+                }).attr(SRC, $(e).data(ORIGINAL));
             });
         });
         
@@ -119,7 +120,7 @@
             elements.each(function() {
                 var e = this;
                 if (isInViewport(e)) {
-                    $(e).trigger(APPEAR);
+                    if (!e.loaded) $(e).trigger(APPEAR);
                 } else if ( failurelimit && (counter++ > failurelimit)) {
                     return FALSE;
                 }
@@ -127,7 +128,6 @@
             
             // Remove image from array so it is not looped next time.
             elements = $($.grep(elements, function(e) {
-                if (e.loaded) $(e).removeData(ORIGINAL);
                 return !e.loaded;
             }));
             
