@@ -57,11 +57,6 @@
         this.each(function() {
             var self = this;
             
-            /* Save original only if it is not defined in HTML. */
-            if (undefined == $(self).attr("original")) {
-                $(self).attr("original", $(self).attr("src"));     
-            }
-
             if ("scroll" != settings.event || 
                     undefined == $(self).attr("src") || 
                     settings.placeholder == $(self).attr("src") || 
