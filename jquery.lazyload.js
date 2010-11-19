@@ -82,9 +82,8 @@
             var e = this;
             
             // skip visible images
-            if (isInViewport($(e))) {
+            if (isInViewport($(e)) && !$(e).attr(ORIGINAL)) {
                 e.loaded = TRUE;
-                if ($(e).attr(ORIGINAL)) $(e).attr(SRC, $(e).attr(ORIGINAL));
                 return;
             }
 
