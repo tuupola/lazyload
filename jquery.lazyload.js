@@ -34,6 +34,10 @@
                 
                 var counter = 0;
                 elements.each(function() {
+                    // skip invisible image for performance improvement.
+                    if (this.offsetWidth == 0 || this.offsetHeight == 0) {
+                        return;
+                    }
                     if ($.abovethetop(this, settings) ||
                         $.leftofbegin(this, settings)) {
                             /* Nothing. */
