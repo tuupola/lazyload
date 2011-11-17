@@ -77,7 +77,12 @@
                 }
                 self.loaded = false;
             } else {
-                self.loaded = true;
+                if ("" == $(self).attr("src")) {
+                    self.loaded = false
+                }
+                else {                  
+                    self.loaded = true;
+                }
             }
             
             /* When appear is triggered load original image. */
