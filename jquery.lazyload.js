@@ -9,156 +9,129 @@
  * Project home:
  *   http://www.appelsiini.net/projects/lazyload
  *
- * Version:  1.5.0
+ * Version:  1.5.1
  *
  */
-(function($) {
+(function ($,window) {
 
     $.fn.lazyload = function(options) {
-        var settings = {
-            threshold    : 0,
-            failurelimit : 0,
-            event        : "scroll",
-            effect       : "show",
-            container    : window
+        // $.offset.top() reports wrong position after scroll
+        // http://bugs.jquery.com/ticket/6446
+        var fixedOffset = function (e) {
+            var result = $(e).offset();
+            if ( /; CPU.*OS (?:3_2|4_0)/i.test(navigator.userAgent)
+              && 'getBoundingClientRect' in document.documentElement) {
+                result.top -= window.scrollY;
+                result.left -= window.scrollX;
+            }
+            return result;
         };
-                
-        if(options) {
-            $.extend(settings, options);
-        }
-
-        /* Fire one scroll event per scroll. Not one scroll event per image. */
-        var elements = this;
-        if ("scroll" == settings.event) {
-            $(settings.container).bind("scroll", function(event) {
-                
-                var counter = 0;
-                elements.each(function() {
-                    if ($.abovethetop(this, settings) ||
-                        $.leftofbegin(this, settings)) {
-                            /* Nothing. */
-                    } else if (!$.belowthefold(this, settings) &&
-                        !$.rightoffold(this, settings)) {
-                            $(this).trigger("appear");
-                    } else {
-                        if (counter++ > settings.failurelimit) {
-                            return false;
-                        }
-                    }
-                });
-                /* Remove image from array so it is not looped next time. */
-                var temp = $.grep(elements, function(element) {
-                    return !element.loaded;
-                });
-                elements = $(temp);
-            });
-        }
         
-        this.each(function() {
-            var self = this;
-            
-            /* Save original only if it is not defined in HTML. */
-            if (undefined == $(self).attr("original")) {
-                $(self).attr("original", $(self).attr("src"));     
-            }
+        var FALSE = !1
+          , ORIGINAL = 'original'
+          , SRC = 'src'
+          , TRUE = !FALSE
+          , elements = this
+          , settings = { threshold: 0
+                       , container: window
+                       , effect: 'show'
+                       , namespace: '.lazyload'
+                       };
+                       
+        if(options) $.extend(settings, options);
+       
+        var container = $(settings.container)
+          , namespace = settings.namespace
+          , APPEAR = 'appear' + namespace
+          , RESIZE = 'resize' + namespace
+          , SCROLL = 'scroll' + namespace;
+        
+        var isInViewport = function (element) {
+            element = $(element);
+            if (!element.length) return false;
 
-            if ("scroll" != settings.event || 
-                    undefined == $(self).attr("src") || 
-                    settings.placeholder == $(self).attr("src") || 
-                    ($.abovethetop(self, settings) ||
-                     $.leftofbegin(self, settings) || 
-                     $.belowthefold(self, settings) || 
-                     $.rightoffold(self, settings) )) {
-                        
-                if (settings.placeholder) {
-                    $(self).attr("src", settings.placeholder);      
-                } else {
-                    $(self).removeAttr("src");
-                }
-                self.loaded = false;
+            var threshold = settings.threshold
+              , offset;
+
+            if (container[0] === window) {
+                var bottom = container.height() + container.scrollTop()
+                  , left = container.scrollLeft()
+                  , right = container.width() + container.scrollLeft()
+                  , top = container.scrollTop();
             } else {
-                self.loaded = true;
+                offset = fixedOffset(container);
+                var bottom = offset.top + container.height()
+                  , left = offset.left
+                  , right = offset.left + container.width()
+                  , top = offset.top;
             }
             
-            /* When appear is triggered load original image. */
-            $(self).one("appear", function() {
-                if (!this.loaded) {
-                    $("<img />")
-                        .bind("load", function() {
-                            $(self)
-                                .hide()
-                                .attr("src", $(self).attr("original"))
-                                [settings.effect](settings.effectspeed);
-                            self.loaded = true;
-                        })
-                        .attr("src", $(self).attr("original"));
-                };
-            });
+            offset = fixedOffset(element);
+            var elementBottom = offset.top + element.height()
+              , elementLeft = offset.left
+              , elementRight = offset.left + element.width()
+              , elementTop = offset.top;
+              
+            return (elementTop + threshold) <= bottom
+                && (elementLeft + threshold) <= right
+                && (elementBottom - threshold) >= top
+                && (elementRight - threshold) > left;
+        };
 
-            /* When wanted event is triggered load original image */
-            /* by triggering appear.                              */
-            if ("scroll" != settings.event) {
-                $(self).bind(settings.event, function(event) {
-                    if (!self.loaded) {
-                        $(self).trigger("appear");
-                    }
-                });
+        elements.each(function () {
+            var e = this;
+            
+            // skip visible images
+            if (isInViewport($(e)) && !$(e).attr(ORIGINAL)) {
+                e.loaded = TRUE;
+                return;
             }
+
+            // Save original or src attribute
+            $(e).data(ORIGINAL, $(e).attr(ORIGINAL) || $(e).attr(SRC));
+            
+            if ( !$(e).attr(SRC)
+              || settings.placeholder === $(e).attr(SRC) 
+              || (!isInViewport($(e)))) {
+
+                settings.placeholder
+                ? $(e).attr(SRC, settings.placeholder)
+                : $(e).removeAttr(SRC);
+                
+                e.loaded = FALSE;
+            }
+
+            // When appear is triggered load original image.
+            $(e).one(APPEAR, function() {
+                if (this.loaded) return;
+                $("<img />").load(function() {
+                    $(e).hide()
+                        .attr(SRC, $(e).data(ORIGINAL))
+                        [settings.effect](settings.effectSpeed)
+                        .removeData(ORIGINAL);
+                    e.loaded = TRUE;
+                }).attr(SRC, $(e).data(ORIGINAL));
+            });
         });
         
-        /* Force initial check if images should appear. */
-        $(settings.container).trigger(settings.event);
-        
+        container.bind(SCROLL+' '+RESIZE, function () {
+            var counter = 0;
+            elements.each(function() {
+                var e = this;
+                if (isInViewport(e) && !e.loaded) $(e).trigger(APPEAR);
+            });
+            
+            // Remove image from array so it is not looped next time.
+            elements = $($.grep(elements, function(e) {
+                return !e.loaded;
+            }));
+            
+            // stop binding if every elements are loaded
+            if (!elements.length) container.unbind(namespace);
+        })
+        // trigger event once loaded
+        .trigger(SCROLL);
+
         return this;
-
     };
-
-    /* Convenience methods in jQuery namespace.           */
-    /* Use as  $.belowthefold(element, {threshold : 100, container : window}) */
-
-    $.belowthefold = function(element, settings) {
-        if (settings.container === undefined || settings.container === window) {
-            var fold = $(window).height() + $(window).scrollTop();
-        } else {
-            var fold = $(settings.container).offset().top + $(settings.container).height();
-        }
-        return fold <= $(element).offset().top - settings.threshold;
-    };
-    
-    $.rightoffold = function(element, settings) {
-        if (settings.container === undefined || settings.container === window) {
-            var fold = $(window).width() + $(window).scrollLeft();
-        } else {
-            var fold = $(settings.container).offset().left + $(settings.container).width();
-        }
-        return fold <= $(element).offset().left - settings.threshold;
-    };
-        
-    $.abovethetop = function(element, settings) {
-        if (settings.container === undefined || settings.container === window) {
-            var fold = $(window).scrollTop();
-        } else {
-            var fold = $(settings.container).offset().top;
-        }
-        return fold >= $(element).offset().top + settings.threshold  + $(element).height();
-    };
-    
-    $.leftofbegin = function(element, settings) {
-        if (settings.container === undefined || settings.container === window) {
-            var fold = $(window).scrollLeft();
-        } else {
-            var fold = $(settings.container).offset().left;
-        }
-        return fold >= $(element).offset().left + settings.threshold + $(element).width();
-    };
-    /* Custom selectors for your convenience.   */
-    /* Use as $("img:below-the-fold").something() */
-
-    $.extend($.expr[':'], {
-        "below-the-fold" : "$.belowthefold(a, {threshold : 0, container: window})",
-        "above-the-fold" : "!$.belowthefold(a, {threshold : 0, container: window})",
-        "right-of-fold"  : "$.rightoffold(a, {threshold : 0, container: window})",
-        "left-of-fold"   : "!$.rightoffold(a, {threshold : 0, container: window})"
-    });
-    
-})(jQuery);
+})(jQuery,window);
