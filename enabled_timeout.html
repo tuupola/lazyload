@@ -11,8 +11,7 @@
   <script src="jquery.lazyload.js" type="text/javascript" charset="utf-8"></script>
   <script type="text/javascript" charset="utf-8">
       $(function() {          
-          $("img:below-the-fold").lazyload({
-              placeholder : "img/grey.gif", 
+          $("img").lazyload({
               event : "sporty"
           });
       });
@@ -55,15 +54,13 @@
     
     <p>
       Here <a href="http://www.appelsiini.net/projects/lazyload">Lazy Load</a> 
-      plugin is enabled. Images below the fold (the ones lower than window bottom) are not 
-      loaded. Timeout will trigger five seconds after all elements of page have been loaded. 
-      Scroll down the page and wait to see.
+      plugin is enabled. Images are not loaded. Timeout will trigger five seconds after 
+      all other elements of page have been loaded. 
     </p>
     <code>
       <pre>
  $(function() {          
-     $("img:below-the-fold").lazyload({
-         placeholder : "img/grey.gif", 
+     $("img").lazyload({
          event : "sporty"
      });
  });
@@ -73,12 +70,12 @@
      </pre>
     </code>    
 
-    <img src="img/bmw_m1_hood.jpg" width="765" height="574" alt="BMW M1 Hood"><br/>
-    <img src="img/bmw_m1_side.jpg" width="765" height="574" alt="BMW M1 Side"><br/>
-    <img src="img/viper_1.jpg" width="765" height="574" alt="Viper 1"><br/>
-    <img src="img/viper_corner.jpg" width="765" height="574" alt="Viper Corner"><br/>
-    <img src="img/bmw_m3_gt.jpg" width="765" height="574" alt="BMW M3 GT"><br/>
-    <img src="img/corvette_pitstop.jpg" width="765" height="574" alt="Corvette Pitstop"><br/>
+    <img src="img/grey.gif" data-original="img/bmw_m1_hood.jpg" width="765" height="574" alt="BMW M1 Hood"><br/>
+    <img src="img/grey.gif" data-original="img/bmw_m1_side.jpg" width="765" height="574" alt="BMW M1 Side"><br/>
+    <img src="img/grey.gif" data-original="img/viper_1.jpg" width="765" height="574" alt="Viper 1"><br/>
+    <img src="img/grey.gif" data-original="img/viper_corner.jpg" width="765" height="574" alt="Viper Corner"><br/>
+    <img src="img/grey.gif" data-original="img/bmw_m3_gt.jpg" width="765" height="574" alt="BMW M3 GT"><br/>
+    <img src="img/grey.gif" data-original="img/corvette_pitstop.jpg" width="765" height="574" alt="Corvette Pitstop"><br/>
 
     </div>
     <div id="sidebar">
