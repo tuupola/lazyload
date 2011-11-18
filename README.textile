@@ -1,5 +1,10 @@
 h3. Changelog
 
+h4. 1.6.0
+
+* Rename original attribute to data-original to be HTML5 friendly.
+* Remove all code regarding placeholder and automatically removing src attribute. It does not work with modern browsers. Must use data-original attribute instead.
+
 h4. 1.5.0
 
 * Support for removing the src attribute already in HTML. This is not a drop in solution but gives additional speed for those who need it. Modified patch by Jeremy Pollock.
