@@ -41,23 +41,21 @@
   <div class="entry">
     
     <p>
-      Images below the fold (the ones lower than window bottom) are not loaded. When scrolling down
-      they are loaded when needed. This example uses additional possibility of putting placeholder 
-      image to <i>src</i> attribute already in html. Real image url is stored in <i>data-original</i> property. 
-      This is not needed but gives additional speed increase. Shift-reload to test again. Compare this to 
-      page where plugin is <a href="disabled.html">disabled</a> or page with 
+      When you have hundreds of images it is best to use James Padolseys <a href="http://james.padolsey.com/javascript/special-scroll-events-for-jquery/">scrollstop event</a>. 
+      Compate this to page where plugin is <a href="disabled.html">disabled</a> or page with 
       <a href="enabled.html">larger images</a>.
+      
     </p>
 
     <code>
-     <pre>
- &lt;img data-original="img/example.jpg" src="img/grey.gif"&gt;</pre>     
-    </code>
-
     <code>
+      <pre> &lt;script src="jquery.scrollstop.js" type="text/javascript"&gt;&lt;/script&gt; </pre>
+        
       <pre>
- $("img").lazyload({
-     placeholder : "img/grey.gif" 
+ &lt;img data-original="img/example.jpg" src="img/grey.gif"&gt;</pre>             
+        
+      <pre> $("img").lazyload({
+     event: "scrollstop"
  });</pre>     
     </code>
 
@@ -80,7 +78,7 @@
 
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js" type="text/javascript" charset="utf-8"></script>
   <script src="jquery.scrollstop.js" type="text/javascript" charset="utf-8"></script>
-  <script src="jquery.lazyload.js" type="text/javascript" charset="utf-8"></script>
+  <script src="jquery.lazyload.js?v=1602" type="text/javascript" charset="utf-8"></script>
   <script type="text/javascript" charset="utf-8">
       $(function() {
           $("img").lazyload({
