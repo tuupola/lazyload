@@ -29,8 +29,8 @@
 
         /* Fire one scroll event per scroll. Not one scroll event per image. */
         var elements = this;
-        if ("scroll" == settings.event) {
-            $(settings.container).bind("scroll", function(event) {
+        if (0 == settings.event.indexOf("scroll")) {
+            $(settings.container).bind(settings.event, function(event) {
                 var counter = 0;
                 elements.each(function() {
                     if ($.abovethetop(this, settings) ||
@@ -76,7 +76,7 @@
 
             /* When wanted event is triggered load original image */
             /* by triggering appear.                              */
-            if ("scroll" != settings.event) {
+            if (0 != settings.event.indexOf("scroll")) {
                 $(self).bind(settings.event, function(event) {
                     if (!self.loaded) {
                         $(self).trigger("appear");

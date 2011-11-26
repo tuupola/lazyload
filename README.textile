@@ -4,6 +4,7 @@ h4. 1.6.0
 
 * Rename original attribute to data-original to be HTML5 friendly.
 * Remove all code regarding placeholder and automatically removing src attribute. It does not work with modern browsers. Must use data-original attribute instead.
+* Add support for James Padolseys "scrollstop event":http://james.padolsey.com/javascript/special-scroll-events-for-jquery/. Use when you have hundreds of images.
 
 h4. 1.5.0
 
