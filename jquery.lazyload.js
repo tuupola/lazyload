@@ -17,7 +17,7 @@
     $.fn.lazyload = function(options) {
         var settings = {
             threshold       : 0,
-            failurelimit    : 0,
+            failure_limit   : 0,
             event           : "scroll",
             effect          : "show",
             container       : window,
@@ -25,6 +25,12 @@
         };
                 
         if(options) {
+            /* Maintain BC for a couple of version. */
+            if (null !== options.failurelimit) {
+                options.failure_limit = options.failurelimit; 
+                delete options.failurelimit;
+            }
+            
             $.extend(settings, options);
         }
 
@@ -42,7 +48,7 @@
                         !$.rightoffold(this, settings)) {
                             $(this).trigger("appear");
                     } else {
-                        if (counter++ > settings.failurelimit) {
+                        if (counter++ > settings.failure_limit) {
                             return false;
                         }
                     }
