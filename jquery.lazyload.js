@@ -21,7 +21,7 @@
             event           : "scroll",
             effect          : "show",
             container       : window,
-            show_invisible  : true
+            skip_invisible  : true
         };
                 
         if(options) {
@@ -40,7 +40,7 @@
             $(settings.container).bind(settings.event, function(event) {
                 var counter = 0;
                 elements.each(function() {
-                    if (!settings.show_invisible && !$(this).is(":visible")) return;
+                    if (settings.skip_invisible && !$(this).is(":visible")) return;
                     if ($.abovethetop(this, settings) ||
                         $.leftofbegin(this, settings)) {
                             /* Nothing. */
