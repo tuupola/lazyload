@@ -48,7 +48,7 @@
                         !$.rightoffold(this, settings)) {
                             $(this).trigger("appear");
                     } else {
-                        if (counter++ > settings.failure_limit) {
+                        if (++counter > settings.failure_limit) {
                             return false;
                         }
                     }
