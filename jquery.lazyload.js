@@ -21,7 +21,9 @@
             event           : "scroll",
             effect          : "show",
             container       : window,
-            skip_invisible  : true
+            skip_invisible  : true,
+            sortable		: false,
+            sort_event		: "sort"
         };
                 
         if(options) {
@@ -33,6 +35,8 @@
             
             $.extend(settings, options);
         }
+        
+        var selector = $(this).selector;
 
         /* Fire one scroll event per scroll. Not one scroll event per image. */
         var elements = this;
@@ -92,6 +96,15 @@
                 });
             }
         });
+        
+        // if we want the images to be tested when a sort occurs then add that event
+        if (settings.sortable) {
+	        $(settings.container).bind(settings.sort_event, function(event) {
+	        	// update elements as they have been reordered
+				elements = $(selector);
+	        	$(this).trigger(settings.event);
+	        });
+        }
         
         /* Force initial check if images should appear. */
         $(settings.container).trigger(settings.event);
