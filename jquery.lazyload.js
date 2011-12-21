@@ -21,7 +21,8 @@
             event           : "scroll",
             effect          : "show",
             container       : window,
-            skip_invisible  : true
+            skip_invisible  : true,
+            track_resize	: false
         };
                 
         if(options) {
@@ -92,6 +93,13 @@
                 });
             }
         });
+        
+        // do we want to track page resizing?
+        if (settings.track_resize) {
+	        $(window).resize(function(event) {
+	        	$(settings.container).trigger(settings.event);
+	        });
+        }
         
         /* Force initial check if images should appear. */
         $(settings.container).trigger(settings.event);
