@@ -93,6 +93,11 @@
             }
         });
         
+        // track page resizing?
+        $(window).resize(function(event) {
+        	$(settings.container).trigger(settings.event);
+        });
+        
         /* Force initial check if images should appear. */
         $(settings.container).trigger(settings.event);
         
