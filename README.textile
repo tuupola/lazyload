@@ -1,5 +1,9 @@
 h3. Changelog
 
+h4. 1.6.1
+* Added success callback
+* Added timeout callback, including a timeout_after option (milliseconds)
+
 h4. 1.6.0
 
 * Rename original attribute to data-original to be HTML5 friendly.
@@ -19,4 +23,4 @@ h4. 1.4.0
 h4. 1.3.2
 
 * Support for scrolling within a container.
-* Fixed IE not loading images. 
+* Fixed IE not loading images.
