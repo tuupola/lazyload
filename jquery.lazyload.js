@@ -77,15 +77,15 @@
                         .bind("load", function() {
                             $(self).hide().attr("src", $(self).data("original"))[settings.effect](settings.effectspeed);
                             self.loaded = true;
-                            if (options && typeof(options.success) === "function")
-                                options.success($(self));
+                            if (typeof(settings.success) === "function")
+                                settings.success($(self));
                         })
                         .attr("src", $(self).data("original"));
-                        if (options && typeof(options.timeout) === "function" && parseInt(options.timeout_after) > 0)
+                        if (typeof(settings.timeout) === "function" && parseInt(settings.timeout_after) > 0)
                             window.setTimeout(function() {
                                 if (!self.loaded)
-                                    options.timeout($(self));
-                            }, parseInt(options.timeout_after));
+                                    settings.timeout($(self));
+                            }, parseInt(settings.timeout_after));
                 };
             });
 
