@@ -9,7 +9,7 @@
  * Project home:
  *   http://www.appelsiini.net/projects/lazyload
  *
- * Version:  1.6.0
+ * Version:  1.7.0-dev
  *
  */
 (function($) {
@@ -93,9 +93,9 @@
             }
         });
         
-        // track page resizing?
-        $(window).resize(function(event) {
-        	$(settings.container).trigger(settings.event);
+        /* Check if something appears when window is resized. */
+        $(window).bind("resize", function(event) {
+            $(settings.container).trigger(settings.event);
         });
         
         /* Force initial check if images should appear. */
