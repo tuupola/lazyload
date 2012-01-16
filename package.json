@@ -1,0 +1,30 @@
+{
+    "name": "lazyload",
+    "version": "1.6.0",
+    "title": "Lazy Load",
+    "author": {
+        "name": "Mika Tuupola",
+        "url": "http://www.appelsiini.net/"
+    },
+    "licenses": [
+        {
+            "type": "MIT",
+            "url": "http://www.opensource.org/licenses/mit-license.php"
+        }
+    ],
+    "dependencies": {
+        "jquery": "1"
+    },
+    "description": "Delay loading of images in long web pages. Images outside of viewport wont be loaded before user scrolls to them.",
+    "keywords": [
+        "lazy",
+        "load",
+        "image"
+    ],
+    "homepage": "http://www.appelsiini.net/projects/lazyload",
+    "files": [
+        "jquery.lazyload.js",
+        "jquery.lazyload.min.js"
+        "jquery.scrollstop.js"
+    ]
+}

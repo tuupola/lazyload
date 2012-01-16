@@ -15,4 +15,7 @@ task :minify do
   end
   puts "Minifying jquery.lazyload.js with UglifyJS..."
   File.open("jquery.lazyload.min.js", "w"){|f| f.puts Uglifier.new.compile(File.read("jquery.lazyload.js"))}
+  puts "Minifying jquery.scrollstop.js with UglifyJS..."
+  File.open("jquery.scrollstop.min.js", "w"){|f| f.puts Uglifier.new.compile(File.read("jquery.scrollstop.js"))}
+
 end
