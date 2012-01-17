@@ -22,7 +22,8 @@
             event           : "scroll",
             effect          : "show",
             container       : win,
-            skip_invisible  : true
+            skip_invisible  : true,
+            prop_name       : "origin"
         };
                 
         if(options) {
@@ -31,7 +32,7 @@
                 options.failure_limit = options.failurelimit; 
                 delete options.failurelimit;
             }
-            
+
             $.extend(settings, options);
         }
 
@@ -75,11 +76,11 @@
                         .bind("load", function() {
                             $(self)
                                 .hide()
-                                .attr("src", $(self).data("original"))
+                                .attr("src", $(self).data(settings.prop_name) || $(self).attr(settings.prop_name))
                                 [settings.effect](settings.effectspeed);
                             self.loaded = true;
                         })
-                        .attr("src", $(self).data("original"));
+                        .attr("src", $(self).data(settings.prop_name) || $(self).attr(settings.prop_name));
                 };
             });
 
