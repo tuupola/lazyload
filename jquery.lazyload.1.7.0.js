@@ -23,7 +23,7 @@
             effect          : "show",
             container       : win,
             skip_invisible  : true,
-            prop_name       : "origin"
+            data_attr       : "origin"
         };
                 
         if(options) {
@@ -76,11 +76,11 @@
                         .bind("load", function() {
                             $(self)
                                 .hide()
-                                .attr("src", $(self).data(settings.prop_name) || $(self).attr(settings.prop_name))
+                                .attr("src", $(self).data(settings.data_attr) || $(self).attr(settings.data_attr))
                                 [settings.effect](settings.effectspeed);
                             self.loaded = true;
                         })
-                        .attr("src", $(self).data(settings.prop_name) || $(self).attr(settings.prop_name));
+                        .attr("src", $(self).data(settings.data_attr) || $(self).attr(settings.data_attr));
                 };
             });
 
@@ -97,7 +97,11 @@
         
         /* Check if something appears when window is resized. */
         $win.bind("resize", function(event) {
-            $(settings.container).trigger(settings.event);
+            if(0 === settings.event.indexOf('scroll')){
+                win.scrollTo($win.scrollLeft(), $win.scrollTop());
+            }else{
+                $(settings.container).trigger(settings.event);
+            }
         });
         
         /* Force initial check if images should appear. */
