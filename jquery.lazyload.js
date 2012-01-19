@@ -40,13 +40,14 @@
             $(settings.container).bind(settings.event, function(event) {
                 var counter = 0;
                 elements.each(function() {
-                    if (settings.skip_invisible && !$(this).is(":visible")) return;
+                    $this = $(this);
+                    if (settings.skip_invisible && !$this.is(":visible")) return;
                     if ($.abovethetop(this, settings) ||
                         $.leftofbegin(this, settings)) {
                             /* Nothing. */
                     } else if (!$.belowthefold(this, settings) &&
                         !$.rightoffold(this, settings)) {
-                            $(this).trigger("appear");
+                            $this.trigger("appear");
                     } else {
                         if (++counter > settings.failure_limit) {
                             return false;
@@ -64,30 +65,32 @@
         }
         
         this.each(function() {
-            var self = this;            
+            var self = this;
+            var $self = $(this);
+            
             self.loaded = false;
             
             /* When appear is triggered load original image. */
-            $(self).one("appear", function() {
+            $self.one("appear", function() {
                 if (!this.loaded) {
                     $("<img />")
                         .bind("load", function() {
-                            $(self)
+                            $self
                                 .hide()
-                                .attr("src", $(self).data("original"))
+                                .attr("src", $self.data("original"))
                                 [settings.effect](settings.effectspeed);
                             self.loaded = true;
                         })
-                        .attr("src", $(self).data("original"));
+                        .attr("src", $self.data("original"));
                 };
             });
 
             /* When wanted event is triggered load original image */
             /* by triggering appear.                              */
             if (0 != settings.event.indexOf("scroll")) {
-                $(self).bind(settings.event, function(event) {
+                $self.bind(settings.event, function(event) {
                     if (!self.loaded) {
-                        $(self).trigger("appear");
+                        $self.trigger("appear");
                     }
                 });
             }
