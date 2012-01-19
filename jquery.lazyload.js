@@ -26,7 +26,7 @@
                 
         if(options) {
             /* Maintain BC for a couple of version. */
-            if (null !== options.failurelimit) {
+            if (undefined !== options.failurelimit) {
                 options.failure_limit = options.failurelimit; 
                 delete options.failurelimit;
             }
