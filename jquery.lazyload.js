@@ -21,7 +21,8 @@
             event           : "scroll",
             effect          : "show",
             container       : window,
-            skip_invisible  : true
+            skip_invisible  : true,
+            callback        : null
         };
                 
         if(options) {
@@ -80,6 +81,9 @@
                                 .attr("src", $self.data("original"))
                                 [settings.effect](settings.effectspeed);
                             self.loaded = true;
+                            if (settings.callback) {
+                                settings.callback.call(self);
+                            }
                         })
                         .attr("src", $self.data("original"));
                 };
