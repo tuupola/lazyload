@@ -21,7 +21,10 @@
             event           : "scroll",
             effect          : "show",
             container       : window,
-            skip_invisible  : true
+            skip_invisible  : true,
+            success         : null,
+            timeout_after   : 10000,
+            timeout         : null
         };
                 
         if(options) {
@@ -72,13 +75,17 @@
                 if (!this.loaded) {
                     $("<img />")
                         .bind("load", function() {
-                            $(self)
-                                .hide()
-                                .attr("src", $(self).data("original"))
-                                [settings.effect](settings.effectspeed);
+                            $(self).hide().attr("src", $(self).data("original"))[settings.effect](settings.effectspeed);
                             self.loaded = true;
+                            if (typeof(settings.success) === "function")
+                                settings.success($(self));
                         })
                         .attr("src", $(self).data("original"));
+                        if (typeof(settings.timeout) === "function" && parseInt(settings.timeout_after) > 0)
+                            window.setTimeout(function() {
+                                if (!self.loaded)
+                                    settings.timeout($(self));
+                            }, parseInt(settings.timeout_after));
                 };
             });
 
