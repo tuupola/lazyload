@@ -58,13 +58,6 @@
                         }
                     }
                 });
-
-                /* Remove image from array so it is not looped next time. */
-                var temp = $.grep(elements, function(element) {
-                    return !element.loaded;
-                });
-                elements = $(temp);
-
             });
         }
         
@@ -91,6 +84,13 @@
                         })
                         .attr("src", $self.data(settings.data_attribute));
                 };
+
+                /* Remove image from array so it is not looped next time. */
+                var temp = $.grep(elements, function(element) {
+                    return !element.loaded;
+                });
+                elements = $(temp);
+                
             });
 
             /* When wanted event is triggered load original image */
