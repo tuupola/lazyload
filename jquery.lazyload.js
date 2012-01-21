@@ -12,8 +12,10 @@
  * Version:  1.7.0-dev
  *
  */
-(function($) {
-
+(function($, window) {
+    
+    $window = $(window);
+    
     $.fn.lazyload = function(options) {
         var settings = {
             threshold       : 0,
@@ -103,7 +105,7 @@
         });
         
         /* Check if something appears when window is resized. */
-        $(window).bind("resize", function(event) {
+        $window.bind("resize", function(event) {
             $(settings.container).trigger(settings.event);
         });
         
@@ -119,7 +121,7 @@
 
     $.belowthefold = function(element, settings) {
         if (settings.container === undefined || settings.container === window) {
-            var fold = $(window).height() + $(window).scrollTop();
+            var fold = $window.height() + $window.scrollTop();
         } else {
             var fold = $(settings.container).offset().top + $(settings.container).height();
         }
@@ -128,7 +130,7 @@
     
     $.rightoffold = function(element, settings) {
         if (settings.container === undefined || settings.container === window) {
-            var fold = $(window).width() + $(window).scrollLeft();
+            var fold = $window.width() + $window.scrollLeft();
         } else {
             var fold = $(settings.container).offset().left + $(settings.container).width();
         }
@@ -137,7 +139,7 @@
         
     $.abovethetop = function(element, settings) {
         if (settings.container === undefined || settings.container === window) {
-            var fold = $(window).scrollTop();
+            var fold = $window.scrollTop();
         } else {
             var fold = $(settings.container).offset().top;
         }
@@ -146,7 +148,7 @@
     
     $.leftofbegin = function(element, settings) {
         if (settings.container === undefined || settings.container === window) {
-            var fold = $(window).scrollLeft();
+            var fold = $window.scrollLeft();
         } else {
             var fold = $(settings.container).offset().left;
         }
@@ -162,4 +164,4 @@
         "left-of-fold"   : function(a) { return !$.rightoffold(a, {threshold : 0, container: window}) }
     });
     
-})(jQuery);
+})(jQuery, window);
