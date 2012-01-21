@@ -82,7 +82,8 @@
                                 [settings.effect](settings.effectspeed);
                             self.loaded = true;
                             if (settings.callback) {
-                                settings.callback.call(self);
+                                var elements_left = elements.length - 1;
+                                settings.callback.call(self, elements_left, settings);
                             }
                         })
                         .attr("src", $self.data("original"));
