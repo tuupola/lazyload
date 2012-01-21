@@ -21,6 +21,7 @@
             event           : "scroll",
             effect          : "show",
             container       : window,
+            data_attribute  : "original",
             skip_invisible  : true,
             callback        : null
         };
@@ -78,7 +79,7 @@
                         .bind("load", function() {
                             $self
                                 .hide()
-                                .attr("src", $self.data("original"))
+                                .attr("src", $self.data(settings.data_attribute))
                                 [settings.effect](settings.effectspeed);
                             self.loaded = true;
                             if (settings.callback) {
@@ -86,7 +87,7 @@
                                 settings.callback.call(self, elements_left, settings);
                             }
                         })
-                        .attr("src", $self.data("original"));
+                        .attr("src", $self.data(settings.data_attribute));
                 };
             });
 
