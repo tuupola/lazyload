@@ -67,7 +67,7 @@
         
         this.each(function() {
             var self = this;
-            var $self = $(this);
+            var $self = $(self);
             
             self.loaded = false;
             
