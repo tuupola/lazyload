@@ -1,0 +1,288 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>Lazy Load Enabled With Support for Sorting</title>
+  <meta name="generator" content="Mephisto" />
+  <link rel="alternate" type="application/atom+xml" href="http://feeds.feedburner.com/tuupola" title="Atom feed" />
+  <link href="http://www.appelsiini.net/stylesheets/main2.css" rel="stylesheet" type="text/css" />
+  <style type="text/css">
+  #sidebar {
+    width: 0px;
+  }
+
+  #content {
+    width: 770px;
+  }
+  
+  table {
+	  width: 100%;
+  }
+  
+  </style>
+
+</head>
+
+<body>
+  <div id="wrap"> 
+    <div id="header">
+      <p>
+        <h1>Lazy Load</h1><br />
+        <small>Image lazy loader plugin for jQuery.</small>
+        <ul id="nav">
+          <li id="first"><a href="/" class="active">weblog</a></li>
+          <li><a href="/projects" class="last">projects</a></li>
+        </ul>
+      </p>
+    </div>
+    <div id="content">
+      
+  <h2>Plugin enabled with support for sorting</h2>
+  <div class="entry">
+    
+    <p>
+      If you sort the images and change their order in the DOM then you can run into problems. You can configure the plugin to be sortable, then you just need to trigger
+      the "sort" custom JQuery event when this occurs and the plugin will do the rest.
+    </p>
+
+    <code>
+      <pre>
+ &lt;img data-original="img/example.jpg" src="img/grey.gif"&gt;</pre>             
+        
+      <pre> $("img").lazyload({
+     sortable: true
+ });</pre>
+      <pre> $(document).ready(
+	function() {
+		$("#teams").tablesorter().bind("sortEnd",function() { 
+	        $(window).trigger("sort"); 
+	    }); 
+	}
+);</pre>
+    </code>
+    
+    <table id="teams">
+    	<thead>
+	    	<tr>
+	    		<th>Image</th>
+	    		<th>Team</th>
+	    	</tr>
+	    </thead>
+	    <tbody>
+	    	<tr>
+	    		<td>
+	    <img src="img/grey.gif" data-original="img/thumbnails/6bfb1860.jpg" width="80" height="120" alt="6bfb1860">
+	    		</td>
+	    		<td>
+	    			Chelsea
+	    		</td>
+	    	</tr>
+	    	<tr>
+	    		<td>
+	    <img src="img/grey.gif" data-original="img/thumbnails/6bfb1864.jpg" width="120" height="80" alt="6bfb1864">
+	    		
+	    		</td>
+	    		<td>
+	    			Man City
+	    		</td>
+	    	</tr>
+	    	<tr>
+	    		<td>
+	    <img src="img/grey.gif" data-original="img/thumbnails/6bfb1869.jpg" width="120" height="80" alt="6bfb1869">
+	    		
+	    		</td>
+	    		<td>
+	    			Man Utd
+	    		</td>
+	    	</tr>
+	    	<tr>
+	    		<td>
+	    <img src="img/grey.gif" data-original="img/thumbnails/6bfb1870.jpg" width="80" height="120" alt="6bfb1870">
+	    		
+	    		</td>
+	    		<td>
+	    			Tottenham
+	    		</td>
+	    	</tr>
+	    	<tr>
+	    		<td>
+	    <img src="img/grey.gif" data-original="img/thumbnails/6bfb1873.jpg" width="80" height="120" alt="6bfb1873">
+	    		
+	    		</td>
+	    		<td>
+	    			Arsenal
+	    		</td>
+	    	</tr>
+	    	<tr>
+	    		<td>
+	    <img src="img/grey.gif" data-original="img/thumbnails/6bfb1872.jpg" width="80" height="120" alt="6bfb1872">
+	    		
+	    		</td>
+	    		<td>
+	    			Liverpool
+	    		</td>
+	    	</tr>
+	    	<tr>
+	    		<td>
+	    <img src="img/grey.gif" data-original="img/thumbnails/6bfb1895.jpg" width="80" height="120" alt="6bfb1895">
+	    		
+	    		</td>
+	    		<td>
+	    			Newcastle
+	    		</td>
+	    	</tr>
+	    	<tr>
+	    		<td>
+	    <img src="img/grey.gif" data-original="img/thumbnails/6bfb1890.jpg" width="80" height="120" alt="6bfb1890">
+	    		
+	    		</td>
+	    		<td>
+	    			Stoke
+	    		</td>
+	    	</tr>
+	    	<tr>
+	    		<td>
+	    <img src="img/grey.gif" data-original="img/thumbnails/6bfb1916.jpg" width="80" height="120" alt="6bfb1916">
+	    		
+	    		</td>
+	    		<td>
+	    			Norwich
+	    		</td>
+	    	</tr>
+	    	<tr>
+	    		<td>
+	    <img src="img/grey.gif" data-original="img/thumbnails/6bfb1914.jpg" width="80" height="120" alt="6bfb1914">
+	    		
+	    		</td>
+	    		<td>
+	    			Aston Villa
+	    		</td>
+	    	</tr>
+	    	<tr>
+	    		<td>
+	    <img src="img/grey.gif" data-original="img/thumbnails/6bfb1901.jpg" width="80" height="120" alt="6bfb1901">
+	    		
+	    		</td>
+	    		<td>
+	    			Fulham
+	    		</td>
+	    	</tr>
+	    	<tr>
+	    		<td>
+	    <img src="img/grey.gif" data-original="img/thumbnails/6bfb1897.jpg" width="80" height="120" alt="6bfb1897">
+	    		
+	    		</td>
+	    		<td>
+	    			Swansea
+	    		</td>
+	    	</tr>
+	    	<tr>
+	    		<td>
+	    <img src="img/grey.gif" data-original="img/thumbnails/6bfb1900.jpg" width="80" height="120" alt="6bfb1900">
+	    		
+	    		</td>
+	    		<td>
+	    			West Brom
+	    		</td>
+	    	</tr>
+	    	<tr>
+	    		<td>
+	    <img src="img/grey.gif" data-original="img/thumbnails/6bfb1885.jpg" width="80" height="120" alt="6bfb1885">
+	    		
+	    		</td>
+	    		<td>
+	    			Everton
+	    		</td>
+	    	</tr>
+	    	<tr>
+	    		<td>
+	    <img src="img/grey.gif" data-original="img/thumbnails/6bfb1881.jpg" width="80" height="120" alt="6bfb1881">
+	    		
+	    		</td>
+	    		<td>
+	    			QPR
+	    		</td>
+	    	</tr>
+	    	<tr>
+	    		<td>
+	    <img src="img/grey.gif" data-original="img/thumbnails/6bfb1880.jpg" width="80" height="120" alt="6bfb1880">
+	    		
+	    		</td>
+	    		<td>
+	    			Wolves
+	    		</td>
+	    	</tr>
+	    	<tr>
+	    		<td>
+	    <img src="img/grey.gif" data-original="img/thumbnails/6bfb1888.jpg" width="80" height="120" alt="6bfb1888">
+	    		
+	    		</td>
+	    		<td>
+	    			Sunderland
+	    		</td>
+	    	</tr>
+	    	<tr>
+	    		<td>
+	    <img src="img/grey.gif" data-original="img/thumbnails/6bfb1879.jpg" width="80" height="120" alt="6bfb1879">
+	    		
+	    		</td>
+	    		<td>
+	    			Wigan
+	    		</td>
+	    	</tr>
+	    	<tr>
+	    		<td>
+	    <img src="img/grey.gif" data-original="img/thumbnails/6bfb1877.jpg" width="80" height="120" alt="6bfb1877">
+	    		
+	    		</td>
+	    		<td>
+	    			Bolton
+	    		</td>
+	    	</tr>
+	    	<tr>
+	    		<td>
+	    <img src="img/grey.gif" data-original="img/thumbnails/6bfb1871.jpg" width="120" height="80" alt="6bfb1871">
+	    		
+	    		</td>
+	    		<td>
+	    			Blackburn
+	    		</td>
+	    	</tr>
+	    </tbody>
+    <table>
+
+    </div>
+    <div id="sidebar">
+
+  </div>
+  
+  <div id="footer">
+  </div>
+
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+  <script src="jquery.tablesorter.min.js" type="text/javascript" charset="utf-8"></script>
+  <script src="jquery.lazyload.js?v=1602" type="text/javascript" charset="utf-8"></script>
+  <script type="text/javascript" charset="utf-8">
+      $(function() {
+          $("img").lazyload({
+          	sortable: true
+          });
+      });
+      
+	$(document).ready(
+		function() {
+			$("#teams").tablesorter().bind("sortEnd",function() { 
+		        $(window).trigger("sort"); 
+		    }); 
+		}
+	);
+  </script>
+  <script src="http://www.google-analytics.com/urchin.js" type="text/javascript"></script>
+  <script type="text/javascript">
+    _uacct = "UA-190966-1";
+    urchinTracker();
+  </script>
+
+</body>
+</html>
