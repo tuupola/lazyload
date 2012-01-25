@@ -60,7 +60,7 @@
                 });
             });
         }
-        
+                
         this.each(function() {
             var self = this;
             var $self = $(self);
@@ -77,20 +77,20 @@
                                 .attr("src", $self.data(settings.data_attribute))
                                 [settings.effect](settings.effectspeed);
                             self.loaded = true;
+                            
+                            /* Remove image from array so it is not looped next time. */
+                            var temp = $.grep(elements, function(element) {
+                                return !element.loaded;
+                            });
+                            elements = $(temp);
+                            
                             if (settings.callback) {
-                                var elements_left = elements.length - 1;
+                                var elements_left = elements.length;
                                 settings.callback.call(self, elements_left, settings);
                             }
                         })
                         .attr("src", $self.data(settings.data_attribute));
-                };
-
-                /* Remove image from array so it is not looped next time. */
-                var temp = $.grep(elements, function(element) {
-                    return !element.loaded;
-                });
-                elements = $(temp);
-                
+                };                
             });
 
             /* When wanted event is triggered load original image */
