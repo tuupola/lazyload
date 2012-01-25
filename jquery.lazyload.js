@@ -25,6 +25,7 @@
             container       : window,
             data_attribute  : "original",
             skip_invisible  : true,
+            appear          : null,
             callback        : null
         };
                 
@@ -70,6 +71,10 @@
             /* When appear is triggered load original image. */
             $self.one("appear", function() {
                 if (!this.loaded) {
+                    if (settings.appear) {
+                        var elements_left = elements.length;
+                        settings.appear.call(self, elements_left, settings);
+                    }
                     $("<img />")
                         .bind("load", function() {
                             $self
