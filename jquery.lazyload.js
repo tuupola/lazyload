@@ -38,7 +38,7 @@
             }
             if (undefined !== options.effectspeed) {
                 options.effect_speed = options.effectspeed; 
-                delete options.failurelimit;
+                delete options.effectspeed;
             }
             
             $.extend(settings, options);
