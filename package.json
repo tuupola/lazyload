@@ -1,6 +1,6 @@
 {
     "name": "lazyload",
-    "version": "1.6.0",
+    "version": "1.7.0",
     "title": "Lazy Load",
     "author": {
         "name": "Mika Tuupola",
@@ -24,7 +24,8 @@
     "homepage": "http://www.appelsiini.net/projects/lazyload",
     "files": [
         "jquery.lazyload.js",
-        "jquery.lazyload.min.js"
-        "jquery.scrollstop.js"
+        "jquery.lazyload.min.js",
+        "jquery.scrollstop.js",
+        "jquery.scrollstop.min.js"
     ]
 }
