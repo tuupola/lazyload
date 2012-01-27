@@ -22,7 +22,6 @@
             failure_limit   : 0,
             event           : "scroll",
             effect          : "show",
-            effect_speed    : "default", /* Unknown string equals default. */
             container       : window,
             data_attribute  : "original",
             skip_invisible  : true,
