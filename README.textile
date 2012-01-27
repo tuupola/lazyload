@@ -15,16 +15,16 @@ h4. 1.6.0
 * Rename original attribute to data-original to be HTML5 friendly.
 * Remove all code regarding placeholder and automatically removing src attribute. It does not work with modern browsers. Must use data-original attribute instead.
 * Add support for James Padolseys "scrollstop event":http://james.padolsey.com/javascript/special-scroll-events-for-jquery/. Use when you have hundreds of images.
-* Add _skip_invisible_ parameter. When true plugin will skip invisible images. Patch by "Valentin Zwick":https://github.com/vzwick.
+* Add _skip_invisible_ parameter. When true plugin will skip invisible images. ("Valentin Zwick":https://github.com/vzwick)
 * Renamed _failurelimit_ parameter to _failure_limit_. Old version will still work couple of versions.
 
 h4. 1.5.0
 
-* Support for removing the src attribute already in HTML. This is not a drop in solution but gives additional speed for those who need it. Modified patch by Jeremy Pollock.
+* Support for removing the src attribute already in HTML. This is not a drop in solution but gives additional speed for those who need it. (Jeremy Pollock)
 
 h4. 1.4.0
 
-* When scrolling down quickly do not load the images above the top. Patch by Bart Bruil.
+* When scrolling down quickly do not load the images above the top. (Bart Bruil)
 
 h4. 1.3.2
 
