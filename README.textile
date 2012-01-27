@@ -1,5 +1,15 @@
 h3. Changelog
 
+h4. 1.7.0
+
+* Optimized viewport selectors. Around 25% "speed increase":http://jsperf.com/lazyload-1-7-0 compared to "1.6.0":http://jsperf.com/lazyload-1-6-0.
+* Add _data_attribute_ parameter. Allows custom naming of original data attribute. ("Bryan Chow":https://github.com/bryanchow)
+* Track window resize event. ("Simon Baynes":https://github.com/baynezy)
+* Add _appear_ event. This function is called when image appears to viewport but before it is loaded.
+* Add _load_ event. This function is called when image is loaded. ("Nick Larson":https://github.com/ifightcrime)
+* Renamed _effectspeed_ parameter to _effect_speed_. Old version will still works couple of versions. This parameter was previously undocumented.
+* Fix _failure_limit_ bug "#19":https://github.com/tuupola/jquery_lazyload/issues/19.  ("Brandon":https://github.com/Brandon0)
+
 h4. 1.6.0
 
 * Rename original attribute to data-original to be HTML5 friendly.
