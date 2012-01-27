@@ -22,17 +22,22 @@
             failure_limit   : 0,
             event           : "scroll",
             effect          : "show",
+            effect_speed    : "default", /* Unknown string equals default. */
             container       : window,
             data_attribute  : "original",
             skip_invisible  : true,
             appear          : null,
-            load        : null
+            load            : null
         };
                 
         if(options) {
             /* Maintain BC for a couple of version. */
             if (undefined !== options.failurelimit) {
                 options.failure_limit = options.failurelimit; 
+                delete options.failurelimit;
+            }
+            if (undefined !== options.effectspeed) {
+                options.effect_speed = options.effectspeed; 
                 delete options.failurelimit;
             }
             
@@ -80,7 +85,7 @@
                             $self
                                 .hide()
                                 .attr("src", $self.data(settings.data_attribute))
-                                [settings.effect](settings.effectspeed);
+                                [settings.effect](settings.effect_speed);
                             self.loaded = true;
                             
                             /* Remove image from array so it is not looped next time. */
@@ -159,11 +164,22 @@
         }
         return fold >= $(element).offset().left + settings.threshold + $(element).width();
     };
+
+    $.inviewport = function(element, settings) {
+         return !$.rightofscreen(element, settings) && !$.leftofscreen(element, settings) && 
+                !$.belowthefold(element, settings) && !$.abovethetop(element, settings);
+     };
+
     /* Custom selectors for your convenience.   */
     /* Use as $("img:below-the-fold").something() */
 
     $.extend($.expr[':'], {
         "below-the-fold" : function(a) { return $.belowthefold(a, {threshold : 0, container: window}) },
+        "above-the-top"  : function(a) { return !$.belowthefold(a, {threshold : 0, container: window}) },
+        "right-of-screen": function(a) { return $.rightoffold(a, {threshold : 0, container: window}) },
+        "left-of-screen" : function(a) { return !$.rightoffold(a, {threshold : 0, container: window}) },
+        "in-viewport"    : function(a) { return !$.inviewport(a, {threshold : 0, container: window}) },
+        /* Maintain BC for couple of versions. */
         "above-the-fold" : function(a) { return !$.belowthefold(a, {threshold : 0, container: window}) },
         "right-of-fold"  : function(a) { return $.rightoffold(a, {threshold : 0, container: window}) },
         "left-of-fold"   : function(a) { return !$.rightoffold(a, {threshold : 0, container: window}) }
