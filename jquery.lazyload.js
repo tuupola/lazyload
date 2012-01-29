@@ -43,10 +43,10 @@
             $.extend(settings, options);
         }
 
-		/* Pre-Cache settings.container jQuery as object */
-		$container = (settings.container === undefined || settings.container === window) ? $window : $(settings.container);
-		/* Pre-Cache if custom container is being used */
-		default_container = (settings.container === undefined || settings.container === window) ? true : false;
+        /* Pre-Cache settings.container jQuery object */
+        $container = (settings.container === undefined || settings.container === window) ? $window : $(settings.container);
+        /* Pre-Cache whether custom container is being used */
+        default_container = (settings.container === undefined || settings.container === window) ? true : false;
 
         /* Fire one scroll event per scroll. Not one scroll event per image. */
         var elements = this;
