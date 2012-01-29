@@ -43,10 +43,15 @@
             $.extend(settings, options);
         }
 
+		/* Pre-Cache settings.container jQuery as object */
+		$container = (settings.container === undefined || settings.container === window) ? $window : $(settings.container);
+		/* Pre-Cache if custom container is being used */
+		default_container = (settings.container === undefined || settings.container === window) ? true : false;
+
         /* Fire one scroll event per scroll. Not one scroll event per image. */
         var elements = this;
         if (0 == settings.event.indexOf("scroll")) {
-            $(settings.container).bind(settings.event, function(event) {
+            $container.bind(settings.event, function(event) {
                 var counter = 0;
                 elements.each(function() {
                     $this = $(this);
@@ -115,11 +120,11 @@
         
         /* Check if something appears when window is resized. */
         $window.bind("resize", function(event) {
-            $(settings.container).trigger(settings.event);
+            $container.trigger(settings.event);
         });
         
         /* Force initial check if images should appear. */
-        $(settings.container).trigger(settings.event);
+        $container.trigger(settings.event);
         
         return this;
 
@@ -129,37 +134,37 @@
     /* Use as  $.belowthefold(element, {threshold : 100, container : window}) */
 
     $.belowthefold = function(element, settings) {
-        if (settings.container === undefined || settings.container === window) {
+        if (default_container) {
             var fold = $window.height() + $window.scrollTop();
         } else {
-            var fold = $(settings.container).offset().top + $(settings.container).height();
+            var fold = $container.offset().top + $container.height();
         }
         return fold <= $(element).offset().top - settings.threshold;
     };
     
     $.rightoffold = function(element, settings) {
-        if (settings.container === undefined || settings.container === window) {
+        if (default_container) {
             var fold = $window.width() + $window.scrollLeft();
         } else {
-            var fold = $(settings.container).offset().left + $(settings.container).width();
+            var fold = $container.offset().left + $container.width();
         }
         return fold <= $(element).offset().left - settings.threshold;
     };
         
     $.abovethetop = function(element, settings) {
-        if (settings.container === undefined || settings.container === window) {
+        if (default_container) {
             var fold = $window.scrollTop();
         } else {
-            var fold = $(settings.container).offset().top;
+            var fold = $container.offset().top;
         }
         return fold >= $(element).offset().top + settings.threshold  + $(element).height();
     };
     
     $.leftofbegin = function(element, settings) {
-        if (settings.container === undefined || settings.container === window) {
+        if (default_container) {
             var fold = $window.scrollLeft();
         } else {
-            var fold = $(settings.container).offset().left;
+            var fold = $container.offset().left;
         }
         return fold >= $(element).offset().left + settings.threshold + $(element).width();
     };
