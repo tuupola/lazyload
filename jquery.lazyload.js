@@ -17,6 +17,7 @@
     $window = $(window);
 
     $.fn.lazyload = function(options) {
+        var elements;
         var settings = {
             threshold       : 0,
             failure_limit   : 0,
@@ -39,17 +40,17 @@
                 options.effect_speed = options.effectspeed; 
                 delete options.effectspeed;
             }
-            
+
             $.extend(settings, options);
         }
 
         /* Fire one scroll event per scroll. Not one scroll event per image. */
-        var elements = this;
+        elements = this;
         if (0 === settings.event.indexOf("scroll")) {
             $(settings.container).bind(settings.event, function(event) {
                 var counter = 0;
                 elements.each(function() {
-                    $this = $(this);
+                    var $this = $(this);
                     if (settings.skip_invisible && !$this.is(":visible")) {return;}
                     if ($.abovethetop(this, settings) ||
                         $.leftofbegin(this, settings)) {
@@ -65,7 +66,7 @@
                 });
             });
         }
-                
+
         this.each(function() {
             var self = this;
             var $self = $(self);
