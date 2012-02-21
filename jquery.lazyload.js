@@ -13,9 +13,9 @@
  *
  */
 (function($, window) {
-    
+
     $window = $(window);
-    
+
     $.fn.lazyload = function(options) {
         var settings = {
             threshold       : 0,
@@ -28,7 +28,7 @@
             appear          : null,
             load            : null
         };
-                
+
         if(options) {
             /* Maintain BC for a couple of version. */
             if (undefined !== options.failurelimit) {
@@ -69,9 +69,9 @@
         this.each(function() {
             var self = this;
             var $self = $(self);
-            
+
             self.loaded = false;
-            
+
             /* When appear is triggered load original image. */
             $self.one("appear", function() {
                 if (!this.loaded) {
@@ -86,13 +86,13 @@
                                 .attr("src", $self.data(settings.data_attribute))
                                 [settings.effect](settings.effect_speed);
                             self.loaded = true;
-                            
+
                             /* Remove image from array so it is not looped next time. */
                             var temp = $.grep(elements, function(element) {
                                 return !element.loaded;
                             });
                             elements = $(temp);
-                            
+
                             if (settings.load) {
                                 var elements_left = elements.length;
                                 settings.load.call(self, elements_left, settings);
@@ -112,17 +112,16 @@
                 });
             }
         });
-        
+
         /* Check if something appears when window is resized. */
         $window.bind("resize", function(event) {
             $(settings.container).trigger(settings.event);
         });
-        
+
         /* Force initial check if images should appear. */
         $(settings.container).trigger(settings.event);
-        
-        return this;
 
+        return this;
     };
 
     /* Convenience methods in jQuery namespace.           */
@@ -195,5 +194,5 @@
         "right-of-fold"  : function(a) { return $.rightoffold(a, {threshold : 0, container: window}); },
         "left-of-fold"   : function(a) { return !$.rightoffold(a, {threshold : 0, container: window}); }
     });
-    
+
 })(jQuery, window);
