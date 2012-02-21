@@ -17,7 +17,7 @@
     $window = $(window);
 
     $.fn.lazyload = function(options) {
-        var elements;
+        var elements = this;
         var settings = {
             threshold       : 0,
             failure_limit   : 0,
@@ -28,6 +28,25 @@
             skip_invisible  : true,
             appear          : null,
             load            : null
+        };
+
+        var checkImages = function() {
+          var counter = 0;
+          elements.each(function() {
+              var $this = $(this);
+              if (settings.skip_invisible && !$this.is(":visible")) {return;}
+              if ($.abovethetop(this, settings) ||
+                  $.leftofbegin(this, settings)) {
+                      /* Nothing. */
+              } else if (!$.belowthefold(this, settings) &&
+                  !$.rightoffold(this, settings)) {
+                      $this.trigger("appear");
+              } else {
+                  if (++counter > settings.failure_limit) {
+                      return false;
+                  }
+              }
+          });
         };
 
         if(options) {
@@ -44,26 +63,11 @@
             $.extend(settings, options);
         }
 
+
         /* Fire one scroll event per scroll. Not one scroll event per image. */
-        elements = this;
         if (0 === settings.event.indexOf("scroll")) {
             $(settings.container).bind(settings.event, function(event) {
-                var counter = 0;
-                elements.each(function() {
-                    var $this = $(this);
-                    if (settings.skip_invisible && !$this.is(":visible")) {return;}
-                    if ($.abovethetop(this, settings) ||
-                        $.leftofbegin(this, settings)) {
-                            /* Nothing. */
-                    } else if (!$.belowthefold(this, settings) &&
-                        !$.rightoffold(this, settings)) {
-                            $this.trigger("appear");
-                    } else {
-                        if (++counter > settings.failure_limit) {
-                            return false;
-                        }
-                    }
-                });
+                checkImages();
             });
         }
 
@@ -116,11 +120,11 @@
 
         /* Check if something appears when window is resized. */
         $window.bind("resize", function(event) {
-            $(settings.container).trigger(settings.event);
+            checkImages();
         });
 
         /* Force initial check if images should appear. */
-        $(settings.container).trigger(settings.event);
+        checkImages();
 
         return this;
     };
