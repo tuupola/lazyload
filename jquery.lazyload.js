@@ -18,6 +18,7 @@
 
     $.fn.lazyload = function(options) {
         var elements = this;
+        var alternate_container = false;
         var settings = {
             threshold       : 0,
             failure_limit   : 0,
@@ -30,16 +31,32 @@
             load            : null
         };
 
-        var checkImages = function() {
+        var checkImages = function(check_window) {
           var counter = 0;
+          var window_settings = {
+            container: window,
+            threshold: 0
+          };
+
           elements.each(function() {
               var $this = $(this);
               if (settings.skip_invisible && !$this.is(":visible")) {return;}
-              if ($.abovethetop(this, settings) ||
-                  $.leftofbegin(this, settings)) {
+
+              if ($this.loaded ||
+                  $.abovethetop(this, settings) ||
+                  $.leftofbegin(this, settings) ||
+                  (check_window && (
+                    $.abovethetop(this, window_settings) ||
+                    $.leftofbegin(this, window_settings)
+                  ))) {
                       /* Nothing. */
-              } else if (!$.belowthefold(this, settings) &&
-                  !$.rightoffold(this, settings)) {
+              } else if (!(
+                  $.belowthefold(this, settings) ||
+                  $.rightoffold(this, settings) ||
+                  (check_window && (
+                    $.belowthefold(this, window_settings) ||
+                    $.rightoffold(this, window_settings)
+                  )))) {
                       $this.trigger("appear");
               } else {
                   if (++counter > settings.failure_limit) {
@@ -49,7 +66,7 @@
           });
         };
 
-        if(options) {
+        if (options) {
             /* Maintain BC for a couple of version. */
             if (undefined !== options.failurelimit) {
                 options.failure_limit = options.failurelimit; 
@@ -60,14 +77,24 @@
                 delete options.effectspeed;
             }
 
+            if (options.container && options.container !== window) {
+              alternate_container = true;
+            }
+
             $.extend(settings, options);
         }
 
         /* Fire one scroll event per scroll. Not one scroll event per image. */
         if (0 === settings.event.indexOf("scroll")) {
             $(settings.container).bind(settings.event, function(event) {
-                return checkImages();
+                return checkImages(alternate_container);
             });
+
+            if (alternate_container) {
+              $(window).bind(settings.event, function(event) {
+                return checkImages(alternate_container);
+              });
+            }
         }
 
         this.each(function() {
@@ -78,27 +105,30 @@
 
             /* When appear is triggered load original image. */
             $self.one("appear", function() {
+                var elements_left;
+
                 if (!this.loaded) {
                     if (settings.appear) {
-                        var elements_left = elements.length;
+                        elements_left = elements.length;
                         settings.appear.call(self, elements_left, settings);
                     }
                     $("<img />")
                         .bind("load", function() {
-                            $self
-                                .hide()
+                            var elements_left, temp;
+
+                            $self.hide()
                                 .attr("src", $self.data(settings.data_attribute))
                                 [settings.effect](settings.effect_speed);
                             self.loaded = true;
 
                             /* Remove image from array so it is not looped next time. */
-                            var temp = $.grep(elements, function(element) {
+                            temp = $.grep(elements, function(element) {
                                 return !element.loaded;
                             });
                             elements = $(temp);
 
                             if (settings.load) {
-                                var elements_left = elements.length;
+                                elements_left = elements.length;
                                 settings.load.call(self, elements_left, settings);
                             }
                         })
@@ -119,11 +149,11 @@
 
         /* Check if something appears when window is resized. */
         $window.bind("resize", function(event) {
-            checkImages();
+            checkImages(alternate_container);
         });
 
         /* Force initial check if images should appear. */
-        checkImages();
+        checkImages(alternate_container);
 
         return this;
     };
