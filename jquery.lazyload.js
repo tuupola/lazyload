@@ -162,24 +162,26 @@
     /* Use as  $.belowthefold(element, {threshold : 100, container : window}) */
 
     $.belowthefold = function(element, settings) {
-        var fold;
+        var $container, fold;
 
         if (settings.container === undefined || settings.container === window) {
             fold = $window.height() + $window.scrollTop();
         } else {
-            fold = $(settings.container).offset().top + $(settings.container).height();
+            $container = $(settings.container);
+            fold = $container.offset().top + $container.height();
         }
 
         return fold <= $(element).offset().top - settings.threshold;
     };
     
     $.rightoffold = function(element, settings) {
-        var fold;
+        var $container, fold;
 
         if (settings.container === undefined || settings.container === window) {
             fold = $window.width() + $window.scrollLeft();
         } else {
-            fold = $(settings.container).offset().left + $(settings.container).width();
+            $container = $(settings.container);
+            fold = $container.offset().left + $container.width();
         }
 
         return fold <= $(element).offset().left - settings.threshold;
@@ -187,6 +189,7 @@
         
     $.abovethetop = function(element, settings) {
         var fold;
+        var $element = $(element);
 
         if (settings.container === undefined || settings.container === window) {
             fold = $window.scrollTop();
@@ -194,11 +197,12 @@
             fold = $(settings.container).offset().top;
         }
 
-        return fold >= $(element).offset().top + settings.threshold  + $(element).height();
+        return fold >= $element.offset().top + settings.threshold  + $element.height();
     };
     
     $.leftofbegin = function(element, settings) {
         var fold;
+        var $element = $(element);
 
         if (settings.container === undefined || settings.container === window) {
             fold = $window.scrollLeft();
@@ -206,7 +210,7 @@
             fold = $(settings.container).offset().left;
         }
 
-        return fold >= $(element).offset().left + settings.threshold + $(element).width();
+        return fold >= $element.offset().left + settings.threshold + $element.width();
     };
 
     $.inviewport = function(element, settings) {
