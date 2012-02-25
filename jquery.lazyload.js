@@ -32,9 +32,12 @@
 
         var checkImages = function() {
           var counter = 0;
+          
           elements.each(function() {
               var $this = $(this);
-              if (settings.skip_invisible && !$this.is(":visible")) {return;}
+              if (settings.skip_invisible && !$this.is(":visible")) {
+                  return;
+              }
               if ($.abovethetop(this, settings) ||
                   $.leftofbegin(this, settings)) {
                       /* Nothing. */
@@ -47,10 +50,11 @@
                   }
               }
           });
+          
         };
 
         if(options) {
-            /* Maintain BC for a couple of version. */
+            /* Maintain BC for a couple of versions. */
             if (undefined !== options.failurelimit) {
                 options.failure_limit = options.failurelimit; 
                 delete options.failurelimit;
@@ -63,10 +67,13 @@
             $.extend(settings, options);
         }
 
-		/* Pre-Cache settings.container jQuery as object */
-		$container = (settings.container === undefined || settings.container === window) ? $window : $(settings.container);
-		/* Pre-Cache if custom container is being used */
-		default_container = (settings.container === undefined || settings.container === window) ? true : false;
+        /* Cache container as jQuery as object. */
+        $container = (settings.container === undefined ||
+                      settings.container === window) ? $window : $(settings.container);
+
+        /* Cache boolean whether custom container used or not. */
+        default_container = (settings.container === undefined || 
+                             settings.container === window) ? true : false;
 
         /* Fire one scroll event per scroll. Not one scroll event per image. */
         if (0 === settings.event.indexOf("scroll")) {
