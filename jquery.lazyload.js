@@ -71,10 +71,6 @@
         $container = (settings.container === undefined ||
                       settings.container === window) ? $window : $(settings.container);
 
-        /* Cache boolean whether custom container used or not. */
-        default_container = (settings.container === undefined || 
-                             settings.container === window) ? true : false;
-
         /* Fire one scroll event per scroll. Not one scroll event per image. */
         if (0 === settings.event.indexOf("scroll")) {
             $container.bind(settings.event, function(event) {
@@ -146,7 +142,7 @@
     $.belowthefold = function(element, settings) {
         var fold;
         
-        if (default_container) {
+        if (settings.container === undefined || settings.container === window) {
             fold = $window.height() + $window.scrollTop();
         } else {
             fold = $container.offset().top + $container.height();
@@ -158,7 +154,7 @@
     $.rightoffold = function(element, settings) {
         var fold;
 
-        if (default_container) {
+        if (settings.container === undefined || settings.container === window) {
             fold = $window.width() + $window.scrollLeft();
         } else {
             fold = $container.offset().left + $container.width();
@@ -170,7 +166,7 @@
     $.abovethetop = function(element, settings) {
         var fold;
         
-        if (default_container) {
+        if (settings.container === undefined || settings.container === window) {
             fold = $window.scrollTop();
         } else {
             fold = $container.offset().top;
@@ -182,7 +178,7 @@
     $.leftofbegin = function(element, settings) {
         var fold;
         
-        if (default_container) {
+        if (settings.container === undefined || settings.container === window) {
             fold = $window.scrollLeft();
         } else {
             fold = $container.offset().left;
