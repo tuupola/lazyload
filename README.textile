@@ -1,5 +1,10 @@
 h3. Changelog
 
+h4. 1.7.1
+
+* Fix bug "#18":https://github.com/tuupola/jquery_lazyload/pull/18. Document was always scrolled to top issue on IE 7 and Chrome 17 if using jQuery 1.6 or older. ("Ross Allen":https://github.com/ssorallen)
+* General code speedup ("Valentin Zwick":https://github.com/vzwick)
+
 h4. 1.7.0
 
 * Optimized viewport selectors. Around 25% "speed increase":http://jsperf.com/lazyload-1-7-0 compared to "1.6.0":http://jsperf.com/lazyload-1-6-0.
