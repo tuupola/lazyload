@@ -30,7 +30,7 @@
             load            : null
         };
 
-        checkImages = function() {
+        update = function() {
             var counter = 0;
       
             elements.each(function() {
@@ -74,7 +74,7 @@
         /* Fire one scroll event per scroll. Not one scroll event per image. */
         if (0 === settings.event.indexOf("scroll")) {
             $container.bind(settings.event, function(event) {
-                return checkImages();
+                return update();
             });
         }
 
@@ -127,11 +127,11 @@
 
         /* Check if something appears when window is resized. */
         $window.bind("resize", function(event) {
-            checkImages();
+            update();
         });
 
         /* Force initial check if images should appear. */
-        checkImages();
+        update();
         
         return this;
     };
