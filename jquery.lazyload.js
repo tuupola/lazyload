@@ -30,27 +30,27 @@
             load            : null
         };
 
-        var checkImages = function() {
-          var counter = 0;
-          
-          elements.each(function() {
-              var $this = $(this);
-              if (settings.skip_invisible && !$this.is(":visible")) {
-                  return;
-              }
-              if ($.abovethetop(this, settings) ||
-                  $.leftofbegin(this, settings)) {
-                      /* Nothing. */
-              } else if (!$.belowthefold(this, settings) &&
-                  !$.rightoffold(this, settings)) {
-                      $this.trigger("appear");
-              } else {
-                  if (++counter > settings.failure_limit) {
-                      return false;
-                  }
-              }
-          });
-          
+        checkImages = function() {
+            var counter = 0;
+      
+            elements.each(function() {
+                var $this = $(this);
+                if (settings.skip_invisible && !$this.is(":visible")) {
+                    return;
+                }
+                if ($.abovethetop(this, settings) ||
+                    $.leftofbegin(this, settings)) {
+                        /* Nothing. */
+                } else if (!$.belowthefold(this, settings) &&
+                    !$.rightoffold(this, settings)) {
+                        $this.trigger("appear");
+                } else {
+                    if (++counter > settings.failure_limit) {
+                        return false;
+                    }
+                }
+            });
+
         };
 
         if(options) {
