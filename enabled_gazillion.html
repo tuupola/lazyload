@@ -82,12 +82,8 @@
   " type="text/javascript" charset="utf-8"></script>
   <script type="text/javascript" charset="utf-8">
       $(function() {
-          console.log("foo");
           $("img").lazyload({
-              event: "scrollstop",
-              callback : function(elements_left, settings) {
-                  console.log(this, elements_left, settings);
-              }
+              event: "scrollstop"
           });
       });
   </script>
