@@ -50,7 +50,7 @@
     <code>
       <pre>
  $("img").lazyload({
-     effect      : "fadeIn"
+     effect       : "fadeIn"
  });</pre>
     </code>
 
@@ -73,7 +73,18 @@
   <script type="text/javascript" charset="utf-8">
       $(function() {
           $("img").lazyload({
-              effect : "fadeIn"
+              effect : "fadeIn",
+              effect_speed : "foo",
+              appear : function(elements_left, settings) {
+                  console.log("appear");
+                  console.log(elements_left);
+                  //console.log(this, elements_left, settings);
+              },
+              load : function(elements_left, settings) {
+                  console.log("load");
+                  console.log(elements_left);
+                  //console.log(this, elements_left, settings);
+              }
           });
       });
   </script>

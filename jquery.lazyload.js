@@ -9,7 +9,7 @@
  * Project home:
  *   http://www.appelsiini.net/projects/lazyload
  *
- * Version:  1.7.1
+ * Version:  1.7.2
  *
  */
 (function($, window) {
@@ -30,7 +30,7 @@
             load            : null
         };
 
-        update = function() {
+        function update() {
             var counter = 0;
       
             elements.each(function() {
@@ -51,7 +51,7 @@
                 }
             });
 
-        };
+        }
 
         if(options) {
             /* Maintain BC for a couple of versions. */
