@@ -18,6 +18,7 @@
 
     $.fn.lazyload = function(options) {
         var elements = this;
+        var last_check = 0;
         var settings = {
             threshold       : 0,
             failure_limit   : 0,
@@ -27,12 +28,22 @@
             data_attribute  : "original",
             skip_invisible  : true,
             appear          : null,
-            load            : null
+            load            : null,
+            delay           : 0
         };
 
         function update() {
             var counter = 0;
       
+            if (settings.delay > 0) {
+                var current_time = (new Date()).getTime();
+                if (last_check + settings.delay > current_time) {
+                    return;
+                } else {
+                    last_check = current_time;
+                }
+            }
+
             elements.each(function() {
                 var $this = $(this);
                 if (settings.skip_invisible && !$this.is(":visible")) {
