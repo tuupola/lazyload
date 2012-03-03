@@ -13,11 +13,13 @@
  *
  */
 (function($, window) {
+    var $window;
 
     $window = $(window);
 
     $.fn.lazyload = function(options) {
         var elements = this;
+        var container;
         var settings = {
             threshold       : 0,
             failure_limit   : 0,
@@ -38,11 +40,11 @@
                 if (settings.skip_invisible && !$this.is(":visible")) {
                     return;
                 }
-                if ($.abovethetop(this, settings) ||
-                    $.leftofbegin(this, settings)) {
+                if ($.abovethetop(this, settings, container) ||
+                    $.leftofbegin(this, settings, container)) {
                         /* Nothing. */
-                } else if (!$.belowthefold(this, settings) &&
-                    !$.rightoffold(this, settings)) {
+                } else if (!$.belowthefold(this, settings, container) &&
+                    !$.rightoffold(this, settings, container)) {
                         $this.trigger("appear");
                 } else {
                     if (++counter > settings.failure_limit) {
@@ -68,12 +70,12 @@
         }
 
         /* Cache container as jQuery as object. */
-        $container = (settings.container === undefined ||
+        container = (settings.container === undefined ||
                       settings.container === window) ? $window : $(settings.container);
 
         /* Fire one scroll event per scroll. Not one scroll event per image. */
         if (0 === settings.event.indexOf("scroll")) {
-            $container.bind(settings.event, function(event) {
+            container.bind(settings.event, function(event) {
                 return update();
             });
         }
@@ -139,57 +141,57 @@
     /* Convenience methods in jQuery namespace.           */
     /* Use as  $.belowthefold(element, {threshold : 100, container : window}) */
 
-    $.belowthefold = function(element, settings) {
+    $.belowthefold = function(element, settings, container) {
         var fold;
         
         if (settings.container === undefined || settings.container === window) {
             fold = $window.height() + $window.scrollTop();
         } else {
-            fold = $container.offset().top + $container.height();
+            fold = container.offset().top + container.height();
         }
 
         return fold <= $(element).offset().top - settings.threshold;
     };
     
-    $.rightoffold = function(element, settings) {
+    $.rightoffold = function(element, settings, container) {
         var fold;
 
         if (settings.container === undefined || settings.container === window) {
             fold = $window.width() + $window.scrollLeft();
         } else {
-            fold = $container.offset().left + $container.width();
+            fold = container.offset().left + container.width();
         }
 
         return fold <= $(element).offset().left - settings.threshold;
     };
         
-    $.abovethetop = function(element, settings) {
+    $.abovethetop = function(element, settings, container) {
         var fold;
         
         if (settings.container === undefined || settings.container === window) {
             fold = $window.scrollTop();
         } else {
-            fold = $container.offset().top;
+            fold = container.offset().top;
         }
 
         return fold >= $(element).offset().top + settings.threshold  + $(element).height();
     };
     
-    $.leftofbegin = function(element, settings) {
+    $.leftofbegin = function(element, settings, container) {
         var fold;
         
         if (settings.container === undefined || settings.container === window) {
             fold = $window.scrollLeft();
         } else {
-            fold = $container.offset().left;
+            fold = container.offset().left;
         }
 
         return fold >= $(element).offset().left + settings.threshold + $(element).width();
     };
 
-    $.inviewport = function(element, settings) {
-         return !$.rightofscreen(element, settings) && !$.leftofscreen(element, settings) && 
-                !$.belowthefold(element, settings) && !$.abovethetop(element, settings);
+    $.inviewport = function(element, settings, container) {
+         return !$.rightofscreen(element, settings, container) && !$.leftofscreen(element, settings, container) && 
+                !$.belowthefold(element, settings, container) && !$.abovethetop(element, settings, container);
      };
 
     /* Custom selectors for your convenience.   */
