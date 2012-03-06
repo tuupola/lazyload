@@ -96,7 +96,8 @@
                             $self
                                 .hide()
                                 .attr("src", $self.data(settings.data_attribute))
-                                [settings.effect](settings.effect_speed);
+                                [settings.effect](settings.effect_speed)
+                                .trigger("lazyLoaded");
                             self.loaded = true;
 
                             /* Remove image from array so it is not looped next time. */
