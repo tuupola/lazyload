@@ -35,23 +35,25 @@
             var counter = 0;
 
             elements.each(function() {
-                var $this = $(this);
+                var $this   = $(this);
+                var args    = {
+                  'abovethetop' : $.abovethetop(this, settings),
+                  'leftofbegin' : $.leftofbegin(this, settings),
+                  'belowthefold': $.belowthefold(this, settings),
+                  'rightoffold' : $.rightoffold(this, settings)
+                };
+
                 if (settings.skip_invisible && !$this.is(":visible")) {
                     return;
                 }
-                if ($.abovethetop(this, settings) ||
-                    $.leftofbegin(this, settings)) {
+                if (args.abovethetop || args.leftofbegin) {
                         /* Nothing. */
-                } else if (!$.belowthefold(this, settings) &&
-                    !$.rightoffold(this, settings)) {
+                } else if (!args.belowthefold && !args.rightoffold) {
                         $this.trigger("appear");
-                } else {
-                    if (++counter > settings.failure_limit) {
+                } else if (++counter > settings.failure_limit){
                         return false;
-                    }
                 }
             });
-
         }
 
         if(options) {
