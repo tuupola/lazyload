@@ -175,7 +175,7 @@
      };
 
     /* Custom selectors for your convenience.   */
-    /* Use as $("img:below-the-fold").something() */
+    /* Use as $("img").filter(":below-the-fold").something() */
 
     $.extend($.expr[':'], {
         "below-the-fold" : function(a) { return $.belowthefold(a, {threshold : 0, container: window}) },
