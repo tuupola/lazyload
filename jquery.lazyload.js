@@ -27,12 +27,13 @@
             data_attribute  : "original",
             skip_invisible  : true,
             appear          : null,
-            load            : null
+            load            : null,
+            preload         : 0
         };
 
         function update() {
             var counter = 0;
-      
+
             elements.each(function() {
                 var $this = $(this);
                 if (settings.skip_invisible && !$this.is(":visible")) {
@@ -56,11 +57,11 @@
         if(options) {
             /* Maintain BC for a couple of versions. */
             if (undefined !== options.failurelimit) {
-                options.failure_limit = options.failurelimit; 
+                options.failure_limit = options.failurelimit;
                 delete options.failurelimit;
             }
             if (undefined !== options.effectspeed) {
-                options.effect_speed = options.effectspeed; 
+                options.effect_speed = options.effectspeed;
                 delete options.effectspeed;
             }
 
@@ -78,7 +79,7 @@
             });
         }
 
-        this.each(function() {
+        this.each(function(i) {
             var self = this;
             var $self = $(self);
 
@@ -123,6 +124,10 @@
                     }
                 });
             }
+
+            if( i < settings.preload) {
+                $self.trigger('appear');
+            }
         });
 
         /* Check if something appears when window is resized. */
@@ -132,7 +137,6 @@
 
         /* Force initial check if images should appear. */
         update();
-        
         return this;
     };
 
@@ -141,7 +145,7 @@
 
     $.belowthefold = function(element, settings) {
         var fold;
-        
+
         if (settings.container === undefined || settings.container === window) {
             fold = $window.height() + $window.scrollTop();
         } else {
@@ -150,7 +154,7 @@
 
         return fold <= $(element).offset().top - settings.threshold;
     };
-    
+
     $.rightoffold = function(element, settings) {
         var fold;
 
@@ -162,10 +166,10 @@
 
         return fold <= $(element).offset().left - settings.threshold;
     };
-        
+
     $.abovethetop = function(element, settings) {
         var fold;
-        
+
         if (settings.container === undefined || settings.container === window) {
             fold = $window.scrollTop();
         } else {
@@ -174,10 +178,10 @@
 
         return fold >= $(element).offset().top + settings.threshold  + $(element).height();
     };
-    
+
     $.leftofbegin = function(element, settings) {
         var fold;
-        
+
         if (settings.container === undefined || settings.container === window) {
             fold = $window.scrollLeft();
         } else {
@@ -188,7 +192,7 @@
     };
 
     $.inviewport = function(element, settings) {
-         return !$.rightofscreen(element, settings) && !$.leftofscreen(element, settings) && 
+         return !$.rightofscreen(element, settings) && !$.leftofscreen(element, settings) &&
                 !$.belowthefold(element, settings) && !$.abovethetop(element, settings);
      };
 
