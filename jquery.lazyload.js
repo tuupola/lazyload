@@ -17,6 +17,7 @@
     $window = $(window);
 
     $.fn.lazyload = function(options) {
+        var fold;
         var elements = this;
         var settings = {
             threshold       : 0,
@@ -27,33 +28,68 @@
             data_attribute  : "original",
             skip_invisible  : true,
             appear          : null,
-            load            : null
+            load            : null,
+            loadEvent       : "LazyLoadImageLoaded"
         };
 
         function update() {
             var counter = 0;
-      
+
             elements.each(function() {
-                var $this = $(this);
+                var $this   = $(this);
+                var args    = {
+                  'abovethetop' : $.abovethetop(this, settings),
+                  'leftofbegin' : $.leftofbegin(this, settings),
+                  'belowthefold': $.belowthefold(this, settings),
+                  'rightoffold' : $.rightoffold(this, settings)
+                };
+
                 if (settings.skip_invisible && !$this.is(":visible")) {
                     return;
                 }
-                if ($.abovethetop(this, settings) ||
-                    $.leftofbegin(this, settings)) {
+                if (args.abovethetop || args.leftofbegin) {
                         /* Nothing. */
-                } else if (!$.belowthefold(this, settings) &&
-                    !$.rightoffold(this, settings)) {
+                } else if (!args.belowthefold && !args.rightoffold) {
                         $this.trigger("appear");
-                } else {
-                    if (++counter > settings.failure_limit) {
+                } else if (++counter > settings.failure_limit){
                         return false;
-                    }
                 }
             });
-
         }
 
-        if(options) {
+        // Setup Code
+        function init(){
+          setObjects();
+          options && setOptions();
+          setListeners();
+          elements.each(setSingleImage);
+          update();
+        }
+
+        // Sets Variable Definitions
+        function setObjects() {
+          /* Cache container as jQuery as object. */
+          $container = (settings.container === undefined ||
+                        settings.container === window) ? $window : $(settings.container);
+        }
+
+        // Sets Event Listeners
+        function setListeners() {
+          /* Fire one scroll event per scroll. Not one scroll event per image. */
+          if (0 === settings.event.indexOf("scroll")) {
+              $container.bind(settings.event, function(event) {
+                  return update();
+              });
+          }
+
+          /* Check if something appears when window is resized. */
+          $window.bind("resize", function(event) {
+              update();
+          });
+        }
+
+        // Sets Function Options
+        function setOptions() {
             /* Maintain BC for a couple of versions. */
             if (undefined !== options.failurelimit) {
                 options.failure_limit = options.failurelimit; 
@@ -63,76 +99,59 @@
                 options.effect_speed = options.effectspeed; 
                 delete options.effectspeed;
             }
-
             $.extend(settings, options);
         }
 
-        /* Cache container as jQuery as object. */
-        $container = (settings.container === undefined ||
-                      settings.container === window) ? $window : $(settings.container);
+        // Sets up a Single Image
+        function setSingleImage(i,_this){
+          var self = _this;
+          var $self = $(self);
 
-        /* Fire one scroll event per scroll. Not one scroll event per image. */
-        if (0 === settings.event.indexOf("scroll")) {
-            $container.bind(settings.event, function(event) {
-                return update();
-            });
+          self.loaded = false;
+
+          /* When appear is triggered load original image. */
+          $self.one("appear", function() {
+              if (!this.loaded) {
+                  if (settings.appear) {
+                      var elements_left = elements.length;
+                      settings.appear.call(self, elements_left, settings);
+                  }
+                  $("<img />")
+                      .bind("load", function() {
+                          $self
+                              .hide()
+                              .attr("src", $self.data(settings.data_attribute))
+                              [settings.effect](settings.effect_speed)
+                              .trigger(settings.loadEvent);
+                          self.loaded = true;
+
+                          /* Remove image from array so it is not looped next time. */
+                          var temp = $.grep(elements, function(element) {
+                              return !element.loaded;
+                          });
+                          elements = $(temp);
+
+                          if (settings.load) {
+                              var elements_left = elements.length;
+                              settings.load.call(self, elements_left, settings);
+                          }
+                      })
+                      .attr("src", $self.data(settings.data_attribute));
+              }
+          });
+
+          /* When wanted event is triggered load original image */
+          /* by triggering appear.                              */
+          if (0 !== settings.event.indexOf("scroll")) {
+              $self.bind(settings.event, function(event) {
+                  if (!self.loaded) {
+                      $self.trigger("appear");
+                  }
+              });
+          }
         }
 
-        this.each(function() {
-            var self = this;
-            var $self = $(self);
-
-            self.loaded = false;
-
-            /* When appear is triggered load original image. */
-            $self.one("appear", function() {
-                if (!this.loaded) {
-                    if (settings.appear) {
-                        var elements_left = elements.length;
-                        settings.appear.call(self, elements_left, settings);
-                    }
-                    $("<img />")
-                        .bind("load", function() {
-                            $self
-                                .hide()
-                                .attr("src", $self.data(settings.data_attribute))
-                                [settings.effect](settings.effect_speed);
-                            self.loaded = true;
-
-                            /* Remove image from array so it is not looped next time. */
-                            var temp = $.grep(elements, function(element) {
-                                return !element.loaded;
-                            });
-                            elements = $(temp);
-
-                            if (settings.load) {
-                                var elements_left = elements.length;
-                                settings.load.call(self, elements_left, settings);
-                            }
-                        })
-                        .attr("src", $self.data(settings.data_attribute));
-                }
-            });
-
-            /* When wanted event is triggered load original image */
-            /* by triggering appear.                              */
-            if (0 !== settings.event.indexOf("scroll")) {
-                $self.bind(settings.event, function(event) {
-                    if (!self.loaded) {
-                        $self.trigger("appear");
-                    }
-                });
-            }
-        });
-
-        /* Check if something appears when window is resized. */
-        $window.bind("resize", function(event) {
-            update();
-        });
-
-        /* Force initial check if images should appear. */
-        update();
-        
+        init();
         return this;
     };
 
