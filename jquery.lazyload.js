@@ -188,7 +188,7 @@
     };
 
     $.inviewport = function(element, settings) {
-         return !$.rightofscreen(element, settings) && !$.leftofscreen(element, settings) && 
+         return !$.rightoffold(element, settings) && !$.leftofbegin(element, settings) && 
                 !$.belowthefold(element, settings) && !$.abovethetop(element, settings);
      };
 
