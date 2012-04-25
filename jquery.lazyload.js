@@ -95,7 +95,7 @@
                         .bind("load", function() {
                             $self
                                 .hide()
-                                .attr("src", $self.data(settings.data_attribute))
+                                .attr("src", $self.data(settings.data_attribute) || $self.attr('data-' + settings.data_attribute))
                                 [settings.effect](settings.effect_speed);
                             self.loaded = true;
 
@@ -110,7 +110,7 @@
                                 settings.load.call(self, elements_left, settings);
                             }
                         })
-                        .attr("src", $self.data(settings.data_attribute));
+                        .attr("src", $self.data(settings.data_attribute) || $self.attr('data-' + settings.data_attribute));
                 }
             });
 
