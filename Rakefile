@@ -3,6 +3,7 @@ task :default => [:minify]
 desc "Minify"
 task :minify do
   begin
+    require 'rubygems'
     require 'uglifier'
   rescue LoadError => e
     if verbose
