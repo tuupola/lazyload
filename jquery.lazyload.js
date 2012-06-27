@@ -14,7 +14,8 @@
  */
 (function($, window) {
 
-    $window = $(window);
+    var $window = $(window),
+        $container;
 
     $.fn.lazyload = function(options) {
         var elements = this;
