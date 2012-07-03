@@ -14,7 +14,7 @@
  */
 (function($, window) {
 
-    $window = $(window);
+    var $window = $(window);
 
     $.fn.lazyload = function(options) {
         var elements = this;
@@ -68,8 +68,9 @@
         }
 
         /* Cache container as jQuery as object. */
-        $container = (settings.container === undefined ||
+        var $container = (settings.container === undefined ||
                       settings.container === window) ? $window : $(settings.container);
+        settings.$container = $container;
 
         /* Fire one scroll event per scroll. Not one scroll event per image. */
         if (0 === settings.event.indexOf("scroll")) {
@@ -140,7 +141,7 @@
     /* Use as  $.belowthefold(element, {threshold : 100, container : window}) */
 
     $.belowthefold = function(element, settings) {
-        var fold;
+        var fold, $container = settings.$container;
         
         if (settings.container === undefined || settings.container === window) {
             fold = $window.height() + $window.scrollTop();
@@ -152,7 +153,7 @@
     };
     
     $.rightoffold = function(element, settings) {
-        var fold;
+        var fold, $container = settings.$container;
 
         if (settings.container === undefined || settings.container === window) {
             fold = $window.width() + $window.scrollLeft();
@@ -164,11 +165,12 @@
     };
         
     $.abovethetop = function(element, settings) {
-        var fold;
+        var fold, $container = settings.$container;
         
         if (settings.container === undefined || settings.container === window) {
             fold = $window.scrollTop();
         } else {
+            if (!$container.offset()) {console.log(element, $container[0])}
             fold = $container.offset().top;
         }
 
@@ -176,7 +178,7 @@
     };
     
     $.leftofbegin = function(element, settings) {
-        var fold;
+        var fold, $container = settings.$container;
         
         if (settings.container === undefined || settings.container === window) {
             fold = $window.scrollLeft();
