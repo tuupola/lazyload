@@ -27,7 +27,9 @@
             data_attribute  : "original",
             skip_invisible  : true,
             appear          : null,
-            load            : null
+            load            : null,
+            onerror         : null,
+            retry_after     : 2000
         };
 
         function update() {
@@ -109,6 +111,20 @@
                                 var elements_left = elements.length;
                                 settings.load.call(self, elements_left, settings);
                             }
+                        })
+                        .error(function() {
+                            setTimeout(function(){
+                                $self.error(function() {
+                                    setTimeout(function() {
+                                        if(settings.onerror != null){
+                                            settings.onerror($self, settings);    
+                                        }
+                                    }, settings.retry_after);
+                                });
+                                if(settings.onerror != null){
+                                    settings.onerror($self, settings);    
+                                }
+                            }, settings.retry_after);
                         })
                         .attr("src", $self.data(settings.data_attribute));
                 }
