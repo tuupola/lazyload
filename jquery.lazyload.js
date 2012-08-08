@@ -143,7 +143,7 @@
         var fold;
         
         if (settings.container === undefined || settings.container === window) {
-            fold = $window.height() + $window.scrollTop();
+            fold = (window.innerHeight ? window.innerHeight : $window.height()) + $window.scrollTop();
         } else {
             fold = $(settings.container).offset().top + $(settings.container).height();
         }
