@@ -9,7 +9,7 @@
  * Project home:
  *   http://www.appelsiini.net/projects/lazyload
  *
- * Version:  1.8.0
+ * Version:  1.8.1
  *
  */
 (function($, window) {
@@ -131,7 +131,9 @@
         });
 
         /* Force initial check if images should appear. */
-        update();
+        $(document).ready(function() {
+            update();
+        });
         
         return this;
     };
