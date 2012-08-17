@@ -3,6 +3,7 @@ h3. Changelog
 h4. 1.8.1
 
 * Fix bug "#48":https://github.com/tuupola/jquery_lazyload/pull/48. In some cases initial scroll was needed for images to load. ("Nick George":https://github.com/Izzmo)
+* Fix bun "#42":https://github.com/tuupola/jquery_lazyload/pull/42. Reset internal failure counter when image is found. Makes counter logic more intuitive. ("Josep del Rio":https://github.com/joseprio)
 
 h4. 1.8.0
 
