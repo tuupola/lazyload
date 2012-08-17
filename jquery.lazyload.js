@@ -131,7 +131,9 @@
         });
 
         /* Force initial check if images should appear. */
-        update();
+        $(document).ready(function() {
+            update();
+        });
         
         return this;
     };
