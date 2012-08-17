@@ -9,7 +9,7 @@
  * Project home:
  *   http://www.appelsiini.net/projects/lazyload
  *
- * Version:  1.8.0
+ * Version:  1.8.1-dev
  *
  */
 (function($, window) {
@@ -193,7 +193,8 @@
      };
 
     /* Custom selectors for your convenience.   */
-    /* Use as $("img:below-the-fold").something() */
+    /* Use as $("img:below-the-fold").something() or */
+    /* $("img").filter(":below-the-fold").something() which is faster */
 
     $.extend($.expr[':'], {
         "below-the-fold" : function(a) { return $.belowthefold(a, {threshold : 0}); },
