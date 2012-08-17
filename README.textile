@@ -2,11 +2,11 @@ h3. Changelog
 
 h4. 1.8.1
 
-* Minor bug fix to account for websites with large JavaScript parsing and many DOM elements which causes LazyLoad not to load images above the fold.
+* Fix bug "#48":https://github.com/tuupola/jquery_lazyload/pull/48. In some cases initial scroll was needed for images to load. ("Nick George":https://github.com/Izzmo)
 
 h4. 1.8.0
 
-* Allow different elements to use different containers ("Rob Walch":https://github.com/robwalch)
+* Allow different elements to use different containers. ("Rob Walch":https://github.com/robwalch)
 
 h4. 1.7.1
 
