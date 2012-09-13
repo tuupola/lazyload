@@ -25,6 +25,8 @@
             effect          : "show",
             container       : window,
             data_attribute  : "original",
+            css_attribute    : null,
+            css_value        : null,
             skip_invisible  : true,
             appear          : null,
             load            : null
@@ -93,10 +95,17 @@
                     }
                     $("<img />")
                         .bind("load", function() {
-                            $self
-                                .hide()
-                                .attr("src", $self.data(settings.data_attribute))
-                                [settings.effect](settings.effect_speed);
+                            $self.hide();
+                            if(settings.css_attribute) {
+                                var value = $self.data(settings.data_attribute);
+                                if(settings.css_value){
+                                    value = settings.css_value.replace('$original$', value);
+                                }
+                                $self.css(settings.css_attribute, value);
+                            }else{
+                                $self.attr("src", $self.data(settings.data_attribute));
+                            }
+                            $self[settings.effect](settings.effect_speed);
                             self.loaded = true;
 
                             /* Remove image from array so it is not looped next time. */
