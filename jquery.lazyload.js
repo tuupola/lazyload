@@ -25,6 +25,7 @@
             effect          : "show",
             container       : window,
             data_attribute  : "original",
+            css_background  : false,
             skip_invisible  : true,
             appear          : null,
             load            : null
@@ -93,10 +94,13 @@
                     }
                     $("<img />")
                         .bind("load", function() {
-                            $self
-                                .hide()
-                                .attr("src", $self.data(settings.data_attribute))
-                                [settings.effect](settings.effect_speed);
+                            $self.hide();
+                            if(settings.css_background) {
+                                $self.css("background-image", "url("+$self.data(settings.data_attribute)+")");
+                            }else{
+                                $self.attr("src", $self.data(settings.data_attribute));
+                            }
+                            $self[settings.effect](settings.effect_speed);
                             self.loaded = true;
 
                             /* Remove image from array so it is not looped next time. */
