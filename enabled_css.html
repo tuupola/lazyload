@@ -67,19 +67,11 @@
   <div class="entry">
     
     <p>
-      Sometimes we want to use css background image instead of img element, e.g to crop images. Define the css attribute and its value as in the code below. $original$ is replaced by image url.
-      
     </p>
 
     <code>
-      <pre> &lt;script src="jquery.scrollstop.js" type="text/javascript"&gt;&lt;/script&gt; </pre>
-        
-      <pre>
- &lt;img data-original="img/example.jpg" src="img/grey.gif"&gt;</pre>             
-        
       <pre> $("div.photo").lazyload({
-	css_attribute: "background-image",
-	css_value: "url($original$)"
+	css_background: true
  });</pre>     
     </code>
 
@@ -106,8 +98,7 @@
   <script type="text/javascript" charset="utf-8">
       $(function() {
           $("div.photo").lazyload({
-			  css_attribute: "background-image",
-			  css_value: "url($original$)"
+				css_background: true
           });
       });
   </script>

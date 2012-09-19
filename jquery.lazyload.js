@@ -25,8 +25,7 @@
             effect          : "show",
             container       : window,
             data_attribute  : "original",
-            css_attribute    : null,
-            css_value        : null,
+            css_background  : false,
             skip_invisible  : true,
             appear          : null,
             load            : null
@@ -96,12 +95,8 @@
                     $("<img />")
                         .bind("load", function() {
                             $self.hide();
-                            if(settings.css_attribute) {
-                                var value = $self.data(settings.data_attribute);
-                                if(settings.css_value){
-                                    value = settings.css_value.replace('$original$', value);
-                                }
-                                $self.css(settings.css_attribute, value);
+                            if(settings.css_background) {
+                                $self.css("background-image", "url("+$self.data(settings.data_attribute)+")");
                             }else{
                                 $self.attr("src", $self.data(settings.data_attribute));
                             }
