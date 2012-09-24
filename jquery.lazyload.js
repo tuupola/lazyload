@@ -10,10 +10,12 @@
  *   http://www.appelsiini.net/projects/lazyload
  *
  * Version:  1.8.0
+ *           1.8.1-forked-2012-09-24-jonmcl
  *
  */
 (function($, window) {
     var $window = $(window);
+    var loadedImages = [];
 
     $.fn.lazyload = function(options) {
         var elements = this;
@@ -27,7 +29,8 @@
             data_attribute  : "original",
             skip_invisible  : true,
             appear          : null,
-            load            : null
+            load            : null,
+            only_once       : false
         };
 
         function update() {
@@ -82,6 +85,15 @@
             var self = this;
             var $self = $(self);
 
+            if (settings.only_once) {
+              var src = $self.data(settings.data_attribute);
+              if ($.inArray(src, loadedImages) >= 0) {
+                $self.attr("src", $self.data(settings.data_attribute));
+                $self.loaded = true;
+                return;
+              }
+             }
+
             self.loaded = false;
 
             /* When appear is triggered load original image. */
@@ -104,6 +116,11 @@
                                 return !element.loaded;
                             });
                             elements = $(temp);
+
+                            /* Add source to array so, if specified, we don't try and lazyload is again */
+                            if (settings.only_once && $.inArray($self.data(settings.data_attribute), loadedImages) == -1) {
+                              loadedImages.push($self.data(settings.data_attribute));
+                            }
 
                             if (settings.load) {
                                 var elements_left = elements.length;
@@ -131,7 +148,7 @@
         });
 
         /* Force initial check if images should appear. */
-        update();
+        //update();
         
         return this;
     };
