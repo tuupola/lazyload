@@ -1,5 +1,9 @@
 h3. Changelog
 
+h4. 1.8.1 - forked-2012-09-24-jonmcl
+
+* Allow for only_once setting to prevent lazyload from initializing on images that have already been loaded.
+
 h4. 1.8.0
 
 * Allow different elements to use different containers ("Rob Walch":https://github.com/robwalch)
