@@ -192,7 +192,7 @@
     };
 
     $.inviewport = function(element, settings) {
-         return !$.rightofscreen(element, settings) && !$.leftofscreen(element, settings) && 
+         return !$.rightoffold(element, settings) && !$.leftofbegin(element, settings) &&
                 !$.belowthefold(element, settings) && !$.abovethetop(element, settings);
      };
 
@@ -205,7 +205,7 @@
         "above-the-top"  : function(a) { return !$.belowthefold(a, {threshold : 0}); },
         "right-of-screen": function(a) { return $.rightoffold(a, {threshold : 0}); },
         "left-of-screen" : function(a) { return !$.rightoffold(a, {threshold : 0}); },
-        "in-viewport"    : function(a) { return !$.inviewport(a, {threshold : 0}); },
+        "in-viewport"    : function(a) { return $.inviewport(a, {threshold : 0}); },
         /* Maintain BC for couple of versions. */
         "above-the-fold" : function(a) { return !$.belowthefold(a, {threshold : 0}); },
         "right-of-fold"  : function(a) { return $.rightoffold(a, {threshold : 0}); },
