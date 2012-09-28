@@ -1,3 +1,31 @@
+h1. Lazy Load Plugin for jQuery
+
+Lazy Load delays loading of images in long web pages. Images outside of viewport wont be loaded before user scrolls to them. This is opposite of image preloading.
+
+Using Lazy Load on long web pages containing many large images makes the page load faster. Browser will be in ready state after loading visible images. In some cases it can also help to reduce server load.
+
+Lazy Load is inspired by "YUI ImageLoader":http://developer.yahoo.com/yui/imageloader/ Utility by Matt Mlinac.
+
+h2. How to Use?
+
+Lazy Load depends on jQuery. Include them both in end of your HTML code:
+
+<pre><script src="jquery.js" type="text/javascript"></script>
+<script src="jquery.lazyload.js" type="text/javascript"></script></pre>
+
+You must alter your HTML code. Put the place holder image into src attribute. Demo pages use 1×1 pixel grey gif. URL of the real image must be put into data-original attribute. It is good idea to give Lazy Loaded image a specific class. This way you can easily control which images plugin is binded to.
+
+<pre><img class="lazy" src="img/grey.gif" data-original="img/example.jpg"  width="640" heigh="480"></pre>
+
+then in your code do:
+
+<pre>$("img.lazy").lazyload();</pre>
+
+This causes all images of class lazy to be lazy loaded. 
+
+More information on "Lazy Load":http://www.appelsiini.net/projects/lazyload project page.
+
+
 h3. Changelog
 
 h4. 1.8.1
