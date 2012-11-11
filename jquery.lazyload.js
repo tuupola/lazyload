@@ -12,7 +12,7 @@
  * Version:  1.8.2-dev
  *
  */
-(function($, window) {
+(function($, window, document, undefined) {
     var $window = $(window);
 
     $.fn.lazyload = function(options) {
