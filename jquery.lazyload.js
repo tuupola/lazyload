@@ -224,4 +224,4 @@
         "left-of-fold"   : function(a) { return !$.rightoffold(a, {threshold : 0}); }
     });
 
-})(jQuery, window);
+})(jQuery, window, document);
