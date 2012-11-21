@@ -13,7 +13,7 @@ Lazy Load depends on jQuery. Include them both in end of your HTML code:
 <pre><script src="jquery.js" type="text/javascript"></script>
 <script src="jquery.lazyload.js" type="text/javascript"></script></pre>
 
-You must alter your HTML code. Put the place holder image into src attribute. Demo pages use 1×1 pixel grey gif. URL of the real image must be put into data-original attribute. It is good idea to give Lazy Loaded image a specific class. This way you can easily control which images plugin is binded to.
+You must alter your HTML code. Put the place holder image into src attribute. Demo pages use 1×1 pixel grey gif. URL of the real image must be put into data-original attribute. It is good idea to give Lazy Loaded image a specific class. This way you can easily control which images plugin is binded to. Note that you should have width and height attributes in your image tag.
 
 <pre><img class="lazy" src="img/grey.gif" data-original="img/example.jpg"  width="640" heigh="480"></pre>
 
