@@ -145,7 +145,8 @@
         }
 
         /* Force initial check if images should appear. */
-        $(document).ready(function() {
+        /* had to change this to $(window) so this fix would work for Chrome Version 22.0.1229.94 */
+        $(window).ready(function() {
             update();
         });
         
