@@ -146,7 +146,11 @@
 
         /* Force initial check if images should appear. */
         $(document).ready(function() {
-            update();
+            /* Delay or Webkit browsers will in some cases return false from */
+            /* initial $.is(":visible") call inside update() */
+            setTimeout(function() {
+                update();
+            }, 50);
         });
         
         return this;

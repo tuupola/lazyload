@@ -28,6 +28,10 @@ More information on "Lazy Load":http://www.appelsiini.net/projects/lazyload proj
 
 h1. Changelog
 
+h3. 1.8.3
+
+* Proper fix for "#48":https://github.com/tuupola/jquery_lazyload/pull/48 In some cases initial scroll was needed to display images in viewport. Apparently Webkit browsers sometimes need some time insert images into DOM. 
+
 h3. 1.8.2
 
 * Workaround for bug "#30":https://github.com/tuupola/jquery_lazyload/issues/30 IOS5 Safari did not load images when navigating with back button.
