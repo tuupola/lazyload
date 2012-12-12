@@ -146,8 +146,8 @@
 
         /* Force initial check if images should appear. */
         $(document).ready(function() {
-            /* Delay or Webkit browsers will in some cases return false from */
-            /* initial $.is(":visible") call inside update() */
+            /* Delay or Webkit browsers return false from initial $.is(":visible") */
+            /* call inside update() when image does not have width and height set. */
             setTimeout(function() {
                 update();
             }, 50);
