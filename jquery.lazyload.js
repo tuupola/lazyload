@@ -95,10 +95,15 @@
                     }
                     $("<img />")
                         .bind("load", function() {
-                            $self
-                                .hide()
-                                .attr("src", $self.data(settings.data_attribute))
-                                [settings.effect](settings.effect_speed);
+                            var original = $self.data(settings.data_attribute);
+                            $self.hide();
+                            if ($self.is("img")) {
+                                $self.attr("src", original);                              
+                            } else {
+                                $self.css("background-image", "url('" + original + "')");
+                            }
+                            $self[settings.effect](settings.effect_speed);
+                            
                             self.loaded = true;
 
                             /* Remove image from array so it is not looped next time. */
