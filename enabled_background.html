@@ -1,0 +1,115 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>Lazy Load Enabled With CSS Background Images</title>
+  <meta name="generator" content="Mephisto" />
+  <link href="http://www.appelsiini.net/stylesheets/main2.css" rel="stylesheet" type="text/css" />
+  <link rel="alternate" type="application/atom+xml" href="http://feeds.feedburner.com/tuupola" title="Atom feed" />
+  <style type="text/css">
+  #sidebar {
+    width: 0px;
+  }
+
+  #content {
+    width: 770px;
+  }
+  
+  </style>
+  
+  <script>
+  var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-190966-1']);
+      _gaq.push(['_trackPageview']);
+      _gaq.push(['_trackPageLoadTime']);
+    
+  (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+  </script>
+
+</head>
+
+<body>
+  <div id="wrap"> 
+    <div id="header">
+      <p>
+        <h1>Lazy Load</h1><br />
+        <small>Image lazy loader plugin for jQuery.</small>
+        <ul id="nav">
+          <li id="first"><a href="/" class="active">weblog</a></li>
+          <li><a href="/projects" class="last">projects</a></li>
+          <!--
+          <li><a href="/cv" class="last">cv</a></li>
+        -->
+        </ul>
+      </p>
+    </div>
+    <div id="content">
+      
+  <h2>Plugin enabled on css background images with fadein effect</h2>
+  <div class="entry">
+    
+    <p>
+      Here be dragons.
+    </p>
+
+    <code>
+      <pre>
+ &lt;div class="lazy" data-original="img/bmw_m1_hood.jpg" style="background-image: url('img/grey.gif'); width: 765px; height: 574px;"&gt;&lt;/div&gt;
+        
+ $("div.lazy").lazyload({
+    effect : "fadeIn"
+ });</pre>
+    </code>
+
+    <div class="lazy" data-original="img/bmw_m1_hood.jpg" style="width: 765px; height: 574px; background-image: url('img/grey.gif')"></div>
+    <div class="lazy" data-original="img/bmw_m1_side.jpg" style="width: 765px; height: 574px; background-image: url('img/grey.gif')"></div>
+    <div class="lazy" data-original="img/viper_1.jpg" style="width: 765px; height: 574px; background-image: url('img/grey.gif')"></div>
+    <div class="lazy" data-original="img/viper_corner.jpg" style="width: 765px; height: 574px; background-image: url('img/grey.gif')"></div>
+    <div class="lazy" data-original="img/bmw_m3_gt.jpg" style="width: 765px; height: 574px; background-image: url('img/grey.gif')"></div>
+    <div class="lazy" data-original="img/corvette_pitstop.jpg" style="width: 765px; height: 574px; background-image: url('img/grey.gif')"></div>
+    
+    <!--
+    <img src="img/grey.gif" data-original="img/bmw_m1_hood.jpg" width="765" height="574" alt="BMW M1 Hood">
+    <img src="img/grey.gif" data-original="img/bmw_m1_side.jpg" width="765" height="574" alt="BMW M1 Side">
+    <img src="img/grey.gif" data-original="img/viper_1.jpg" width="765" height="574" alt="Viper 1">
+    <img src="img/grey.gif" data-original="img/viper_corner.jpg" width="765" height="574" alt="Viper Corner">
+    <img src="img/grey.gif" data-original="img/bmw_m3_gt.jpg" width="765" height="574" alt="BMW M3 GT">
+    <img src="img/grey.gif" data-original="img/corvette_pitstop.jpg" width="765" height="574" alt="Corvette Pitstop">
+    -->
+
+    <div id="sidebar">
+
+  </div>
+  
+  <div id="footer">
+  </div>
+
+  <scrixpt src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js" charset="utf-8"></script>
+  <script src="jquery.min.js" charset="utf-8"></script>
+  <script src="jquery.lazyload.js?v=1.8.3" charset="utf-8"></script>
+  <script type="text/javascript" charset="utf-8">
+      $(function() {
+          $("div.lazy").lazyload({
+              effect : "fadeIn"
+              /*
+              appear : function(elements_left, settings) {
+                  console.log("appear");
+                  console.log(elements_left);
+                  //console.log(this, elements_left, settings);
+              },
+              load : function(elements_left, settings) {
+                  console.log("load");
+                  console.log(elements_left);
+                  //console.log(this, elements_left, settings);
+              }
+              */
+          });
+      });
+  </script>
+</body>
+</html>
