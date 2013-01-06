@@ -24,7 +24,7 @@
             event           : "scroll",
             effect          : "show",
             container       : window,
-            data_attribute  : "original",
+            data_attribute  : "orig-src",
             skip_invisible  : true,
             appear          : null,
             load            : null
@@ -54,27 +54,15 @@
             });
 
         }
-
-        if(options) {
-            /* Maintain BC for a couple of versions. */
-            if (undefined !== options.failurelimit) {
-                options.failure_limit = options.failurelimit; 
-                delete options.failurelimit;
-            }
-            if (undefined !== options.effectspeed) {
-                options.effect_speed = options.effectspeed; 
-                delete options.effectspeed;
-            }
-
-            $.extend(settings, options);
-        }
+        
+		$.extend(settings, options || {});
 
         /* Cache container as jQuery as object. */
         $container = (settings.container === undefined ||
                       settings.container === window) ? $window : $(settings.container);
 
         /* Fire one scroll event per scroll. Not one scroll event per image. */
-        if (0 === settings.event.indexOf("scroll")) {
+        if (settings.event.indexOf("scroll") == 0) {
             $container.bind(settings.event, function(event) {
                 return update();
             });
@@ -145,9 +133,8 @@
         }
 
         /* Force initial check if images should appear. */
-        $(window).load(function() {
-            update();
-        });
+        $(window).load(update);
+		$(document).ajaxComplete(update);
         
         return this;
     };
@@ -207,21 +194,4 @@
          return !$.rightoffold(element, settings) && !$.leftofbegin(element, settings) &&
                 !$.belowthefold(element, settings) && !$.abovethetop(element, settings);
      };
-
-    /* Custom selectors for your convenience.   */
-    /* Use as $("img:below-the-fold").something() or */
-    /* $("img").filter(":below-the-fold").something() which is faster */
-
-    $.extend($.expr[':'], {
-        "below-the-fold" : function(a) { return $.belowthefold(a, {threshold : 0}); },
-        "above-the-top"  : function(a) { return !$.belowthefold(a, {threshold : 0}); },
-        "right-of-screen": function(a) { return $.rightoffold(a, {threshold : 0}); },
-        "left-of-screen" : function(a) { return !$.rightoffold(a, {threshold : 0}); },
-        "in-viewport"    : function(a) { return $.inviewport(a, {threshold : 0}); },
-        /* Maintain BC for couple of versions. */
-        "above-the-fold" : function(a) { return !$.belowthefold(a, {threshold : 0}); },
-        "right-of-fold"  : function(a) { return $.rightoffold(a, {threshold : 0}); },
-        "left-of-fold"   : function(a) { return !$.rightoffold(a, {threshold : 0}); }
-    });
-
 })(jQuery, window, document);
