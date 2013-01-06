@@ -9,7 +9,7 @@
  * Project home:
  *   http://www.appelsiini.net/projects/lazyload
  *
- * Version:  1.8.3
+ * Version:  1.9.0-dev
  *
  */
 (function($, window, document, undefined) {
@@ -95,10 +95,15 @@
                     }
                     $("<img />")
                         .bind("load", function() {
-                            $self
-                                .hide()
-                                .attr("src", $self.data(settings.data_attribute))
-                                [settings.effect](settings.effect_speed);
+                            var original = $self.data(settings.data_attribute);
+                            $self.hide();
+                            if ($self.is("img")) {
+                                $self.attr("src", original);                              
+                            } else {
+                                $self.css("background-image", "url('" + original + "')");
+                            }
+                            $self[settings.effect](settings.effect_speed);
+                            
                             self.loaded = true;
 
                             /* Remove image from array so it is not looped next time. */
@@ -128,9 +133,7 @@
         });
 
         /* Check if something appears when window is resized. */
-        $window.bind("resize", function(event) {
-            update();
-        });
+        $window.bind("resize", update);
               
         /* With IOS5 force loading images when navigating with back button. */
         /* Non optimal workaround. */
@@ -145,9 +148,8 @@
         }
 
         /* Force initial check if images should appear. */
-        $(window).load(function() {
-            update();
-        });
+        $(window).load(update);
+        $(document).ajaxComplete(update);
         
         return this;
     };
@@ -159,7 +161,7 @@
         var fold;
         
         if (settings.container === undefined || settings.container === window) {
-            fold = $window.height() + $window.scrollTop();
+            fold = (window.innerHeight ? window.innerHeight : $window.height()) + $window.scrollTop();
         } else {
             fold = $(settings.container).offset().top + $(settings.container).height();
         }
