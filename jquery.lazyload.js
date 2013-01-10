@@ -27,7 +27,8 @@
             data_attribute  : "original",
             skip_invisible  : true,
             appear          : null,
-            load            : null
+            load            : null,
+            error_callback  : $.noop()
         };
 
         function update() {
@@ -114,6 +115,10 @@
                                 var elements_left = elements.length;
                                 settings.load.call(self, elements_left, settings);
                             }
+                        })
+                        .bind("error", error_data, function() {
+                            /* this should always work, since the default value is $.noop() */
+                            settings.error_callback(error_data);
                         })
                         .attr("src", $self.data(settings.data_attribute));
                 }
