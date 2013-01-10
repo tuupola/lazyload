@@ -74,10 +74,8 @@
                       settings.container === window) ? $window : $(settings.container);
 
         /* Fire one scroll event per scroll. Not one scroll event per image. */
-        if (0 === settings.event.indexOf("scroll")) {
-            $container.bind(settings.event, function(event) {
-                return update();
-            });
+        if (0 <= settings.event.indexOf("scroll")) {
+            $container.bind("scroll", update);
         }
 
         this.each(function() {
@@ -123,8 +121,8 @@
 
             /* When wanted event is triggered load original image */
             /* by triggering appear.                              */
-            if (0 !== settings.event.indexOf("scroll")) {
-                $self.bind(settings.event, function(event) {
+            if ($.trim(settings.event.replace("scroll","")) !== "") {
+                $self.bind(settings.event.replace("scroll",""), function(event) {
                     if (!self.loaded) {
                         $self.trigger("appear");
                     }
@@ -133,9 +131,7 @@
         });
 
         /* Check if something appears when window is resized. */
-        $window.bind("resize", function(event) {
-            update();
-        });
+        $window.bind("resize", update);
               
         /* With IOS5 force loading images when navigating with back button. */
         /* Non optimal workaround. */
@@ -150,9 +146,7 @@
         }
 
         /* Force initial check if images should appear. */
-        $(window).load(function() {
-            update();
-        });
+        $(window).load(update);
         
         return this;
     };
