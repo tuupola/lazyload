@@ -78,7 +78,7 @@
 			return !$.rightoffold(element, settings) && !$.leftofbegin(element, settings) && !$.belowthefold(element, settings) && !$.abovethetop(element, settings);
 		}
 	}).fn.extend({
-		lazyload : function() {
+		lazyload : function(options) {
 
 			var
 
