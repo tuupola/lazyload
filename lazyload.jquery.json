@@ -1,35 +1,35 @@
 {
-	"name": "lazyload",
-	"version": "1.8.4",
-	"title": "Lazy Load",
-	"author": {
-		"name": "Mika Tuupola",
-		"url": "http://www.appelsiini.net/"
-	},
-	"licenses": [
-		{
-			"type": "MIT",
-			"url": "http://www.opensource.org/licenses/mit-license.php"
-		}
-	],
-	"dependencies": {
-		"jquery": ">=1.5"
-	},
-	"description": "Delay loading of images in long web pages. Images outside of viewport wont be loaded before user scrolls to them.",
-	"keywords": [
+    "name": "lazyload",
+    "version": "1.8.4",
+    "title": "Lazy Load",
+    "author": {
+        "name": "Mika Tuupola",
+        "url": "http://www.appelsiini.net/"
+    },
+    "licenses": [
+        {
+            "type": "MIT",
+            "url": "http://www.opensource.org/licenses/mit-license.php"
+        }
+    ],
+    "dependencies": {
+        "jquery": ">=1.5"
+    },
+    "description": "Delay loading of images in long web pages. Images outside of viewport wont be loaded before user scrolls to them.",
+    "keywords": [
     "lazyload",
     "lazy",
     "load",
     "image"
-	],
+    ],
   "homepage": "http://www.appelsiini.net/projects/lazyload",
-	"bugs": "https://github.com/tuupola/jquery_lazyload/issues",
-	"docs": "http://www.appelsiini.net/projects/lazyload",
-	"demo": "http://www.appelsiini.net/projects/lazyload/enabled_fadein.html",
-	"files": [
-		"jquery.lazyload.js",
-		"jquery.lazyload.min.js",
-		"jquery.scrollstop.js",
-    "jquery.scrollstop.min.js"
-	]
+    "bugs": "https://github.com/tuupola/jquery_lazyload/issues",
+    "docs": "http://www.appelsiini.net/projects/lazyload",
+    "demo": "http://www.appelsiini.net/projects/lazyload/enabled_fadein.html",
+    "files": [
+        "jquery.lazyload.js",
+        "jquery.lazyload.min.js",
+        "jquery.scrollstop.js",
+        "jquery.scrollstop.min.js"
+    ]
 }
