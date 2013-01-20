@@ -1,6 +1,6 @@
 {
     "name": "lazyload",
-    "version": "1.8.3",
+    "version": "1.8.4",
     "title": "Lazy Load",
     "author": {
         "name": "Mika Tuupola",
@@ -17,6 +17,7 @@
     },
     "description": "Delay loading of images in long web pages. Images outside of viewport wont be loaded before user scrolls to them.",
     "keywords": [
+        "lazyload",
         "lazy",
         "load",
         "image"
