@@ -4,6 +4,7 @@
     "title": "Lazy Load",
     "author": {
         "name": "Mika Tuupola",
+        "email": "tuupola@appelsiini.net",
         "url": "http://www.appelsiini.net/"
     },
     "licenses": [
@@ -17,10 +18,10 @@
     },
     "description": "Delay loading of images in long web pages. Images outside of viewport wont be loaded before user scrolls to them.",
     "keywords": [
-    "lazyload",
-    "lazy",
-    "load",
-    "image"
+        "lazyload",
+        "lazy",
+        "load",
+        "image"
     ],
   "homepage": "http://www.appelsiini.net/projects/lazyload",
     "bugs": "https://github.com/tuupola/jquery_lazyload/issues",
