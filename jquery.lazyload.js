@@ -33,11 +33,11 @@
         function update() {
             var counter = 0;
       
-            elements.each(function() {
+			var visibleElements = $.grep(elements, function(element, i) { return $(element).is(":visible"); });
+	  
+			function updateImage() {
                 var $this = $(this);
-                if (settings.skip_invisible && !$this.is(":visible")) {
-                    return;
-                }
+
                 if ($.abovethetop(this, settings) ||
                     $.leftofbegin(this, settings)) {
                         /* Nothing. */
@@ -51,8 +51,19 @@
                         return false;
                     }
                 }
-            });
-
+			}
+			
+			// display all visible elements
+            $(visibleElements).each(function() { updateImage.apply(this); });
+			
+			// if we don't want to render invisible elements, then stop here
+			if (settings.skip_invisible && !$this.is(":visible")) {
+				return;
+			}
+			
+			// render all the invisible elements
+			var invisibleElements = $.grep(elements, function(element, i) { return !$(element).is(":visible"); });
+			$(invisibleElements).each(function() { updateImage.apply(this); });
         }
         
 		$.extend(settings, options || {});
