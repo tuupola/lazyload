@@ -31,6 +31,10 @@ All code licensed under the "MIT License":http://www.opensource.org/licenses/mit
 
 h1. Changelog
 
+h3. 1.8.4
+
+* Support for "jQuery plugin repository":http://plugins.jquery.com/
+
 h3. 1.8.3
 
 * Proper fix for "#48":https://github.com/tuupola/jquery_lazyload/pull/48. If image did not have width and height set Webkit browsers needed initial scroll for images to display. ("@sc-aboudreau":https://github.com/sc-aboudreau)
