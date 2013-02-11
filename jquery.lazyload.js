@@ -21,7 +21,7 @@
         var settings = {
             threshold       : 0,
             failure_limit   : 0,
-            event           : "scroll",
+            events          : [{bindTo: window, event: "load resize scroll"}],
             effect          : "show",
             container       : window,
             data_attribute  : "original",
@@ -32,7 +32,6 @@
 
         function update() {
             var counter = 0;
-      
             elements.each(function() {
                 var $this = $(this);
                 if (settings.skip_invisible && !$this.is(":visible")) {
@@ -73,11 +72,13 @@
         $container = (settings.container === undefined ||
                       settings.container === window) ? $window : $(settings.container);
 
-        /* Fire one scroll event per scroll. Not one scroll event per image. */
-        if (0 === settings.event.indexOf("scroll")) {
-            $container.bind(settings.event, function(event) {
-                return update();
-            });
+        /* Bind events with given selector or element */
+        for (var i = settings.events.length - 1; i >= 0; i--) {
+            if (settings.events[i].bindTo) {
+                $(settings.events[i].bindTo).bind(settings.events[i].event, function(event) {
+                    return update();
+                });
+            }
         }
 
         this.each(function() {
@@ -121,20 +122,17 @@
                 }
             });
 
-            /* When wanted event is triggered load original image */
-            /* by triggering appear.                              */
-            if (0 !== settings.event.indexOf("scroll")) {
-                $self.bind(settings.event, function(event) {
-                    if (!self.loaded) {
-                        $self.trigger("appear");
-                    }
-                });
+            /* Bind events inside loop (to all images) when selector or element is omitted */
+            for (var i = settings.events.length - 1; i >= 0; i--) {
+                if (typeof settings.events[i] === "string" || !settings.events[i].bindTo) {
+                    settings.events[i] = settings.events[i].event || settings.events[i];
+                    $self.bind(settings.events[i], function(event) {
+                        if (!self.loaded) {
+                            $self.trigger("appear");
+                        }
+                    });
+                }
             }
-        });
-
-        /* Check if something appears when window is resized. */
-        $window.bind("resize", function(event) {
-            update();
         });
               
         /* With IOS5 force loading images when navigating with back button. */
@@ -148,11 +146,6 @@
                 }
             });
         }
-
-        /* Force initial check if images should appear. */
-        $(window).load(function() {
-            update();
-        });
         
         return this;
     };
