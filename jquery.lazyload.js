@@ -32,7 +32,7 @@
 
         function update() {
             var counter = 0;
-      
+
             elements.each(function() {
                 var $this = $(this);
                 if (settings.skip_invisible && !$this.is(":visible")) {
@@ -55,7 +55,7 @@
 
         }
 
-        if(options) {
+        if (options) {
             /* Maintain BC for a couple of versions. */
             if (undefined !== options.failurelimit) {
                 options.failure_limit = options.failurelimit; 
@@ -93,26 +93,31 @@
                         var elements_left = elements.length;
                         settings.appear.call(self, elements_left, settings);
                     }
-                    $("<img />")
-                        .bind("load", function() {
-                            $self
-                                .hide()
-                                .attr("src", $self.data(settings.data_attribute))
-                                [settings.effect](settings.effect_speed);
-                            self.loaded = true;
 
-                            /* Remove image from array so it is not looped next time. */
-                            var temp = $.grep(elements, function(element) {
-                                return !element.loaded;
-                            });
-                            elements = $(temp);
+                    if ($self.is('img')) {
+                        $("<img />")
+                            .bind("load", function() {
+                                $self
+                                    .hide()
+                                    .attr("src", $self.data(settings.data_attribute))
+                                    [settings.effect](settings.effect_speed);
+                                self.loaded = true;
 
-                            if (settings.load) {
-                                var elements_left = elements.length;
-                                settings.load.call(self, elements_left, settings);
-                            }
-                        })
-                        .attr("src", $self.data(settings.data_attribute));
+                                /* Remove image from array so it is not looped next time. */
+                                var temp = $.grep(elements, function(element) {
+                                    return !element.loaded;
+                                });
+                                elements = $(temp);
+
+                                if (settings.load) {
+                                    var elements_left = elements.length;
+                                    settings.load.call(self, elements_left, settings);
+                                }
+                            })
+                            .attr("src", $self.data(settings.data_attribute));
+                    } else {
+                        $self.css('backgroundImage', 'url(' + $self.data(settings.data_attribute) + ')');
+                    }
                 }
             });
 

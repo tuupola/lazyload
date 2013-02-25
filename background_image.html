@@ -1,0 +1,94 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>Lazy Load Enabled</title>
+  <meta name="generator" content="Mephisto" />
+  <link rel="alternate" type="application/atom+xml" href="http://feeds.feedburner.com/tuupola" title="Atom feed" />
+  <link href="http://www.appelsiini.net/stylesheets/main2.css" rel="stylesheet" type="text/css" />
+  <style type="text/css">
+  #sidebar {
+    width: 0px;
+  }
+
+  #content {
+    width: 770px;
+  }
+  
+  .lazyload {
+    background-image: url(img/grey.gif);
+    height: 574px;
+    width: 765px;
+    margin-bottom: 20px;
+  }
+  </style>
+
+  <script>
+  var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-190966-1']);
+      _gaq.push(['_trackPageview']);
+      _gaq.push(['_trackPageLoadTime']);
+    
+  (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+  </script>
+</head>
+
+<body>    
+  <div id="wrap"> 
+    <div id="header">
+      <p>
+        <h1>Lazy Load</h1><br />
+        <small>Image lazy loader plugin for jQuery.</small>
+        <ul id="nav">
+          <li id="first"><a href="/" class="active">weblog</a></li>
+          <li><a href="/projects" class="last">projects</a></li>
+          <!--
+          <li><a href="/cv" class="last">cv</a></li>
+        -->
+        </ul>
+      </p>
+    </div>
+    <div id="content">
+      
+  <h2>Background Images</h2>
+  <div class="entry">
+    
+    <p>
+      Images are loaded into divs via the background-image selector rather than img tags. 
+      The divs are given a class of "lazyload" and when when scrolling down they are 
+      loaded when needed. Empty cache and shift-reload to test again.
+    </p>
+
+    <code>
+      <pre>
+ $(".lazyload").lazyload();</pre>   
+    </code>
+
+    <div class="lazyload" data-original="img/bmw_m1_hood.jpg"></div>
+    <div class="lazyload" data-original="img/bmw_m1_side.jpg"></div>
+    <div class="lazyload" data-original="img/viper_1.jpg"></div>
+    <div class="lazyload" data-original="img/viper_corner.jpg"></div>
+    <div class="lazyload" data-original="img/bmw_m3_gt.jpg"></div>
+    <div class="lazyload" data-original="img/corvette_pitstop.jpg"></div>
+
+    </div>
+    <div id="sidebar">
+
+  </div>
+  
+  <div id="footer">
+  </div>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js" charset="utf-8"></script>
+  <script src="jquery.lazyload.js?v=1.8.3" charset="utf-8"></script>
+  <script type="text/javascript" charset="utf-8">
+      $(function() {
+          $(".lazyload").lazyload();
+      });
+  </script>
+</body>
+</html>
