@@ -13,7 +13,12 @@
  *
  */
 (function($, window, document, undefined) {
-    var $window = $(window);
+    var $window = $(window),
+        loaded = false;
+
+    $(window).load(function() {
+        loaded = true;
+    });
 
     $.fn.lazyload = function(options) {
         var elements = this;
@@ -150,9 +155,14 @@
         }
 
         /* Force initial check if images should appear. */
-        $(window).load(function() {
+        if (!loaded) {
+            $(window).load(function() {
+                update();
+            });
+        }
+        else {
             update();
-        });
+        }
         
         return this;
     };
