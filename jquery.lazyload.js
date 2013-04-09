@@ -155,10 +155,13 @@
         }
 
         /* Force initial check if images should appear. */
-        $(window).load(function() {
-            update(true);
-        });
-        
+        if(!$.isReady){
+            $(window).load(function() {
+        	    update(true);
+        	});
+        }else{
+            update(true); 
+        }
         return this;
     };
 
