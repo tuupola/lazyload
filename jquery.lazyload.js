@@ -14,23 +14,25 @@
  */
 (function($, window, document, undefined) {
     var $window = $(window);
-
+    var defaults = {
+        threshold       : 0,
+        failure_limit   : 0,
+        event           : "scroll",
+        event_namespace : ".lazyload",
+        effect          : "show",
+        container       : window,
+        data_attribute  : "original",
+        skip_invisible  : true,
+        appear          : null,
+        load            : null,
+        vertical        : true,
+        horizontal      : true
+	};
+	
     $.fn.lazyload = function(options) {
         var elements = this;
+        var settings={};
         var $container;
-        var settings = {
-            threshold       : 0,
-            failure_limit   : 0,
-            event           : "scroll",
-            effect          : "show",
-            container       : window,
-            data_attribute  : "original",
-            skip_invisible  : true,
-            appear          : null,
-            load            : null,
-            vertical        : true,
-			horizontal      : true
-        };
 
         function update(reset_cache) {
             var counter = 0;
@@ -50,7 +52,7 @@
                         /* Nothing. */
                 } else if ((!settings.vertical || !$.belowthefold(this, settings)) &&
                     (!settings.horizontal || !$.rightoffold(this, settings))) {
-                        $this.trigger("appear");
+                        $this.trigger("appear"+settings.event_namespace);
                         /* if we found an image we'll load, reset the counter */
                         counter = 0;
                 } else {
@@ -81,9 +83,8 @@
                 options.effect_speed = options.effectspeed; 
                 delete options.effectspeed;
             }
-
-            $.extend(settings, options);
         }
+        $.extend(settings, defaults, options);
 
         /* Cache container as jQuery as object. */
         $container = (settings.container === undefined ||
@@ -91,7 +92,7 @@
 
         /* Fire one scroll event per scroll. Not one scroll event per image. */
         if (0 === settings.event.indexOf("scroll")) {
-            $container.bind(settings.event, function(event) {
+            $container.bind(settings.event+settings.event_namespace, function(event) {
                 return update();
             });
         }
@@ -103,14 +104,14 @@
             self.loaded = false;
 
             /* When appear is triggered load original image. */
-            $self.one("appear", function() {
+            $self.one("appear"+settings.event_namespace, function() {
                 if (!this.loaded) {
                     if (settings.appear) {
                         var elements_left = elements.length;
                         settings.appear.call(self, elements_left, settings);
                     }
                     $("<img />")
-                        .bind("load", function() {
+                        .bind("load"+settings.event_namespace, function() {
                             $self
                                 .hide()
                                 .attr("src", $self.data(settings.data_attribute))
@@ -129,26 +130,26 @@
             /* When wanted event is triggered load original image */
             /* by triggering appear.                              */
             if (0 !== settings.event.indexOf("scroll")) {
-                $self.bind(settings.event, function(event) {
+                $self.bind(settings.event+settings.event_namespace, function(event) {
                     if (!self.loaded) {
-                        $self.trigger("appear");
+                        $self.trigger("appear"+settings.event_namespace);
                     }
                 });
             }
         });
 
         /* Check if something appears when window is resized. */
-        $window.bind("resize", function(event) {
+        $window.bind("resize"+settings.event_namespace, function(event) {
             update(true);
         });
               
         /* With IOS5 force loading images when navigating with back button. */
         /* Non optimal workaround. */
         if ((/iphone|ipod|ipad.*os 5/gi).test(navigator.appVersion)) {
-            $window.bind("pageshow", function(event) {
+            $window.bind("pageshow"+settings.event_namespace, function(event) {
                 if (event.originalEvent.persisted) {
                     elements.each(function() {
-                        $(this).trigger("appear");
+                        $(this).trigger("appear"+settings.event_namespace);
                     });
                 }
             });
@@ -165,6 +166,20 @@
         return this;
     };
 
+    // Disable lazyload
+    $.fn.lazyloadDisable = function(options) {
+        var namespace, settings={};
+        $.extend(settings, defaults, options);
+
+        // Unbind window events (resize, pageshow...)
+        $window.unbind(settings.event_namespace);
+        // Unbind container events (move...)
+        $(settings.container).unbind(settings.event_namespace);
+        // Unbind elements events (appear...)
+        this.unbind(settings.event_namespace);
+        return this;
+	}
+	
     /* Convenience methods in jQuery namespace.           */
     /* Use as  $.belowthefold(element, {threshold : 100, container : window}) */
 
@@ -219,7 +234,7 @@
     $.inviewport = function(element, settings) {
          return !$.rightoffold(element, settings) && !$.leftofbegin(element, settings) &&
                 !$.belowthefold(element, settings) && !$.abovethetop(element, settings);
-     };
+    };
 
     /* Custom selectors for your convenience.   */
     /* Use as $("img:below-the-fold").something() or */
