@@ -27,10 +27,12 @@
             data_attribute  : "original",
             skip_invisible  : true,
             appear          : null,
-            load            : null
+            load            : null,
+            vertical        : true,
+			horizontal      : true
         };
 
-        function update() {
+        function update(reset_cache) {
             var counter = 0;
       
             elements.each(function() {
@@ -38,11 +40,16 @@
                 if (settings.skip_invisible && !$this.is(":visible")) {
                     return;
                 }
-                if ($.abovethetop(this, settings) ||
-                    $.leftofbegin(this, settings)) {
+    			if(reset_cache || !this._offset){
+					this._offset=$this.offset();
+					this._height=$this.height();
+                    this._width=$this.width();
+				}
+                if (settings.vertical && $.abovethetop(this, settings) ||
+                    settings.horizontal && $.leftofbegin(this, settings)) {
                         /* Nothing. */
-                } else if (!$.belowthefold(this, settings) &&
-                    !$.rightoffold(this, settings)) {
+                } else if ((!settings.vertical || !$.belowthefold(this, settings)) &&
+                    (!settings.horizontal || !$.rightoffold(this, settings))) {
                         $this.trigger("appear");
                         /* if we found an image we'll load, reset the counter */
                         counter = 0;
@@ -53,6 +60,15 @@
                 }
             });
 
+            /* Remove image from array so it is not looped next time. Execute with timout to not slow down update function */
+    		 setTimeout(function(){
+			    if(elements.cleaning) return;
+			    elements.cleaning=true;
+                var temp = $.grep(elements, function(element) {
+                    return !element.loaded;
+                });
+                elements = $(temp);
+			});
         }
 
         if(options) {
@@ -101,12 +117,6 @@
                                 [settings.effect](settings.effect_speed);
                             self.loaded = true;
 
-                            /* Remove image from array so it is not looped next time. */
-                            var temp = $.grep(elements, function(element) {
-                                return !element.loaded;
-                            });
-                            elements = $(temp);
-
                             if (settings.load) {
                                 var elements_left = elements.length;
                                 settings.load.call(self, elements_left, settings);
@@ -129,7 +139,7 @@
 
         /* Check if something appears when window is resized. */
         $window.bind("resize", function(event) {
-            update();
+            update(true);
         });
               
         /* With IOS5 force loading images when navigating with back button. */
@@ -146,7 +156,7 @@
 
         /* Force initial check if images should appear. */
         $(window).load(function() {
-            update();
+            update(true);
         });
         
         return this;
@@ -164,7 +174,7 @@
             fold = $(settings.container).offset().top + $(settings.container).height();
         }
 
-        return fold <= $(element).offset().top - settings.threshold;
+        return fold <= element._offset.top - settings.threshold;
     };
     
     $.rightoffold = function(element, settings) {
@@ -176,7 +186,7 @@
             fold = $(settings.container).offset().left + $(settings.container).width();
         }
 
-        return fold <= $(element).offset().left - settings.threshold;
+        return fold <= element._offset.left - settings.threshold;
     };
         
     $.abovethetop = function(element, settings) {
@@ -188,7 +198,7 @@
             fold = $(settings.container).offset().top;
         }
 
-        return fold >= $(element).offset().top + settings.threshold  + $(element).height();
+        return fold >= element._offset.top + settings.threshold  + element._height;
     };
     
     $.leftofbegin = function(element, settings) {
@@ -200,7 +210,7 @@
             fold = $(settings.container).offset().left;
         }
 
-        return fold >= $(element).offset().left + settings.threshold + $(element).width();
+        return fold >= element._offset.left + settings.threshold + element._width;
     };
 
     $.inviewport = function(element, settings) {
