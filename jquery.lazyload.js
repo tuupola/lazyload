@@ -42,9 +42,9 @@
                 if (settings.skip_invisible && !$this.is(":visible")) {
                     return;
                 }
-    			if(reset_cache || !this._offset){
-					this._offset=$this.offset();
-					this._height=$this.height();
+                if(reset_cache || !this._offset){
+                    this._offset=$this.offset();
+                    this._height=$this.height();
                     this._width=$this.width();
 				}
                 if (settings.vertical && $.abovethetop(this, settings) ||
