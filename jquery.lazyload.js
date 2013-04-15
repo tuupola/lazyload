@@ -105,7 +105,7 @@
 
             /* When appear is triggered load original image. */
             $self.one("appear"+settings.event_namespace, function() {
-                if (!this.loaded) {
+                if (!this.loaded && $self.data(settings.data_attribute)) {
                     if (settings.appear) {
                         var elements_left = elements.length;
                         settings.appear.call(self, elements_left, settings);
