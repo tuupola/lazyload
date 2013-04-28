@@ -26,17 +26,26 @@
         appear          : null,
         load            : null,
         vertical        : true,
-        horizontal      : true
-	};
-	
+        horizontal      : true,
+        timeout         : 0
+    };
+
     $.fn.lazyload = function(options) {
         var elements = this;
         var settings={};
         var $container;
+        var timeout_id;
 
-        function update(reset_cache) {
+        function update(reset_cache,force) {
             var counter = 0;
-      
+
+            if(settings.timeout && !force){
+                if(timeout_id) clearTimeout(timeout_id);
+                timeout_id = setTimeout(function(){ update(reset_cache,1); }, settings.timeout);
+                return;
+            }
+            timeout_id = null;
+            
             elements.each(function() {
                 var $this = $(this);
                 if (settings.skip_invisible && !$this.is(":visible")) {
@@ -63,8 +72,8 @@
             });
 
             /* Remove image from array so it is not looped next time. Execute with timout to not slow down update function */
-    		 setTimeout(function(){
-			    if(elements.cleaning) return;
+            setTimeout(function(){
+                if(elements.cleaning) return;
 			    elements.cleaning=true;
                 var temp = $.grep(elements, function(element) {
                     return !element.loaded;
