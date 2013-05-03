@@ -12,7 +12,16 @@
  * Version:  1.8.4
  *
  */
-(function($, window, document, undefined) {
+
+(function (factory) {
+    if (typeof define === 'function' && define.amd) {
+        // AMD. Register as an anonymous module.
+        define(['jquery'], factory);
+    } else {
+        // Browser globals
+        factory(jQuery);
+    }
+}(function ($) {
     var $window = $(window);
 
     $.fn.lazyload = function(options) {
@@ -224,4 +233,4 @@
         "left-of-fold"   : function(a) { return !$.rightoffold(a, {threshold : 0}); }
     });
 
-})(jQuery, window, document);
+}));
