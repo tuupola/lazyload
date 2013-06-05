@@ -144,8 +144,8 @@
             });
         }
 
-        /* Force initial check if images should appear. */
-        $(window).load(function() {
+        /* Force initial check if images should appear, for both if page is loaded for first time or if by ajax call */
+        $(function () {
             update();
         });
         
