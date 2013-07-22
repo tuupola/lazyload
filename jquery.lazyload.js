@@ -26,6 +26,7 @@
             container       : window,
             data_attribute  : "original",
             css_background  : false,
+            persistent      : true,
             skip_invisible  : true,
             appear          : null,
             load            : null
@@ -85,9 +86,10 @@
             var self = this;
             var $self = $(self);
 
+            self.loaded = false;
             /* When appear is triggered load original image. */
             $self.one("appear", function() {
-                if (!$self.data('lazyloaded')) {
+                if (!self.loaded && !settings.persistent || !$self.data('lazyloaded')) {
                     if (settings.appear) {
                         var elements_left = elements.length;
                         settings.appear.call(self, elements_left, settings);
@@ -103,7 +105,7 @@
                             $self[settings.effect](settings.effect_speed);
 
                             $self.data('lazyloaded', true);
-
+                            self.loaded = true;
                             /* Remove image from array so it is not looped next time. */
                             var temp = $.grep(elements, function(element) {
                                 return !element.loaded;
