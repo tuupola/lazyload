@@ -26,8 +26,8 @@
             container       : window,
             data_attribute  : "original",
             skip_invisible  : true,
-            appear          : null,
-            load            : null
+            appear          : $.noop,
+            load            : $.noop
         };
 
         function update() {
@@ -89,10 +89,8 @@
             /* When appear is triggered load original image. */
             $self.one("appear", function() {
                 if (!this.loaded) {
-                    if (settings.appear) {
-                        var elements_left = elements.length;
-                        settings.appear.call(self, elements_left, settings);
-                    }
+                    settings.appear.call(self, elements.length, settings);
+
                     $("<img />")
                         .bind("load", function() {
                             $self
@@ -107,10 +105,7 @@
                             });
                             elements = $(temp);
 
-                            if (settings.load) {
-                                var elements_left = elements.length;
-                                settings.load.call(self, elements_left, settings);
-                            }
+                            settings.load.call(self, elements.length, settings);
                         })
                         .attr("src", $self.data(settings.data_attribute));
                 }
