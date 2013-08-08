@@ -64,20 +64,16 @@
     </p>
 
     <code><pre>
-/* CSS **/
-.lazy {
-  display: none;
-}
+ .lazy {
+     display: none;
+ }</pre>
 
-/* JS */
-$("img.lazy").show().lazyload({
-  effect : "fadeIn"
-});
+<pre> $("img.lazy").show().lazyload({
+     effect : "fadeIn"
+ });</pre>
 
-/* HTML */
-&lt;img class="lazy" src="img/grey.gif" data-original="img/example.jpg" width="765" height="574"&gt;
-&lt;noscript&gt;&lt;img src="img/example.jpg" width="765" height="574"&gt;&lt;/noscript&gt;
-</pre>
+<pre> &lt;img class="lazy" src="img/grey.gif" data-original="img/example.jpg" width="765" height="574"&gt;
+ &lt;noscript&gt;&lt;img src="img/example.jpg" width="765" height="574"&gt;&lt;/noscript&gt;</pre>
     </code>
 
     <img class="lazy" src="img/grey.gif" data-original="img/bmw_m1_hood.jpg" alt="BMW M1 Hood" width="765" height="574">

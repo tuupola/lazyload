@@ -70,19 +70,19 @@
 
     <code>
       <pre>
- $("img").lazyload({
+ $("img.lazy").lazyload({
      container: $("#container")
  });</pre>     
     </code>
 
     <div id="container">
         <div id="inner_container">
-          <img src="img/grey.gif" data-original="img/bmw_m1_hood.jpg" width="765" height="574" alt="BMW M1 Hood">
-          <img src="img/grey.gif" data-original="img/bmw_m1_side.jpg" width="765" height="574" alt="BMW M1 Side">
-          <img src="img/grey.gif" data-original="img/viper_1.jpg" width="765" height="574" alt="Viper 1">
-          <img src="img/grey.gif" data-original="img/viper_corner.jpg" width="765" height="574" alt="Viper Corner">
-          <img src="img/grey.gif" data-original="img/bmw_m3_gt.jpg" width="765" height="574" alt="BMW M3 GT">
-          <img src="img/grey.gif" data-original="img/corvette_pitstop.jpg" width="765" height="574" alt="Corvette Pitstop">
+          <img class="lazy" src="img/grey.gif" data-original="img/bmw_m1_hood.jpg" width="765" height="574" alt="BMW M1 Hood">
+          <img class="lazy" src="img/grey.gif" data-original="img/bmw_m1_side.jpg" width="765" height="574" alt="BMW M1 Side">
+          <img class="lazy" src="img/grey.gif" data-original="img/viper_1.jpg" width="765" height="574" alt="Viper 1">
+          <img class="lazy" src="img/grey.gif" data-original="img/viper_corner.jpg" width="765" height="574" alt="Viper Corner">
+          <img class="lazy" src="img/grey.gif" data-original="img/bmw_m3_gt.jpg" width="765" height="574" alt="BMW M3 GT">
+          <img class="lazy" src="img/grey.gif" data-original="img/corvette_pitstop.jpg" width="765" height="574" alt="Corvette Pitstop">
         </div>
     </div>
     
@@ -98,7 +98,7 @@
   <script src="jquery.lazyload.js?v=1.8.5" charset="utf-8"></script>
   <script type="text/javascript" charset="utf-8">
       $(function() {
-          $("img").lazyload({container: $("#container")});
+          $("img.lazy").lazyload({container: $("#container")});
       });
   </script>
   

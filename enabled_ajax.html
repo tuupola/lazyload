@@ -59,11 +59,14 @@
 
     <code>
       <pre>
-$("#container").one("click", function() {
-    $("#container").load("images.html", function(response, status, xhr) {
-        $("img.lazy").lazyload();
-    });              
-});</pre>   
+ $("#container").one("click", function() {
+     $("#container").load("images.html", function(response, status, xhr) {
+         $("img.lazy").lazyload();
+     });              
+ });</pre>
+
+ <pre> &lt;img class="lazy" src="img/grey.gif" data-original="img/example.jpg" width="765" height="574"&gt;</pre>
+
     </code>
 
     <div id="container">
