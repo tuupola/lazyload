@@ -9,7 +9,7 @@
  * Project home:
  *   http://www.appelsiini.net/projects/lazyload
  *
- * Version:  1.8.4
+ * Version:  1.8.5
  *
  */
 (function($, window, document, undefined) {
@@ -25,6 +25,8 @@
             effect          : "show",
             container       : window,
             data_attribute  : "original",
+            css_background  : false,
+            persistent      : true,
             skip_invisible  : true,
             appear          : null,
             load            : null
@@ -32,7 +34,7 @@
 
         function update() {
             var counter = 0;
-      
+
             elements.each(function() {
                 var $this = $(this);
                 if (settings.skip_invisible && !$this.is(":visible")) {
@@ -85,22 +87,25 @@
             var $self = $(self);
 
             self.loaded = false;
-
             /* When appear is triggered load original image. */
             $self.one("appear", function() {
-                if (!this.loaded) {
+                if (!self.loaded && !settings.persistent || !$self.data('lazyloaded')) {
                     if (settings.appear) {
                         var elements_left = elements.length;
                         settings.appear.call(self, elements_left, settings);
                     }
                     $("<img />")
                         .bind("load", function() {
-                            $self
-                                .hide()
-                                .attr("src", $self.data(settings.data_attribute))
-                                [settings.effect](settings.effect_speed);
-                            self.loaded = true;
+                            $self.hide();
+                            if(settings.css_background) {
+                                $self.css('background-image', 'url(\''+$self.data(settings.data_attribute)+'\')')
+                            } else {
+                                $self.attr('src', $self.data(settings.data_attribute));
+                            }
+                            $self[settings.effect](settings.effect_speed);
 
+                            $self.data('lazyloaded', true);
+                            self.loaded = true;
                             /* Remove image from array so it is not looped next time. */
                             var temp = $.grep(elements, function(element) {
                                 return !element.loaded;
