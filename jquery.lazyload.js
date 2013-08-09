@@ -58,11 +58,11 @@
         if(options) {
             /* Maintain BC for a couple of versions. */
             if (undefined !== options.failurelimit) {
-                options.failure_limit = options.failurelimit; 
+                options.failure_limit = options.failurelimit;
                 delete options.failurelimit;
             }
             if (undefined !== options.effectspeed) {
-                options.effect_speed = options.effectspeed; 
+                options.effect_speed = options.effectspeed;
                 delete options.effectspeed;
             }
 
@@ -150,7 +150,7 @@
         }
 
         /* Force initial check if images should appear. */
-        $(window).load(function() {
+        $(document).ready(function() {
             update();
         });
         
