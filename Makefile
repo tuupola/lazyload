@@ -1,4 +1,4 @@
-VERSION = 1.8.3
+VERSION = 1.8.5
 SHELL = /bin/sh
 DOWNLOAD = /srv/www/www.appelsiini.net/shared/static/download
 JSMIN    = /home/tuupola/bin/jsmin
