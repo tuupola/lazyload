@@ -9,7 +9,7 @@
  * Project home:
  *   http://www.appelsiini.net/projects/lazyload
  *
- * Version:  1.8.5-dev
+ * Version:  1.8.5
  *
  */
 (function($, window, document, undefined) {

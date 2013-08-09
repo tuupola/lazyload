@@ -31,6 +31,11 @@ All code licensed under the "MIT License":http://www.opensource.org/licenses/mit
 
 h1. Changelog
 
+h3. 1.8.5
+
+* Revert "#70":https://github.com/tuupola/jquery_lazyload/issues/70 because it causes more problem than solves. Only proper fix in Webkit browsers is to set width and height either as attributes or in CSS. Without width and height Webkit sees image as size 0x0 and causes jQuery to assume they are not visible. Fixes bugs "#99":https://github.com/tuupola/jquery_lazyload/pull/99, "#98":https://github.com/tuupola/jquery_lazyload/issues/98 and "#88":https://github.com/tuupola/jquery_lazyload/issues/88.
+* Fix bug "#118":https://github.com/tuupola/jquery_lazyload/issues/118. Scrollstop event was not compatible with jQuery 1.9.x.
+
 h3. 1.8.4
 
 * Support for "jQuery plugin repository":http://plugins.jquery.com/
