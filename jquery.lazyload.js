@@ -12,6 +12,7 @@
  * Version:  1.8.5
  *
  */
+ 
 (function($, window, document, undefined) {
     var $window = $(window);
 
@@ -27,7 +28,8 @@
             data_attribute  : "original",
             skip_invisible  : true,
             appear          : null,
-            load            : null
+            load            : null,
+            default_img     : "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAANSURBVBhXYzh8+PB/AAffA0nNPuCLAAAAAElFTkSuQmCC"
         };
 
         function update() {
@@ -86,6 +88,10 @@
 
             self.loaded = false;
 
+            if ( ($self.attr('src') == undefined) || ($self.attr('src') === false) ) {
+                $self.attr('src', settings.default_image); 
+            }
+            
             /* When appear is triggered load original image. */
             $self.one("appear", function() {
                 if (!this.loaded) {
