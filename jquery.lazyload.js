@@ -14,7 +14,7 @@
  */
 (function($, window, document, undefined) {
     var $window = $(window);
-
+    var resizeTimer = null;
     $.fn.lazyload = function(options) {
         var elements = this;
         var $container;
@@ -29,10 +29,11 @@
             appear          : null,
             load            : null
         };
+        
 
         function update() {
             var counter = 0;
-      
+            
             elements.each(function() {
                 var $this = $(this);
                 if (settings.skip_invisible && !$this.is(":visible")) {
@@ -129,7 +130,12 @@
 
         /* Check if something appears when window is resized. */
         $window.bind("resize", function(event) {
-            update();
+        	
+        	if(resizeTimer){
+        		clearTimeout(resizeTimer);
+        	}
+        	resizeTimer = setTimeout(update,100);
+            
         });
               
         /* With IOS5 force loading images when navigating with back button. */
