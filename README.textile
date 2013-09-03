@@ -33,6 +33,7 @@ h1. Changelog
 
 h3. 1.9.0
 
+* Add support for CSS background images. 
 * Make external placeholder image optional by providing default 1x1 grey image as data uri ("Dave Mc Nicoll":https://github.com/mcNdave)
 * Fix bug "#47":https://github.com/tuupola/jquery_lazyload/pull/47 and "#71":https://github.com/tuupola/jquery_lazyload/issues/71. Mobile Safari window height changes when scrolling. ("Girvan":https://github.com/girvan)
 
