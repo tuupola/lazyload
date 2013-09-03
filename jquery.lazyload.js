@@ -29,7 +29,7 @@
             skip_invisible  : true,
             appear          : null,
             load            : null,
-            default_img     : "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAANSURBVBhXYzh8+PB/AAffA0nNPuCLAAAAAElFTkSuQmCC"
+            placeholder     : "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAANSURBVBhXYzh8+PB/AAffA0nNPuCLAAAAAElFTkSuQmCC"
         };
 
         function update() {
@@ -88,8 +88,9 @@
 
             self.loaded = false;
 
-            if ( ($self.attr('src') == undefined) || ($self.attr('src') === false) ) {
-                $self.attr('src', settings.default_image); 
+            /* If no src attribute given use data:uri. */
+            if ($self.attr("src") === undefined || $self.attr("src") === false) {
+                $self.attr("src", settings.placeholder);
             }
             
             /* When appear is triggered load original image. */
@@ -104,7 +105,7 @@
                             var original = $self.data(settings.data_attribute);
                             $self.hide();
                             if ($self.is("img")) {
-                                $self.attr("src", original);                              
+                                $self.attr("src", original);
                             } else {
                                 $self.css("background-image", "url('" + original + "')");
                             }
