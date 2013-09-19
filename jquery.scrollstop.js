@@ -3,8 +3,8 @@
 (function(){
     
     var special = jQuery.event.special,
-        uid1 = 'D' + (+new Date()),
-        uid2 = 'D' + (+new Date() + 1);
+        uid1 = "D" + (+new Date()),
+        uid2 = "D" + (+new Date() + 1);
         
     special.scrollstart = {
         setup: function() {
@@ -18,7 +18,7 @@
                     if (timer) {
                         clearTimeout(timer);
                     } else {
-                        evt.type = 'scrollstart';
+                        evt.type = "scrollstart";
                         jQuery.event.dispatch.apply(_self, _args);
                     }
                     
@@ -28,11 +28,11 @@
                     
                 };
             
-            jQuery(this).bind('scroll', handler).data(uid1, handler);
+            jQuery(this).bind("scroll", handler).data(uid1, handler);
             
         },
         teardown: function(){
-            jQuery(this).unbind( 'scroll', jQuery(this).data(uid1) );
+            jQuery(this).unbind( "scroll", jQuery(this).data(uid1) );
         }
     };
     
@@ -53,7 +53,7 @@
                     timer = setTimeout( function(){
                         
                         timer = null;
-                        evt.type = 'scrollstop';
+                        evt.type = "scrollstop";
                         jQuery.event.dispatch.apply(_self, _args);
                         
                         
@@ -61,11 +61,11 @@
                     
                 };
             
-            jQuery(this).bind('scroll', handler).data(uid2, handler);
+            jQuery(this).bind("scroll", handler).data(uid2, handler);
             
         },
         teardown: function() {
-            jQuery(this).unbind( 'scroll', jQuery(this).data(uid2) );
+            jQuery(this).unbind( "scroll", jQuery(this).data(uid2) );
         }
     };
     
