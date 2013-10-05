@@ -1,260 +1,283 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta charset="utf-8">
   <title>Lazy Load Enabled With Gazillion Images</title>
-  <meta name="generator" content="Mephisto" />
-  <link rel="alternate" type="application/atom+xml" href="http://feeds.feedburner.com/tuupola" title="Atom feed" />
-  <link href="http://www.appelsiini.net/stylesheets/main2.css" rel="stylesheet" type="text/css" />
-  <style type="text/css">
-  #sidebar {
-    width: 0px;
-  }
-
-  #content {
-    width: 770px;
-  }
-  
-  </style>
-  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link type="text/css" media="screen" href="http://www.appelsiini.net/css/appelsiini.css" rel="stylesheet">
+  <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css" rel="stylesheet">
+  <link rel="shortcut icon" href="http://www.appelsiini.net/img/favicon.ico">
+  <!--[if lt IE 9]>
+    <script src="js/html5shiv.js"></script>
+  <![endif]-->
   <script>
-  var _gaq = _gaq || [];
-      _gaq.push(['_setAccount', 'UA-190966-1']);
-      _gaq.push(['_trackPageview']);
-      _gaq.push(['_trackPageLoadTime']);
-    
-  (function() {
-      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-  })();
+//<![CDATA[
+var _gaq = _gaq || [];
+_gaq.push(['_setAccount', 'UA-190966-1']);
+_gaq.push(['_trackPageview']);
+(function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+})();
+//]]>
   </script>
-
+  <style type="text/css">
+    .container img {
+      margin-bottom: 10px;
+    }
+  </style>
 </head>
 
 <body>
-  <div id="wrap"> 
-    <div id="header">
+  <div class="jumbotron">
+    <div class="container">
+      <div class="col-md-10 col-lg-8 col-md-offset-1 col-lg-offset-2">
+        <h1>Lazy Load Plugin for jQuery</h1>
+        <a href="http://www.appelsiini.net/"><span class="label label-info">Blog</span></a>
+        <a href="http://www.appelsiini.net/projects"><span class="label label-danger">Projects</span></a>
+        <br>
+        <div>
+          <iframe src="http://ghbtns.com/github-btn.html?user=tuupola&amp;repo=jquery_lazyload&amp;type=watch&amp;count=true&amp;size=small" allowtransparency="true" frameborder="0" scrolling="0" width="92" height="30"></iframe>    
+          <iframe src="http://ghbtns.com/github-btn.html?user=tuupola&amp;repo=jquery_lazyload&amp;type=fork&amp;count=true&amp;size=small" allowtransparency="true" frameborder="0" scrolling="0" width="90" height="30"></iframe>
+        </div>
+      </div>
+    </div>
+  </div>
+   
+  <div class="container">
+    <div class="col-md-10 col-lg-8 col-md-offset-1 col-lg-offset-2">
+      
+      <h2>Plugin enabled with gazillion images</h2>
       <p>
-        <h1>Lazy Load</h1><br />
-        <small>Image lazy loader plugin for jQuery.</small>
-        <ul id="nav">
-          <li id="first"><a href="/" class="active">weblog</a></li>
-          <li><a href="/projects" class="last">projects</a></li>
-          <!--
-          <li><a href="/cv" class="last">cv</a></li>
-        -->
-        </ul>
+        When you have hundreds of images it is best to use James Padolseys <a href="http://james.padolsey.com/javascript/special-scroll-events-for-jquery/">scrollstop event</a>. 
+        Compate this to page where plugin is <a href="disabled.html">disabled</a> or page with 
+        <a href="enabled.html">larger images</a>.
       </p>
+
+      <pre class="prettyprint">&lt;script src="jquery.scrollstop.js" type="text/javascript"&gt;&lt;/script&gt; </pre>
+      <pre class="prettyprint">&lt;img class="lazy" data-original="img/example.jpg" width="80" height="120" alt=""&gt;</pre>
+      <pre class="prettyprint">$("img.lazy").lazyload({
+  event: "scrollstop"
+});</pre>
+
+      <div id="container">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+        <img class="lazy" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
+
+      </div>
     </div>
-    <div id="content">
-      
-  <h2>Plugin enabled with gazillion images</h2>
-  <div class="entry">
-    
-    <p>
-      When you have hundreds of images it is best to use James Padolseys <a href="http://james.padolsey.com/javascript/special-scroll-events-for-jquery/">scrollstop event</a>. 
-      Compate this to page where plugin is <a href="disabled.html">disabled</a> or page with 
-      <a href="enabled.html">larger images</a>.
-      
-    </p>
-
-    <code>
-    <code>
-      <pre> &lt;script src="jquery.scrollstop.js" type="text/javascript"&gt;&lt;/script&gt; </pre>
-        
-      <pre>
- &lt;img class="lazy" xxsrc="img/grey.gif" data-original="img/example.jpg" width="80" height="120" alt=""&gt;</pre>
-                  
-      <pre> $("img.lazy").lazyload({
-     event: "scrollstop"
- });</pre>
-     </code>
-
-    <div id="container">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    <img class="lazy" xxsrc="img/grey.gif" data-original="http://lorempixel.com/80/120/transport/?<?php print rand(); ?>" width="80" height="120" alt="">
-    </div>
-    
-
-    </div>
-    <div id="sidebar">
-
   </div>
   
-  <div id="footer">
+  <div class="bottom-menu bottom-menu-large bottom-menu-inverse">
+    <div class="container">
+      <div class="col-md-offset-1 col-lg-offset-2">
+        <div class="col-sm-3 col-md-2">
+          <h5 class="title">CATEGORIES</h5>
+          <ul class="bottom-links">
+            <li><a href="http://www.appelsiini.net/javascript">JavaScript</a></li>
+            <li><a href="http://www.appelsiini.net/ruby">Ruby</a></li>
+            <li><a href="http://www.appelsiini.net/avr">AVR</a></li>
+          </ul>
+        </div>
+        <div class="col-sm-3 col-md-2">
+          <h5 class="title">PROJECTS</h5>
+          <ul class="bottom-links">
+            <li><a href="http://www.appelsiini.net/projects/lazyload">Lazy Load</a></li>
+            <li><a href="http://www.appelsiini.net/projects/chained">Chained</a></li>
+            <li><a href="http://www.appelsiini.net/projects/jeditable">Jeditable</a></li>
+            <li><a href="http://www.appelsiini.net/projects/viewport">Viewport</a></li>
+            <li><a href="http://www.appelsiini.net/projects/rack-facebook-methodfix">Facebook Methodfix</a></li>
+            <li><a href="http://www.appelsiini.net/projects/rack-funky-cache">Funky Cache</a></li>
+          </ul>
+        </div>
+        <div class="col-sm-3 col-md-2">
+          <h5 class="title">ABOUT</h5>
+          <ul class="bottom-links">
+            <li><a data-action="GitHub" data-label="footer" href="https://github.com/tuupola" class="icon-github-sign icon-large track"> GitHub</a></li>
+            <li><a data-action="Twitter" data-label="footer" href="https://twitter.com/tuupola" class="icon-twitter-sign icon-large track"> Twitter</a></li>
+            <li><a data-action="Google+" data-label="footer" href="https://plus.google.com/114333901699201512043?rel=author" class="icon-google-plus-sign icon-large track"> Google+</a></li>
+          </ul>
+        </div>
+        <div class="col-sm-3 col-md-5 col-lg-4">
+          Built using the awesome <a class="track" data-action="Designmodo" data-label="footer" style="color: #ffffff;" href="http://designmodo.com/flat/?u=583">Flat UI Pro</a> framework by Designmodo.
+          <br><br>
+          © 2013 Mika Tuupola.
+        </div>
+      </div>
+    </div>
   </div>
 
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js" charset="utf-8"></script>
-  <script src="jquery.lazyload.js?v=1.9.0" charset="utf-8"></script>
-  <script src="jquery.scrollstop.js" type="text/javascript" charset="utf-8"></script>
-  <script type="text/javascript" charset="utf-8">
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+  <script src="jquery.lazyload.js?v=1.9.0"></script>
+  <script src="jquery.scrollstop.js"></script>
+  <script src="http://www.appelsiini.net/js/all.js"></script>
+  <script type="text/javascript">
       $(function() {
           $("img.lazy").lazyload({
               event: "scrollstop"
           });
       });
   </script>
-
 </body>
 </html>
