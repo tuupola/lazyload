@@ -12,7 +12,11 @@
  * Version:  1.9.0
  *
  */
- 
+ /*
+ * Modifications by mont@foray.com 2013-10-22
+ * 
+ * Changes are commented in-line.
+ */
 (function($, window, document, undefined) {
     var $window = $(window);
 
@@ -35,26 +39,105 @@
         function update() {
             var counter = 0;
       
-            elements.each(function() {
-                var $this = $(this);
-                if (settings.skip_invisible && !$this.is(":visible")) {
-                    return;
+            /* mont@foray.com - 2013-10-22
+             * For large numbers of images the fold methods were very expensive due
+             * to repeatedly fetching the same values from the window/container.
+             * These values are now calculated once and passed into the fold methods.
+             */
+            var belowFold;
+            var rightFold;
+            var aboveFold;
+            var leftFold;
+
+            if (settings.container === undefined || settings.container === window) {
+                belowFold = $window.height() + $window.scrollTop();
+                rightFold = $window.width() + $window.scrollLeft();
+                aboveFold = $window.scrollTop();
+                leftFold = $window.scrollLeft();
+            }
+            else {
+                var containerOffset = $(settings.container).offset();
+                belowFold = containerOffset.top + $(settings.container).height();
+                rightFold = containerOffset.left + $(settings.container).width();
+                aboveFold = containerOffset.top;
+                leftFold = containerOffset.left;
+            }
+
+            /* mont@foray.com - 2013-10-22
+             * To avoid looping through all elements the relative position in the scroll area is determined.  
+             * This only supports either vertical or horizontal scrolling, not both.
+             * If a container has not been set then the window is assumed to be scrolling vertically
+             */
+            var scrollPosition;
+            var scrollMax;
+            var percentScrolled = 0;
+
+            if (settings.container === undefined || settings.container === window) {
+                scrollPosition = $window.scrollTop();
+                scrollMax = $window.scrollHeight();
+            }
+            else if ($(settings.container).css('overflow-x') == 'hidden') { // Scroll vertically
+                scrollPosition = $(settings.container).scrollTop();
+                scrollMax = settings.container[0].scrollHeight;
+            }
+            else { // Scrolling horizontally
+                scrollPosition = $(settings.container).scrollLeft();
+                scrollMax = settings.container[0].scrollWidth;
+            }
+
+            if (scrollPosition != 0) percentScrolled = scrollPosition / scrollMax;
+
+            var elementsSelector = elements.selector;
+
+            /* mont@foray.com - 2013-10-22
+             * Filtering the elemets for only those that are visible is much   
+             * faster than checking each individually.
+             */
+            var tempElements;
+
+            if (settings.skip_invisible) tempElements = elements.filter(':visible');
+            else tempElements = elements;
+
+            var startElement = Math.floor(tempElements.length * percentScrolled);
+
+            /* mont@foray.com - 2013-10-22
+             * Since the code is jumping ahead rather than looping through all 
+             * elements it must check backwards from the startElement.  This will 
+             * find partially displayed elements at the top.
+             */            
+            for (var index = startElement -1; index >= 0; index--) {
+                var $element = $(tempElements[index]);
+
+                if (!$.abovethetop(aboveFold, $(tempElements[index]), settings.threshold) &&
+                    !$.leftofbegin(leftFold, $(tempElements[index]), settings.threshold) &&
+                    !$.belowthefold(belowFold, $(tempElements[index]), settings.threshold) &&
+                    !$.rightoffold(rightFold, $(tempElements[index]), settings.threshold)) // Visible
+                {
+                    $element.trigger("appear");
+                    continue;
                 }
-                if ($.abovethetop(this, settings) ||
-                    $.leftofbegin(this, settings)) {
-                        /* Nothing. */
-                } else if (!$.belowthefold(this, settings) &&
-                    !$.rightoffold(this, settings)) {
-                        $this.trigger("appear");
+
+                break; // Found a not visible element, so stop.
+            }
+
+            /* mont@foray.com - 2013-10-22
+             * Check forwards from the startElement.  After displaying elements 
+             * stop at the first not visible element
+             */            
+            for (var index = startElement; index < tempElements.length; index++) {
+                var $element = $(tempElements[index]);
+
+                if ($.abovethetop(aboveFold, $element, settings.threshold) || $.leftofbegin(leftFold, $element, settings.threshold)) continue; // Not visible
+                else if (!$.belowthefold(belowFold, $element, settings.threshold) && !$.rightoffold(rightFold, $element, settings.threshold)) // Visible
+                {
+                    $element.trigger("appear");
                         /* if we found an image we'll load, reset the counter */
                         counter = 0;
-                } else {
-                    if (++counter > settings.failure_limit) {
-                        return false;
+                }
+                else { // Found a not visible element after visible ones, therefore stop looking.
+                    if (++counter > settings.failure_limit) break;
                     }
                 }
-            });
-
         }
 
         if(options) {
@@ -95,11 +178,13 @@
             
             /* When appear is triggered load original image. */
             $self.one("appear", function() {
-                if (!this.loaded) {
+                if (this.loaded) return;
+
                     if (settings.appear) {
                         var elements_left = elements.length;
                         settings.appear.call(self, elements_left, settings);
                     }
+
                     $("<img />")
                         .bind("load", function() {
                             var original = $self.data(settings.data_attribute);
@@ -113,11 +198,9 @@
                             
                             self.loaded = true;
 
-                            /* Remove image from array so it is not looped next time. */
-                            var temp = $.grep(elements, function(element) {
-                                return !element.loaded;
-                            });
-                            elements = $(temp);
+                        /* mont@foray.com - 2013-10-22
+                         * Removing displayed elements from the array was slow and is no longer necessary due to jumping ahead in Update().
+                         */            
 
                             if (settings.load) {
                                 var elements_left = elements.length;
@@ -125,7 +208,6 @@
                             }
                         })
                         .attr("src", $self.data(settings.data_attribute));
-                }
             });
 
             /* When wanted event is triggered load original image */
@@ -167,57 +249,56 @@
     /* Convenience methods in jQuery namespace.           */
     /* Use as  $.belowthefold(element, {threshold : 100, container : window}) */
 
-    $.belowthefold = function(element, settings) {
-        var fold;
-        
-        if (settings.container === undefined || settings.container === window) {
-            fold = (window.innerHeight ? window.innerHeight : $window.height()) + $window.scrollTop();
-        } else {
-            fold = $(settings.container).offset().top + $(settings.container).height();
-        }
+    /* mont@foray.com - 2013-10-22
+     * All of the fold methods were modified due to the high cost of re-calcualting
+     * the fold value.
+     */
+    $.belowthefold = function (fold, $element, threshold) {
+        return fold <= $element.offset().top - threshold;
+    };
 
-        return fold <= $(element).offset().top - settings.threshold;
+    $.rightoffold = function (fold, $element, threshold) {
+        return fold <= $element.offset().left - threshold;
     };
     
-    $.rightoffold = function(element, settings) {
-        var fold;
+    $.abovethetop = function (fold, $element, threshold) {
+        var elementTop = $element.offset().top;
 
-        if (settings.container === undefined || settings.container === window) {
-            fold = $window.width() + $window.scrollLeft();
-        } else {
-            fold = $(settings.container).offset().left + $(settings.container).width();
-        }
+        if (fold < elementTop + threshold) return false;
 
-        return fold <= $(element).offset().left - settings.threshold;
+        return fold >= elementTop + threshold  + $element.height();
     };
         
-    $.abovethetop = function(element, settings) {
-        var fold;
-        
-        if (settings.container === undefined || settings.container === window) {
-            fold = $window.scrollTop();
-        } else {
-            fold = $(settings.container).offset().top;
-        }
+    $.leftofbegin = function (fold, $element, threshold) {
+        var elementLeft = $element.offset().left;
 
-        return fold >= $(element).offset().top + settings.threshold  + $(element).height();
+        if (fold < elementLeft + threshold) return false;
     };
     
-    $.leftofbegin = function(element, settings) {
-        var fold;
-        
-        if (settings.container === undefined || settings.container === window) {
-            fold = $window.scrollLeft();
-        } else {
-            fold = $(settings.container).offset().left;
+    $.inviewport = function (element, settings) {
+        var belowFold;
+        var rightFold;
+        var aboveFold;
+        var leftFold;
+
+        if (settings.container === undefined || settings.container === window)
+        {
+            belowFold = $window.height() + $window.scrollTop();
+            rightFold = $window.width() + $window.scrollLeft();
+            aboveFold = $window.scrollTop();
+            leftFold = $window.scrollLeft();
+        }
+        else
+        {
+            var containerOffset = $(settings.container).offset();
+            belowFold = containerOffset.top + $(settings.container).height();
+            rightFold = containerOffset.left + $(settings.container).width();
+            aboveFold = containerOffset.top;
+            leftFold = containerOffset.left;
         }
 
-        return fold >= $(element).offset().left + settings.threshold + $(element).width();
-    };
-
-    $.inviewport = function(element, settings) {
-         return !$.rightoffold(element, settings) && !$.leftofbegin(element, settings) &&
-                !$.belowthefold(element, settings) && !$.abovethetop(element, settings);
+        return !$.rightoffold(rightFold, element, settings) && !$.leftofbegin(leftfold, element, settings) &&
+               !$.belowthefold(belowFold, element, settings) && !$.abovethetop(aboveFold, element, settings);
      };
 
     /* Custom selectors for your convenience.   */
