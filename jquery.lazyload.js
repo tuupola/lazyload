@@ -1,15 +1,20 @@
 /*
  * Lazy Load - jQuery plugin for lazy loading images
  *
+ * Forked by Spencer Mefford
+ *
  * Copyright (c) 2007-2013 Mika Tuupola
  *
  * Licensed under the MIT license:
  *   http://www.opensource.org/licenses/mit-license.php
  *
- * Project home:
+ * Fork Home:
+ *   https://github.com/spencermefford/jquery_lazyload
+ *
+ * Original Project home:
  *   http://www.appelsiini.net/projects/lazyload
  *
- * Version:  1.9.0
+ * Version:  1.9.0 (forked)
  *
  */
  
@@ -29,6 +34,8 @@
             skip_invisible  : true,
             appear          : null,
             load            : null,
+            error           : null,
+            complete        : null,
             placeholder     : "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAANSURBVBhXYzh8+PB/AAffA0nNPuCLAAAAAElFTkSuQmCC"
         };
 
@@ -114,14 +121,28 @@
                             self.loaded = true;
 
                             /* Remove image from array so it is not looped next time. */
-                            var temp = $.grep(elements, function(element) {
-                                return !element.loaded;
-                            });
-                            elements = $(temp);
+                            elements = elements.not(self);
 
                             if (settings.load) {
                                 var elements_left = elements.length;
                                 settings.load.call(self, elements_left, settings);
+                            }
+
+                            if (settings.complete && elements.length === 0) {
+                                settings.complete.call();
+                            }
+                        })
+                        .bind("error", function() {
+                            /* Remove image from array so it is not looped next time. */
+                            elements = elements.not(self);
+                            var elements_left = elements.length;
+
+                            if (settings.complete && elements_left === 0) {
+                                settings.complete.call();
+                            }
+
+                            if (settings.error) {
+                                settings.error.call(self, elements_left, settings);
                             }
                         })
                         .attr("src", $self.data(settings.data_attribute));
