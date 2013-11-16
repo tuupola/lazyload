@@ -21,7 +21,7 @@ then in your code do:
 
 <pre>$("img.lazy").lazyload();</pre>
 
-This causes all images of class lazy to be lazy loaded. 
+This causes all images of class lazy to be lazy loaded.
 
 More information on "Lazy Load":http://www.appelsiini.net/projects/lazyload project page.
 
@@ -31,9 +31,13 @@ All code licensed under the "MIT License":http://www.opensource.org/licenses/mit
 
 h1. Changelog
 
+h2. 1.9.1
+
+* Fix iOS5 detection for iPhone  ("Berik Visschens":https://github.com/berikv)
+
 h3. 1.9.0
 
-* Add support for CSS background images. 
+* Add support for CSS background images.
 * Make external placeholder image optional by providing default 1x1 grey image as data uri ("Dave Mc Nicoll":https://github.com/mcNdave)
 * Fix bug "#47":https://github.com/tuupola/jquery_lazyload/pull/47 and "#71":https://github.com/tuupola/jquery_lazyload/issues/71. Mobile Safari window height changes when scrolling. ("Girvan":https://github.com/girvan)
 
@@ -100,4 +104,4 @@ h3. 1.4.0
 h3. 1.3.2
 
 * Support for scrolling within a container.
-* Fixed IE not loading images. 
+* Fixed IE not loading images.
