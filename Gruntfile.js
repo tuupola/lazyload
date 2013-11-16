@@ -1,24 +1,11 @@
 module.exports = function(grunt) {
     "use strict";
-  
+
     grunt.initConfig({
         pkg: grunt.file.readJSON("package.json"),
         uglify : {
             options: {
-                banner: "/*\n" +
-                        " * Lazy Load - jQuery plugin for lazy loading images\n" +
-                        " *\n" +
-                        " * Copyright (c) 2007-2013 Mika Tuupola\n" +
-                        " *\n" +
-                        " * Licensed under the MIT license:\n" +
-                        " *   http://www.opensource.org/licenses/mit-license.php\n" +
-                        " *\n" +
-                        " * Project home:\n" +
-                        " *   http://www.appelsiini.net/projects/lazyload\n" +
-                        " *\n" +
-                        " * Version: <%= pkg.version %>\n" +
-                        " *\n" +
-                        " */\n"
+                banner: "/*! Lazy Load <%= pkg.version %> - MIT license - Copyright 2010-2013 Mika Tuupola */\n"
             },
             target: {
                 files: {
@@ -46,7 +33,7 @@ module.exports = function(grunt) {
             }
         }
     });
-    
+
     grunt.loadNpmTasks("grunt-contrib-uglify");
     grunt.loadNpmTasks("grunt-contrib-jshint");
     grunt.loadNpmTasks("grunt-contrib-jasmine");
