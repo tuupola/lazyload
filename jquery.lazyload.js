@@ -110,7 +110,7 @@
                             if ($self.is("img")) {
                                 $self.attr("src", original);
                             } else {
-                                $self.css("background-image", "url('" + original + "')");
+                                $self.css("backgroundImage", "url('" + original + "')");
                             }
                             $self[settings.effect](settings.effect_speed);
 
