@@ -102,7 +102,7 @@
                         var elements_left = elements.length;
                         settings.appear.call(self, elements_left, settings);
                     }
-                    $("<img />")
+                    $(new Image())
                         .bind("load", function() {
 
                             var original = $self.attr("data-" + settings.data_attribute);
