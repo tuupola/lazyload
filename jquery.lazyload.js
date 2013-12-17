@@ -78,7 +78,10 @@
         /* Fire one scroll event per scroll. Not one scroll event per image. */
         if (0 === settings.event.indexOf("scroll")) {
             $container.bind(settings.event, function() {
-                return update();
+            // Make the library more polite and respect the browser's native
+            // scroll handlers.
+            clearTimeout($container.scrollTimeout);
+            $container.scrollTimeout = setTimeout(update);
             });
         }
 
