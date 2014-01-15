@@ -25,9 +25,9 @@ This causes all images of class lazy to be lazy loaded.
 
 More information on "Lazy Load":http://www.appelsiini.net/projects/lazyload project page.
 
-h4. Install with [bower](http://bower.io)
+h4. Install with "bower":http://bower.io
 
-`$ bower install jquery.lazyload`
+<pre>$ bower install jquery.lazyload</pre>
 
 h1. License
 
