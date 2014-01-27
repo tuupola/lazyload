@@ -13,9 +13,13 @@
   "license": "MIT",
   "ignore": [
     "**/.*",
+    "**/*.html",
+    "**/*.textile",
+    "Gruntfile.js",
+    "lazyload.jquery.json",
+    "package.json",
     "node_modules",
     "bower_components",
-    "test",
-    "tests"
+    "test"
   ]
 }
