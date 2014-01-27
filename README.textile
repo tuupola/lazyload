@@ -35,6 +35,14 @@ All code licensed under the "MIT License":http://www.opensource.org/licenses/mit
 
 h1. Changelog
 
+h2. 1.9.3
+
+* Improved Bower support
+
+h2. 1.9.2
+
+* Bower support ("mrzmyr":https://github.com/mrzmyr)
+
 h2. 1.9.1
 
 * Fix iOS5 detection for iPhone  ("Berik Visschens":https://github.com/berikv)
