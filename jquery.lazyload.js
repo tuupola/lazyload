@@ -41,12 +41,11 @@
                 if (settings.skip_invisible && !$this.is(":visible")) {
                     return;
                 }
-                //console.log($this);
                 if ($.abovethetop($this, settings) ||
                     $.leftofbegin($this, settings)) {
                         /* Nothing. */
                 } else if (!$.belowthefold($this, settings) &&
-                    !$.rightoffold($this, settings)) { console.log('trigger');
+                    !$.rightoffold($this, settings)) {
                         $(this).trigger("appear");
                         /* if we found an image we'll load, reset the counter */
                         counter = 0;
