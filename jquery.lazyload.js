@@ -100,11 +100,10 @@
                         var elements_left = elements.length;
                         settings.appear.call(self, elements_left, settings);
                     }
-                    if ($self.is("img")) {
+                    var original = $self.attr("data-" + settings.data_attribute);
+                    if (original) {
                         $("<img />")
                             .bind("load", function() {
-
-                                var original = $self.attr("data-" + settings.data_attribute);
                                 $self.hide();
                                 if ($self.is("img")) {
                                     $self.attr("src", original);
@@ -126,7 +125,7 @@
                                     settings.load.call(self, elements_left, settings);
                                 }
                             })
-                            .attr("src", $self.attr("data-" + settings.data_attribute));
+                            .attr("src", original);
                     }
                 }
             });
