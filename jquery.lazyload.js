@@ -11,6 +11,9 @@
  *
  * Version:  1.9.3
  *
+ * NOTES:
+ *  1) Retina images are supported by adding the data-original-2x attribute.
+ *
  */
 
 (function($, window, document, undefined) {
@@ -26,11 +29,14 @@
             effect          : "show",
             container       : window,
             data_attribute  : "original",
+            data_attribute_2x  : "original-2x",
             skip_invisible  : true,
             appear          : null,
             load            : null,
             placeholder     : "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAANSURBVBhXYzh8+PB/AAffA0nNPuCLAAAAAElFTkSuQmCC"
         };
+
+        var isRetina = window.devicePixelRatio && (window.devicePixelRatio > 1);
 
         function update() {
             var counter = 0;
@@ -106,11 +112,21 @@
                         .bind("load", function() {
 
                             var original = $self.attr("data-" + settings.data_attribute);
+                            var original2x = $self.attr("data-" + settings.data_attribute_retina);
+                            var imgUrl;
+
+                            if (isRetina && original2x) {
+                                imgUrl = original2x;
+                            }
+                            else if (original) {
+                                imgUrl = original;
+                            }
+
                             $self.hide();
                             if ($self.is("img")) {
-                                $self.attr("src", original);
+                                $self.attr("src", imgUrl);
                             } else {
-                                $self.css("background-image", "url('" + original + "')");
+                                $self.css("background-image", "url('" + imgUrl + "')");
                             }
                             $self[settings.effect](settings.effect_speed);
 
