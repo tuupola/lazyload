@@ -33,7 +33,7 @@
             skip_invisible  : true,
             appear          : null,
             load            : null,
-            placeholder     : "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAANSURBVBhXYzh8+PB/AAffA0nNPuCLAAAAAElFTkSuQmCC"
+            placeholder     : "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs="
         };
 
         var isRetina = window.devicePixelRatio && (window.devicePixelRatio > 1);
@@ -122,13 +122,23 @@
                                 imgUrl = original;
                             }
 
-                            $self.hide();
+                            if (settings.effect === 'fadeIn') {
+                                $self.css('opacity', 0);
+                            }
+                            else {
+                                $self.hide();
+                            }
                             if ($self.is("img")) {
                                 $self.attr("src", imgUrl);
                             } else {
                                 $self.css("background-image", "url('" + imgUrl + "')");
                             }
-                            $self[settings.effect](settings.effect_speed);
+                            if (settings.effect === 'fadeIn') {
+                                $self.fadeTo(100, settings.effect_speed);
+                            }
+                            else {
+                                $self[settings.effect](settings.effect_speed);
+                            }
 
                             self.loaded = true;
 
