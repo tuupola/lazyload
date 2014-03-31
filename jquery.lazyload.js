@@ -19,6 +19,8 @@
 (function($, window, document, undefined) {
     var $window = $(window);
 
+    var CLASS_LOADED = 'lazyLoaded';
+
     $.fn.lazyload = function(options) {
         var elements = this;
         var $container;
@@ -94,77 +96,122 @@
 
             self.loaded = false;
 
-            /* If no src attribute given use data:uri. */
-            if ($self.attr("src") === undefined || $self.attr("src") === false) {
-                if ($self.is("img")) {
-                    $self.attr("src", settings.placeholder);
-                }
-            }
+            if (!$self.hasClass(CLASS_LOADED)) {
+                /*
+                 * Make sure we don't load this again.
+                 */
+                $self.addClass(CLASS_LOADED);
 
-            /* When appear is triggered load original image. */
-            $self.one("appear", function() {
-                if (!this.loaded) {
-                    if (settings.appear) {
-                        var elements_left = elements.length;
-                        settings.appear.call(self, elements_left, settings);
+                /* If no src attribute given use data:uri. */
+                if ($self.attr("src") === undefined || $self.attr("src") === false) {
+                    if ($self.is("img")) {
+                        $self.attr("src", settings.placeholder);
                     }
-                    $("<img />")
-                        .bind("load", function() {
-
-                            var original = $self.attr("data-" + settings.data_attribute);
-                            var original2x = $self.attr("data-" + settings.data_attribute_retina);
-                            var imgUrl;
-
-                            if (isRetina && original2x) {
-                                imgUrl = original2x;
-                            }
-                            else if (original) {
-                                imgUrl = original;
-                            }
-
-                            if (settings.effect === 'fadeIn') {
-                                $self.css('opacity', 0);
-                            }
-                            else {
-                                $self.hide();
-                            }
-                            if ($self.is("img")) {
-                                $self.attr("src", imgUrl);
-                            } else {
-                                $self.css("background-image", "url('" + imgUrl + "')");
-                            }
-                            if (settings.effect === 'fadeIn') {
-                                $self.fadeTo(100, settings.effect_speed);
-                            }
-                            else {
-                                $self[settings.effect](settings.effect_speed);
-                            }
-
-                            self.loaded = true;
-
-                            /* Remove image from array so it is not looped next time. */
-                            var temp = $.grep(elements, function(element) {
-                                return !element.loaded;
-                            });
-                            elements = $(temp);
-
-                            if (settings.load) {
-                                var elements_left = elements.length;
-                                settings.load.call(self, elements_left, settings);
-                            }
-                        })
-                        .attr("src", $self.attr("data-" + settings.data_attribute));
                 }
-            });
 
-            /* When wanted event is triggered load original image */
-            /* by triggering appear.                              */
-            if (0 !== settings.event.indexOf("scroll")) {
-                $self.bind(settings.event, function() {
-                    if (!self.loaded) {
-                        $self.trigger("appear");
+                /* When appear is triggered load original image. */
+                $self.one("appear", function() {
+                    if (!this.loaded) {
+                        if (settings.appear) {
+                            var elements_left = elements.length;
+                            settings.appear.call(self, elements_left, settings);
+                        }
+
+                        var original = $self.attr("data-" + settings.data_attribute);
+                        var original2x = $self.attr("data-" + settings.data_attribute_retina);
+                        var imgUrl;
+
+                        if (isRetina && original2x) {
+                            imgUrl = original2x;
+                        }
+                        else if (original) {
+                            imgUrl = original;
+                        }
+
+                        $("<img />")
+                            .bind("load", function() {
+
+                                function setImage($elem, imgUrl) {
+                                    if ($elem.is("img")) {
+                                        $elem.attr("src", imgUrl);
+                                    } else {
+                                        $elem.css("background-image", "url('" + imgUrl + "')");
+                                    }
+                                }
+
+                                function createOverlay($elem, imgUrl) {
+                                    var tagName = $elem[0].tagName.toLowerCase();
+                                    var $overlay = $('<' + tagName + '></' + tagName + '>');
+                                    var imgPos = $self.position();
+                                    var zIndex = $elem.css('z-index');
+
+                                    $overlay[0].loaded = true;
+
+                                    if (!zIndex || (zIndex === 'auto')) {
+                                        zIndex = 0;
+                                    }
+                                    zIndex += 1;
+
+                                    $overlay.css({
+                                                    position:  'absolute',
+                                                    top:       imgPos.top,
+                                                    left:      imgPos.left,
+                                                    width:     $elem.innerWidth(),
+                                                    height:    $elem.innerHeight(),
+                                                    'z-index': zIndex
+                                                 });
+                                    $overlay.attr('class', $elem.attr('class'))
+                                            .addClass(CLASS_LOADED);
+
+                                    setImage($overlay, imgUrl);
+                                    $overlay.hide();
+                                    $elem.after($overlay);
+
+                                    return $overlay;
+                                }
+
+                                function cleanupOverlay($elem, $overlay, imgUrl) {
+                                    setImage($elem, imgUrl);
+
+                                    /* Leave a few millisecs to avoid any flash */
+                                    setTimeout(function() {
+                                        $overlay.remove();
+                                    }, 10);
+                                }
+
+                                var $overlay = createOverlay($self, imgUrl);
+
+                                $overlay[settings.effect](settings.effect_speed,
+                                                            function() {
+                                                                cleanupOverlay($self, $overlay, imgUrl);
+                                                            });
+
+                                self.loaded = true;
+
+                                /* Remove image from array so it is not looped next time. */
+                                var temp = $.grep(elements, function(element) {
+                                    return !element.loaded;
+                                });
+                                elements = $(temp);
+
+                                if (settings.load) {
+                                    var elements_left = elements.length;
+                                    settings.load.call(self, elements_left, settings);
+                                }
+                            })
+                            .attr("src", imgUrl);
                     }
                 });
+
+                /* When wanted event is triggered load original image */
+                /* by triggering appear.                              */
+                if (0 !== settings.event.indexOf("scroll")) {
+                    $self.bind(settings.event, function() {
+                        if (!self.loaded) {
+                            $self.trigger("appear");
+                        }
+                    });
+                }
             }
         });
 
