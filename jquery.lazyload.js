@@ -1,15 +1,20 @@
 /*
  * Lazy Load - jQuery plugin for lazy loading images
  *
+ * Forked by Spencer Mefford
+ *
  * Copyright (c) 2007-2013 Mika Tuupola
  *
  * Licensed under the MIT license:
  *   http://www.opensource.org/licenses/mit-license.php
  *
- * Project home:
+ * Fork Home:
+ *   https://github.com/spencermefford/jquery_lazyload
+ *
+ * Original Project home:
  *   http://www.appelsiini.net/projects/lazyload
  *
- * Version:  1.9.0
+ * Version:  1.9.0 (forked)
  *
  */
  
