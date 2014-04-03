@@ -8,7 +8,7 @@ Do not commit minified versions. Do not touch the version number. Make the pull 
 
 ## Follow the existing coding standards
 
-When contributing to open source project it is polite to follow the original authors coding standars. They might be different than yours. It is not a holy war. Just follow then original.
+When contributing to open source project it is polite to follow the original authors coding standars. They might be different than yours. It is not a holy war. Just follow the original.
 
 ```javascript
 var snake_case = "something";
