@@ -13,10 +13,13 @@
  *
  * NOTES:
  *  1) Retina images are supported by adding the data-original-2x attribute.
+ *
  */
 
 (function($, window, document, undefined) {
     var $window = $(window);
+
+    var CLASS_LOADED = 'lazyLoaded';
 
     $.fn.lazyload = function(options) {
         var elements = this;
@@ -25,14 +28,14 @@
             threshold       : 0,
             failure_limit   : 0,
             event           : "scroll",
+            effect_speed    : 0,
             container       : window,
             data_attribute  : "original",
             data_attribute_2x  : "original-2x",
             skip_invisible  : true,
             appear          : null,
             load            : null,
-            placeholder     : /* Transparent 1x1 GIF */
-                              "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
+            placeholder     : "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs="
         };
 
         var isRetina = window.devicePixelRatio && (window.devicePixelRatio > 1);
@@ -89,99 +92,137 @@
 
             self.loaded = false;
 
-            /* If no src attribute given use data:uri. */
-            if ($self.attr("src") === undefined || $self.attr("src") === false) {
-                if ($self.is("img")) {
-                    $self.attr("src", settings.placeholder);
+            if (!$self.hasClass(CLASS_LOADED)) {
+                /*
+                 * Make sure we don't load this again.
+                 */
+                $self.addClass(CLASS_LOADED);
+
+                /* If no src attribute given use data:uri. */
+                if ($self.attr("src") === undefined || $self.attr("src") === false) {
+                    if ($self.is("img")) {
+                        $self.attr("src", settings.placeholder);
+                    }
                 }
-            }
 
-            /* When appear is triggered load original image. */
-            $self.one("appear", function() {
-                if (!this.loaded) {
-                    if (settings.appear) {
-                        var elements_left = elements.length;
-                        settings.appear.call(self, elements_left, settings);
-                    }
+                /* When appear is triggered load original image. */
+                $self.one("appear", function() {
+                    if (!this.loaded) {
+                        if (settings.appear) {
+                            var elements_left = elements.length;
+                            settings.appear.call(self, elements_left, settings);
+                        }
 
-                    var original = $self.data(settings.data_attribute);
-                    var original2x = $self.data(settings.data_attribute_2x);
-                    var imgUrl;
+                        var original = $self.data(settings.data_attribute);
+                        var original2x = $self.data(settings.data_attribute_retina);
+                        var imgUrl;
 
-                    if (isRetina && original2x) {
-                        imgUrl = original2x;
-                    }
-                    else if (original) {
-                        imgUrl = original;
-                    }
+                        if (isRetina && original2x) {
+                            imgUrl = original2x;
+                        }
+                        else if (original) {
+                            imgUrl = original;
+                        }
 
-                    $("<img />")
-                        .bind("load", function() {
+                        $("<img />")
+                            .bind("load", function() {
 
-                            /*
-                             * If the element is not an image, assume we're tinkering the
-                             * css background-image property.
-                             */
-                            if (!$self.is('img')) {
-                                var     cssPos = $self.css('position');
-                                var     $overlayChild;
-
-                                if ((cssPos !== 'absolute') && (cssPos !== 'fixed') && (cssPos !== 'relative')) {
-                                    $self.css('position', 'relative');
+                                function setImage($elem, imgUrl) {
+                                    if ($elem.is("img")) {
+                                        $elem.attr("src", imgUrl);
+                                    } else {
+                                        $elem.css("background-image", "url('" + imgUrl + "')");
+                                    }
                                 }
 
-                                $overlayChild =
-                                    $('<div>').css({
-                                                    position: 'absolute',
-                                                    top: 0,
-                                                    left: 0,
-                                                    height: $self.height(),
-                                                    width: $self.width(),
-                                                    backgroundImage: 'url(' + imgUrl + ')',
-                                                    background-size: '100% 100%',
-                                                    opacity: 0
-                                                   });
-                                $self.append($overlayChild);
+                                function createOverlay($elem, imgUrl) {
+                                    var tagName = $elem[0].tagName.toLowerCase();
+                                    var $overlay = $('<' + tagName + '></' + tagName + '>');
+                                    var imgPos = $self.position();
+                                    var zIndex = $elem.css('z-index');
+                                    var isImg = (tagName === 'img');
 
-                                $overlayChild.animate({opacity: 1},
-                                                  settings.effect_speed,
-                                                  function() {
-                                                            $self.css('backgroundImage',
-                                                                      'url(' + imgUrl + ')');
-                                                            $overlayChild.remove();
-                                                        });
-                            }
-                            else {
-                                $self.css('opacity', 0.0);
-                                $self.attr("src", imgUrl);
-                                $self.fadeTo(settings.effect_speed, 1.0);
-                            }
+                                    $overlay[0].loaded = true;
 
-                            self.loaded = true;
+                                    if (!zIndex || (zIndex === 'auto')) {
+                                        zIndex = 0;
+                                    }
+                                    else if (zIndex > 0) {
+                                        zIndex += 1;
+                                    }
 
-                            /* Remove image from array so it is not looped next time. */
-                            var temp = $.grep(elements, function(element) {
-                                return !element.loaded;
-                            });
-                            elements = $(temp);
+                                    var top = isImg ? imgPos.top : 0;
+                                    var left = isImg ? imgPos.left : 0;
 
-                            if (settings.load) {
-                                var elements_left = elements.length;
-                                settings.load.call(self, elements_left, settings);
-                            }
-                        })
-                        .attr("src", imgUrl);
-                }
-            });
+                                    $overlay.css({
+                                                    position:  'absolute',
+                                                    top:       top,
+                                                    left:      left,
+                                                    width:     $elem.innerWidth(),
+                                                    height:    $elem.innerHeight(),
+                                                    'z-index': zIndex
+                                                 });
+                                    setImage($overlay, imgUrl);
+                                    $overlay.hide();
 
-            /* When wanted event is triggered load original image */
-            /* by triggering appear.                              */
-            if (0 !== settings.event.indexOf("scroll")) {
-                $self.bind(settings.event, function() {
-                    if (!self.loaded) {
-                        $self.trigger("appear");
+                                    if (isImg) {
+                                        /* For images, we want to duplicate any class-based styling,
+                                           and also keep the overlay from being caught by the lazy
+                                           loader by mistake. */
+                                        $overlay.attr('class', $elem.attr('class'))
+                                                .addClass(CLASS_LOADED);
+
+                                        $elem.after($overlay);
+                                    }
+                                    else {
+                                        $self.append($overlay);
+                                    }
+
+                                    return $overlay;
+                                }
+
+                                function cleanupOverlay($elem, $overlay, imgUrl) {
+                                    setImage($elem, imgUrl);
+
+                                    /* Leave a few millisecs to avoid any flash */
+                                    setTimeout(function() {
+                                        $overlay.remove();
+                                    }, 10);
+                                }
+
+                                var $overlay = createOverlay($self, imgUrl);
+
+                                $overlay.fadeIn(settings.effect_speed,
+                                                function() {
+                                                    cleanupOverlay($self, $overlay, imgUrl);
+                                                });
+
+                                self.loaded = true;
+
+                                /* Remove image from array so it is not looped next time. */
+                                var temp = $.grep(elements, function(element) {
+                                    return !element.loaded;
+                                });
+                                elements = $(temp);
+
+                                if (settings.load) {
+                                    var elements_left = elements.length;
+                                    settings.load.call(self, elements_left, settings);
+                                }
+                            })
+                            .attr("src", imgUrl);
                     }
                 });
+
+                /* When wanted event is triggered load original image */
+                /* by triggering appear.                              */
+                if (0 !== settings.event.indexOf("scroll")) {
+                    $self.bind(settings.event, function() {
+                        if (!self.loaded) {
+                            $self.trigger("appear");
+                        }
+                    });
+                }
             }
         });
 
