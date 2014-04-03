@@ -138,7 +138,7 @@
                                                     height: $self.height(),
                                                     width: $self.width(),
                                                     backgroundImage: 'url(' + imgUrl + ')',
-                                                    background-size: '100% 100%',
+                                                    backgroundSize: '100% 100%',
                                                     opacity: 0
                                                    });
                                 $self.append($overlayChild);
