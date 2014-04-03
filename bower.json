@@ -1,0 +1,23 @@
+{
+  "name": "jquery_lazyload",
+  "version": "1.9.0",
+  "main": [
+    "./jquery.lazyload.js"
+  ],
+  "ignore": [
+    "config",
+    "node_modules",
+    "playground",
+    "src",
+    "test",
+    ".travis.yml",
+    ".gitignore",
+    ".jshintrc",
+    "CHANGELOG.md",
+    "Gruntfile.js",
+    "package.json"
+  ],
+  "dependencies": {
+    "jquery": "latest"
+  }
+}
