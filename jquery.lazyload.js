@@ -89,7 +89,7 @@
             self.loaded = false;
 
             /* If no src attribute given use data:uri. */
-            if ($self.attr("src") === undefined || $self.attr("src") === false) {
+            if ($self.attr("src") === undefined || $self.attr("src") === false || $self.attr("src").trim() === '') {
                 if ($self.is("img")) {
                     $self.attr("src", settings.placeholder);
                 }
