@@ -15,10 +15,12 @@
 
 (function($, window, document, undefined) {
     var $window = $(window);
+    var id = 0;
 
     $.fn.lazyload = function(options) {
         var elements = this;
         var $container;
+        var namespace = ".lazyload-" + (++id);
         var settings = {
             threshold       : 0,
             failure_limit   : 0,
@@ -55,6 +57,14 @@
                 }
             });
 
+            if (0 === elements.length) {
+                unbind();
+            }
+        }
+
+        function unbind() {
+            $container.unbind(namespace);
+            $window.unbind(namespace);
         }
 
         if(options) {
@@ -77,7 +87,7 @@
 
         /* Fire one scroll event per scroll. Not one scroll event per image. */
         if (0 === settings.event.indexOf("scroll")) {
-            $container.bind(settings.event, function() {
+            $container.bind(settings.event + namespace, function() {
                 return update();
             });
         }
@@ -143,14 +153,14 @@
         });
 
         /* Check if something appears when window is resized. */
-        $window.bind("resize", function() {
+        $window.bind("resize" + namespace, function() {
             update();
         });
 
         /* With IOS5 force loading images when navigating with back button. */
         /* Non optimal workaround. */
         if ((/(?:iphone|ipod|ipad).*os 5/gi).test(navigator.appVersion)) {
-            $window.bind("pageshow", function(event) {
+            $window.bind("pageshow" + namespace, function(event) {
                 if (event.originalEvent && event.originalEvent.persisted) {
                     elements.each(function() {
                         $(this).trigger("appear");
