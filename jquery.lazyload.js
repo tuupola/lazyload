@@ -29,7 +29,8 @@
             skip_invisible  : true,
             appear          : null,
             load            : null,
-            placeholder     : "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAANSURBVBhXYzh8+PB/AAffA0nNPuCLAAAAAElFTkSuQmCC"
+            placeholder     : "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAANSURBVBhXYzh8+PB/AAffA0nNPuCLAAAAAElFTkSuQmCC",
+            handle_webkit_error : false
         };
 
         function update() {
@@ -69,6 +70,12 @@
             }
 
             $.extend(settings, options);
+
+			/* the bug won't happen if we don't skip invisible */
+            if (settings.handle_webkit_error && !settings.skip_invisible) {
+            	settings.handle_webkit_error = null;
+            }
+
         }
 
         /* Cache container as jQuery as object. */
@@ -159,7 +166,14 @@
 
         /* Force initial check if images should appear. */
         $(document).ready(function() {
-            update();
+	        /* If we're dealing with a webkit browser, this hack comes in handy */
+			if (settings.handle_webkit_error && (/webkit/gi).test(navigator.appVersion)) {
+				$(window).scrollTop($(window).scrollTop()+1);
+	            update();
+	            $(window).scrollTop($(window).scrollTop()-1);
+			} else {
+	            update();
+	        }
         });
 
         return this;
