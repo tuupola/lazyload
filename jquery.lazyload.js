@@ -71,11 +71,10 @@
 
             $.extend(settings, options);
 
-			/* the bug won't happen if we don't skip invisible */
+            /* the bug won't happen if we don't skip invisible */
             if (settings.handle_webkit_error && !settings.skip_invisible) {
-            	settings.handle_webkit_error = null;
+                settings.handle_webkit_error = null;
             }
-
         }
 
         /* Cache container as jQuery as object. */
@@ -166,14 +165,14 @@
 
         /* Force initial check if images should appear. */
         $(document).ready(function() {
-	        /* If we're dealing with a webkit browser, this hack comes in handy */
-			if (settings.handle_webkit_error && (/webkit/gi).test(navigator.appVersion)) {
-				$(window).scrollTop($(window).scrollTop()+1);
+            /* If we're dealing with a webkit browser, this hack comes in handy */
+            if (settings.handle_webkit_error && (/webkit/gi).test(navigator.appVersion)) {
+	            $(window).scrollTop($(window).scrollTop()+1);
 	            update();
 	            $(window).scrollTop($(window).scrollTop()-1);
-			} else {
+            } else {
 	            update();
-	        }
+            }
         });
 
         return this;
