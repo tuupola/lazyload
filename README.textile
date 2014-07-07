@@ -1,23 +1,23 @@
 h1. Lazy Load Plugin for jQuery
 
-Lazy Load delays loading of images in long web pages. Images outside of viewport wont be loaded before user scrolls to them. This is opposite of image preloading.
+Lazy Load delays loading of images in long web pages. Images outside of the viewport won't be loaded before the user scrolls to them. This is the opposite of image preloading.
 
-Using Lazy Load on long web pages containing many large images makes the page load faster. Browser will be in ready state after loading visible images. In some cases it can also help to reduce server load.
+Using Lazy Load on long web pages containing many large images makes the page load faster. The browser will be in the ready state after loading visible images. In some cases, it can also help to reduce server load.
 
-Lazy Load is inspired by "YUI ImageLoader":http://developer.yahoo.com/yui/imageloader/ Utility by Matt Mlinac.
+Lazy Load is inspired by the "YUI ImageLoader":http://developer.yahoo.com/yui/imageloader/ Utility by Matt Mlinac.
 
-h2. How to Use?
+h2. How do I use this?
 
-Lazy Load depends on jQuery. Include them both in end of your HTML code:
+Lazy Load depends on jQuery. Include them both at the end of your HTML code:
 
 <pre><script src="jquery.js" type="text/javascript"></script>
 <script src="jquery.lazyload.js" type="text/javascript"></script></pre>
 
-You must alter your HTML code. URL of the real image must be put into data-original attribute. It is good idea to give Lazy Loaded image a specific class. This way you can easily control which images plugin is binded to. Note that you should have width and height attributes in your image tag.
+You must alter your HTML code. The URL of the real image must be put into the data-original attribute. It is a good idea to give Lazy Loaded images a specific class. This way you can easily control which images the plugin is binded to. Note that you should have the width and height attributes in your image tag.
 
 <pre><img class="lazy" data-original="img/example.jpg" width="640" height="480"></pre>
 
-then in your code do:
+Then, in your code write:
 
 <pre>$("img.lazy").lazyload();</pre>
 
