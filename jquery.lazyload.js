@@ -22,6 +22,7 @@
         var settings = {
             threshold       : 0,
             failure_limit   : 0,
+            failure_image   : "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAANSURBVBhXYzh8+PB/AAffA0nNPuCLAAAAAElFTkSuQmCC",
             event           : "scroll",
             effect          : "show",
             container       : window,
@@ -29,7 +30,7 @@
             skip_invisible  : true,
             appear          : null,
             load            : null,
-            placeholder     : "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAANSURBVBhXYzh8+PB/AAffA0nNPuCLAAAAAElFTkSuQmCC"
+            placeholder     : "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAANSURBVBhXYzh8+PB/AAffA0nNPuCLAAAAAElFTkSuQmCC",
         };
 
         function update() {
@@ -127,7 +128,15 @@
                                 settings.load.call(self, elements_left, settings);
                             }
                         })
-                        .attr("src", $self.attr("data-" + settings.data_attribute));
+                        .attr("src", $self.attr("data-" + settings.data_attribute))
+                        /* If failed to retrieve image we load image settings.failure_image instead of placeholder */
+                        .bind("error", function() {
+                            if ($self.is("img")) {
+                                $self.attr("src", settings.failure_image);
+                            } else {
+                                $self.css("background-image", "url('" + settings.failure_image + "')");
+                            }
+                        });
                 }
             });
 
