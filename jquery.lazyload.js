@@ -29,7 +29,8 @@
             skip_invisible  : true,
             appear          : null,
             load            : null,
-            placeholder     : "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAANSURBVBhXYzh8+PB/AAffA0nNPuCLAAAAAElFTkSuQmCC"
+            placeholder     : "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAANSURBVBhXYzh8+PB/AAffA0nNPuCLAAAAAElFTkSuQmCC",
+            url_rewriter_fn : function (url) { return url; }
         };
 
         function update() {
@@ -104,6 +105,7 @@
                         .bind("load", function() {
 
                             var original = $self.attr("data-" + settings.data_attribute);
+                            original = settings.url_rewriter_fn(original);
                             $self.hide();
                             if ($self.is("img")) {
                                 $self.attr("src", original);
