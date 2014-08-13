@@ -9,7 +9,7 @@
  * Project home:
  *   http://www.appelsiini.net/projects/lazyload
  *
- * Version:  1.9.0
+ * Version:  1.9.3
  *
  */
  /*
@@ -98,6 +98,8 @@
             if (settings.skip_invisible) tempElements = elements.filter(':visible');
             else tempElements = elements;
 
+            if (tempElements.length == 0) return;
+
             var startElement = Math.floor(tempElements.length * percentScrolled);
 
             /* mont@foray.com - 2013-10-22
@@ -106,12 +108,12 @@
              * find partially displayed elements at the top.
              */            
             for (var index = startElement -1; index >= 0; index--) {
-                var $element = $(tempElements[index]);
+                var $element = tempElements.eq([index]);
 
-                if (!$.abovethetop(aboveFold, $(tempElements[index]), settings.threshold) &&
-                    !$.leftofbegin(leftFold, $(tempElements[index]), settings.threshold) &&
-                    !$.belowthefold(belowFold, $(tempElements[index]), settings.threshold) &&
-                    !$.rightoffold(rightFold, $(tempElements[index]), settings.threshold)) // Visible
+                if (!$.abovethetop(aboveFold, $element, settings.threshold) &&
+                    !$.leftofbegin(leftFold, $element, settings.threshold) &&
+                    !$.belowthefold(belowFold, $element, settings.threshold) &&
+                    !$.rightoffold(rightFold, $element, settings.threshold)) // Visible
                 {
                     $element.trigger("appear");
                     continue;
@@ -123,7 +125,7 @@
             /* mont@foray.com - 2013-10-22
              * Check forwards from the startElement.  After displaying elements 
              * stop at the first not visible element
-             */            
+             */
             for (var index = startElement; index < tempElements.length; index++) {
                 var $element = $(tempElements[index]);
 
@@ -131,13 +133,13 @@
                 else if (!$.belowthefold(belowFold, $element, settings.threshold) && !$.rightoffold(rightFold, $element, settings.threshold)) // Visible
                 {
                     $element.trigger("appear");
-                        /* if we found an image we'll load, reset the counter */
-                        counter = 0;
+                    /* if we found an image we'll load, reset the counter */
+                    counter = 0;
                 }
                 else { // Found a not visible element after visible ones, therefore stop looking.
                     if (++counter > settings.failure_limit) break;
-                    }
                 }
+            }
         }
 
         if(options) {
@@ -172,42 +174,46 @@
             self.loaded = false;
 
             /* If no src attribute given use data:uri. */
-            if ($self.attr("src") === undefined || $self.attr("src") === false) {
-                $self.attr("src", settings.placeholder);
+            var $srcAttr = $self.attr("src");
+
+            if ($srcAttr === undefined || $srcAttr === false) {
+                if ($self.is("img")) {
+                    $self.attr("src", settings.placeholder);
+                }
             }
             
             /* When appear is triggered load original image. */
-            $self.one("appear", function() {
+            $self.one("appear", function () {
                 if (this.loaded) return;
 
-                    if (settings.appear) {
-                        var elements_left = elements.length;
-                        settings.appear.call(self, elements_left, settings);
-                    }
+                if (settings.appear) {
+                    var elements_left = elements.length;
+                    settings.appear.call(self, elements_left, settings);
+                }
 
-                    $("<img />")
-                        .bind("load", function() {
-                            var original = $self.data(settings.data_attribute);
-                            $self.hide();
-                            if ($self.is("img")) {
-                                $self.attr("src", original);
-                            } else {
-                                $self.css("background-image", "url('" + original + "')");
-                            }
-                            $self[settings.effect](settings.effect_speed);
-                            
-                            self.loaded = true;
+                $("<img />")
+                    .bind("load", function () {
+                        var original = $self.attr("data-" + settings.data_attribute);
+                        $self.hide();
+                        if ($self.is("img")) {
+                            $self.attr("src", original);
+                        } else {
+                            $self.css("background-image", "url('" + original + "')");
+                        }
+                        $self[settings.effect](settings.effect_speed);
+
+                        self.loaded = true;
 
                         /* mont@foray.com - 2013-10-22
                          * Removing displayed elements from the array was slow and is no longer necessary due to jumping ahead in Update().
                          */            
 
-                            if (settings.load) {
-                                var elements_left = elements.length;
-                                settings.load.call(self, elements_left, settings);
-                            }
-                        })
-                        .attr("src", $self.data(settings.data_attribute));
+                        if (settings.load) {
+                            var elements_left = elements.length;
+                            settings.load.call(self, elements_left, settings);
+                        }
+                    })
+                    .attr("src", $self.attr("data-" + settings.data_attribute));
             });
 
             /* When wanted event is triggered load original image */
@@ -228,7 +234,7 @@
               
         /* With IOS5 force loading images when navigating with back button. */
         /* Non optimal workaround. */
-        if ((/iphone|ipod|ipad.*os 5/gi).test(navigator.appVersion)) {
+        if ((/(?:iphone|ipod|ipad).*os 5/gi).test(navigator.appVersion)) {
             $window.bind("pageshow", function(event) {
                 if (event.originalEvent && event.originalEvent.persisted) {
                     elements.each(function() {
@@ -256,25 +262,27 @@
     $.belowthefold = function (fold, $element, threshold) {
         return fold <= $element.offset().top - threshold;
     };
-
+    
     $.rightoffold = function (fold, $element, threshold) {
         return fold <= $element.offset().left - threshold;
     };
-    
+        
     $.abovethetop = function (fold, $element, threshold) {
         var elementTop = $element.offset().top;
-
+        
         if (fold < elementTop + threshold) return false;
 
         return fold >= elementTop + threshold  + $element.height();
     };
-        
+    
     $.leftofbegin = function (fold, $element, threshold) {
         var elementLeft = $element.offset().left;
 
         if (fold < elementLeft + threshold) return false;
+
+        return fold >= elementLeft + threshold + $element.width();
     };
-    
+
     $.inviewport = function (element, settings) {
         var belowFold;
         var rightFold;
@@ -299,7 +307,7 @@
 
         return !$.rightoffold(rightFold, element, settings) && !$.leftofbegin(leftfold, element, settings) &&
                !$.belowthefold(belowFold, element, settings) && !$.abovethetop(aboveFold, element, settings);
-     };
+    };
 
     /* Custom selectors for your convenience.   */
     /* Use as $("img:below-the-fold").something() or */
