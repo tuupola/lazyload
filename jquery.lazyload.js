@@ -157,6 +157,12 @@
 
                             self.loaded = true;
 
+                            /* Remove image from array so it is not looped next time. */
+                            var temp = $.grep(elements, function(element) {
+                                return !element.loaded;
+                            });
+                            elements = $(temp);
+
                             if (settings.load) {
                                 var elements_left = elements.length;
                                 settings.load.call(self, elements_left, settings);
