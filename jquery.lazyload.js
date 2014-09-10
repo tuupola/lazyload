@@ -103,7 +103,7 @@
                     $("<img />")
                         .bind("load", function() {
 
-                            $self.addClass('preloaded');
+                            $self.addClass("preloaded");
                             var original = $self.attr("data-" + settings.data_attribute);
                             $self.hide();
                             if ($self.is("img")) {
@@ -114,7 +114,7 @@
                             $self[settings.effect](settings.effect_speed);
 
                             self.loaded = true;
-                            $self.removeClass('preloaded').addClass('loaded');
+                            $self.removeClass("preloaded").addClass("loaded");
 
                             /* Remove image from array so it is not looped next time. */
                             var temp = $.grep(elements, function(element) {
