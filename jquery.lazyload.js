@@ -29,6 +29,7 @@
             skip_invisible  : true,
             appear          : null,
             load            : null,
+            load_class      : "lazy-loaded",
             placeholder     : "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAANSURBVBhXYzh8+PB/AAffA0nNPuCLAAAAAElFTkSuQmCC"
         };
 
@@ -113,6 +114,8 @@
                             $self[settings.effect](settings.effect_speed);
 
                             self.loaded = true;
+                            
+                            $self.addClass(settings.load_class);
 
                             /* Remove image from array so it is not looped next time. */
                             var temp = $.grep(elements, function(element) {
