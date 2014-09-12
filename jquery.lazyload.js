@@ -142,7 +142,9 @@
 
         /* Check if something appears when window is resized. */
         $window.bind("resize", function() {
-            update();
+            if (0 === settings.event.indexOf("scroll")) {
+                update();
+            }
         });
 
         /* With IOS5 force loading images when navigating with back button. */
@@ -160,8 +162,8 @@
         /* Force initial check if images should appear. */
         $(document).ready(function() {
             if (0 === settings.event.indexOf("scroll")) {
-				update();
-			}
+                update();
+            }
         });
 
         return this;
