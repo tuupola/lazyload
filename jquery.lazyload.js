@@ -159,7 +159,8 @@
 
         /* Force initial check if images should appear. */
         $(document).ready(function() {
-            update();
+            if (0 === settings.event.indexOf("scroll"))
+                update();
         });
 
         return this;
