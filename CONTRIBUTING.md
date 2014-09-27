@@ -37,14 +37,3 @@ if (true !== false) {
     console.log("here be dragons");
 }
 ```
-
-## Make sure tests pass
-
-After you change some code make sure all the test still pass. You can run tests from the commandline with the following:
-
-```
-npm install
-grunt test
-```
-
-Or you can also open the [test runner](https://github.com/tuupola/jquery_chained/blob/master/test/SpecRunner.html) in browser.
