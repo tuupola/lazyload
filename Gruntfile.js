@@ -50,12 +50,7 @@ module.exports = function(grunt) {
 				options:{
 					port: 8080,
 					hostname: "localhost",
-					keepalive : true,
-					middleware: function(connect, options) {
-						return [
-							connect.static(options.base)
-						];
-					}
+					keepalive : true
 				}
 			}
 		}
