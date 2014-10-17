@@ -44,16 +44,27 @@ module.exports = function(grunt) {
                 specs: "test/spec/*Spec.js",
                 vendor: ["test/vendor/jquery-1.9.0.js", "test/vendor/jasmine-jquery.js"]
             }
-        }
+        },
+		connect: {
+			all: {
+				options:{
+					port: 8080,
+					hostname: "localhost",
+					keepalive : true
+				}
+			}
+		}
     });
     
     grunt.loadNpmTasks("grunt-contrib-uglify");
     grunt.loadNpmTasks("grunt-contrib-jshint");
     grunt.loadNpmTasks("grunt-contrib-jasmine");
     grunt.loadNpmTasks("grunt-contrib-watch");
+    grunt.loadNpmTasks('grunt-contrib-connect');
 
     //grunt.registerTask("test", ["jshint", "jasmine"]);
     grunt.registerTask("test", ["jshint"]);
     grunt.registerTask("default", ["test", "uglify"]);
+    grunt.registerTask('server', ['connect']);
 
 };
