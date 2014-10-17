@@ -32,14 +32,15 @@ h4. Install with "bower":http://bower.io
 h4. Run local "Grunt":http://gruntjs.com test to see examples
 
 Install dependencies:
-* install "node.js":http://nodejs.org/
-* <pre>
+install "node.js":http://nodejs.org/
+Install Grunt and dependencies (in jquery_lazyload directory)
+<pre>
 $ npm install -g grunt-cli
 $ npm install
 </pre>
 
-Start server
-* <pre>$ grunt server</pre>
+Start server:
+<pre>$ grunt server</pre>
 
 h1. License
 
