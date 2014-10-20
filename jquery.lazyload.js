@@ -13,24 +13,33 @@
  *
  */
 
-(function($, window, document, undefined) {
+(function($, window){
     var $window = $(window);
 
-    $.fn.lazyload = function(options) {
-        var elements = this;
-        var $container;
-        var settings = {
-            threshold       : 0,
-            failure_limit   : 0,
-            event           : "scroll",
-            effect          : "show",
-            container       : window,
-            data_attribute  : "original",
-            skip_invisible  : true,
-            appear          : null,
-            load            : null,
-            placeholder     : "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAANSURBVBhXYzh8+PB/AAffA0nNPuCLAAAAAElFTkSuQmCC"
-        };
+
+      var plugin_name = 'lazyload';
+      var percentage;
+      var methods = {
+        init: function(options) {
+          options = options || {};
+          var self = this;
+          if(!this.length){
+            return;
+          }
+          var elements = this;
+          var $container;
+          var settings = {
+              threshold       : 0,
+              failure_limit   : 0,
+              event           : "scroll",
+              effect          : "show",
+              container       : window,
+              data_attribute  : "original",
+              skip_invisible  : true,
+              appear          : null,
+              load            : null,
+              placeholder     : "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAANSURBVBhXYzh8+PB/AAffA0nNPuCLAAAAAElFTkSuQmCC"
+          };
 
         function update() {
             var counter = 0;
@@ -42,11 +51,11 @@
                 }
                 if ($.abovethetop(this, settings) ||
                     $.leftofbegin(this, settings)) {
-                        /* Nothing. */
+                        // Nothing.
                 } else if (!$.belowthefold(this, settings) &&
                     !$.rightoffold(this, settings)) {
                         $this.trigger("appear");
-                        /* if we found an image we'll load, reset the counter */
+                        // if we found an image we'll load, reset the counter
                         counter = 0;
                 } else {
                     if (++counter > settings.failure_limit) {
@@ -77,11 +86,11 @@
 
         /* Fire one scroll event per scroll. Not one scroll event per image. */
         if (0 === settings.event.indexOf("scroll")) {
-            $container.bind(settings.event, function() {
+            $container.on(settings.event + '.lazyload', function() {
                 return update();
             });
         }
-
+        var images = [];
         this.each(function() {
             var self = this;
             var $self = $(self);
@@ -102,8 +111,8 @@
                         var elements_left = elements.length;
                         settings.appear.call(self, elements_left, settings);
                     }
-                    $("<img />")
-                        .bind("load", function() {
+                    images.push($("<img />")
+                        .one("load", function() {
 
                             var original = $self.attr("data-" + settings.data_attribute);
                             $self.hide();
@@ -127,7 +136,7 @@
                                 settings.load.call(self, elements_left, settings);
                             }
                         })
-                        .attr("src", $self.attr("data-" + settings.data_attribute));
+                        .attr("src", $self.attr("data-" + settings.data_attribute)));
                 }
             });
 
@@ -139,33 +148,63 @@
                         $self.trigger("appear");
                     }
                 });
-            }
-        });
+              }
 
-        /* Check if something appears when window is resized. */
-        $window.bind("resize", function() {
-            update();
-        });
+          });
+          $window.on("resize.lazyload",update);
+          // With IOS5 force loading images when navigating with back button.
+          // Non optimal workaround.
+          var apple_hack = function(event) {
+                  if (event.originalEvent && event.originalEvent.persisted) {
+                      elements.each(function() {
+                          $(this).trigger("appear");
+                      });
+                  }
+              };
+          if ((/(?:iphone|ipod|ipad).*os 5/gi).test(navigator.appVersion)) {
+              $window.on("pageshow.lazyload", apple_hack);
+          }
 
-        /* With IOS5 force loading images when navigating with back button. */
-        /* Non optimal workaround. */
-        if ((/(?:iphone|ipod|ipad).*os 5/gi).test(navigator.appVersion)) {
-            $window.bind("pageshow", function(event) {
-                if (event.originalEvent && event.originalEvent.persisted) {
-                    elements.each(function() {
-                        $(this).trigger("appear");
-                    });
-                }
+          update();
+
+            $(this).data(plugin_name, {
+              destroy: function(){
+                $window.off("resize.lazyload", update);
+                $window.off("pageshow.lazyload", apple_hack);
+                $container.off(settings.event + '.lazyload');
+                $container = null;
+                elements.each(function(){
+                  $(this).off('appear');
+                });
+                elements = null;
+                $(images).each(function(){
+                  $(this).off();
+                });
+                images = [];
+              }
             });
+
+        },
+        destroy: function() {
+            var $this = $(this),
+              data = $this.data(plugin_name);
+            if (data) {
+              data.destroy();
+              $this.removeData(plugin_name);
+            }
         }
+      };
 
-        /* Force initial check if images should appear. */
-        $(document).ready(function() {
-            update();
-        });
-
-        return this;
-    };
+      $.fn[plugin_name] = function(method) {
+        // Method calling logic
+        if (methods[method]) {
+          return methods[method].apply(this, Array.prototype.slice.call(arguments, 1));
+        } else if (typeof method === 'object' || !method) {
+          return methods.init.apply(this, arguments);
+        } else {
+          $.error('Method ' + method + ' does not exist');
+        }
+      };
 
     /* Convenience methods in jQuery namespace.           */
     /* Use as  $.belowthefold(element, {threshold : 100, container : window}) */
