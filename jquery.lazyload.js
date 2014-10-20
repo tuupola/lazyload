@@ -16,10 +16,8 @@
 (function($, window){
     var $window = $(window);
 
-
-      var plugin_name = 'lazyload';
-      var percentage;
-      var methods = {
+    var plugin_name = 'lazyload';
+    var methods = {
         init: function(options) {
           options = options || {};
           var self = this;
@@ -150,25 +148,25 @@
                 });
               }
 
-          });
-          $window.on("resize.lazyload",update);
-          // With IOS5 force loading images when navigating with back button.
-          // Non optimal workaround.
-          var apple_hack = function(event) {
-                  if (event.originalEvent && event.originalEvent.persisted) {
-                      elements.each(function() {
-                          $(this).trigger("appear");
-                      });
-                  }
-              };
-          if ((/(?:iphone|ipod|ipad).*os 5/gi).test(navigator.appVersion)) {
-              $window.on("pageshow.lazyload", apple_hack);
-          }
+        });
+        $window.on("resize.lazyload",update);
+        // With IOS5 force loading images when navigating with back button.
+        // Non optimal workaround.
+        var apple_hack = function(event) {
+            if (event.originalEvent && event.originalEvent.persisted) {
+                elements.each(function() {
+                    $(this).trigger("appear");
+                });
+            }
+        };
+        if ((/(?:iphone|ipod|ipad).*os 5/gi).test(navigator.appVersion)) {
+            $window.on("pageshow.lazyload", apple_hack);
+        }
 
-          update();
+        update();
 
-            $(this).data(plugin_name, {
-              destroy: function(){
+        $(this).data(plugin_name, {
+            destroy: function(){
                 $window.off("resize.lazyload", update);
                 $window.off("pageshow.lazyload", apple_hack);
                 $container.off(settings.event + '.lazyload');
@@ -183,7 +181,6 @@
                 images = [];
               }
             });
-
         },
         destroy: function() {
             var $this = $(this),
@@ -195,7 +192,7 @@
         }
       };
 
-      $.fn[plugin_name] = function(method) {
+    $.fn[plugin_name] = function(method) {
         // Method calling logic
         if (methods[method]) {
           return methods[method].apply(this, Array.prototype.slice.call(arguments, 1));
@@ -204,7 +201,7 @@
         } else {
           $.error('Method ' + method + ' does not exist');
         }
-      };
+    };
 
     /* Convenience methods in jQuery namespace.           */
     /* Use as  $.belowthefold(element, {threshold : 100, container : window}) */
