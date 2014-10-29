@@ -96,14 +96,22 @@
             /* When appear is triggered load original image. */
             $self.one("appear", function() {
                 if (!this.loaded) {
+
+                    /* Calling the settings.appear function if declared. */
                     if (settings.appear) {
                         settings.appear.call(self, elements.length, settings);
                     }
+
+                    /* Creating a new `img` in a DOM fragment */
                     $("<img />")
-                        .bind("load", function() {
+
+                        /* Listening to the load event on the DOM fragment's `img`. */
+                        .on("load", function() {
 
                             var original = $self.attr("data-" + settings.data_attribute);
                             $self.hide();
+
+                            /* Setting `src` in the original `img` when the DOM fragment's `img` loads. */
                             if ($self.is("img")) {
                                 $self.attr("src", original);
                             } else {
@@ -123,6 +131,8 @@
                                 settings.load.call(self, elements.length, settings);
                             }
                         })
+
+                        /* Start loading the image source (reading from data attribute). */
                         .attr("src", $self.attr("data-" + settings.data_attribute));
                 }
             });
