@@ -87,6 +87,7 @@
 
 	    /* Cycle every image in the set. */
         this.each(function() {
+
             var self = this;
             var $self = $(self);
 
@@ -99,6 +100,58 @@
 
             /* When appear is triggered load original image. */
             $self.one("appear", function() {
+
+                function setImageAndDisplay() {
+                    /* Setting `src` in the original `img` */
+                    var original = $self.data(settings.data_attribute);
+                    if ($self.is("img")) {
+                        $self.attr("src", original);
+                    } else {
+                        $self.css("background-image", "url('" + original + "')");
+                    }
+                    /* Executing effect for effect_speed, and calling display callback. */
+                    $self[settings.effect](settings.effect_speed);
+                    callCallback("display");
+                }
+
+                function removeFromElements() {
+                    /* Remove image from array so it is not looped next time. */
+                    self.processed = true;
+                    var temp = $.grep(elements, function(element) {
+                        return !element.processed;
+                    });
+                    elements = $(temp);
+                }
+
+                function callCallback(name) {
+                    if (settings[name]) {
+                        settings[name].call(self, elements.length, settings);
+                    }
+                }
+
+                function showOnAppear() {
+                    $self.one("load", function() {
+                        callCallback("load");
+                    });
+                    $self.hide();
+                    removeFromElements();
+                    setImageAndDisplay();
+                }
+
+                function showOnLoad() {
+                    /* Creating a new `img` in a DOM fragment. */
+                    $("<img />")
+                        /* Listening to the load event on the DOM fragment's `img`. */
+                        .one("load", function() {
+                            $self.hide();
+                            removeFromElements();
+                            setImageAndDisplay();
+                            callCallback("load");
+                        })
+                        /* Start loading the image source (reading from data attribute). */
+                        .attr("src", $self.data(settings.data_attribute));
+                }
+
                 if (!self.processed) {
 
 	                /* Calling the settings.appear function if declared. */
@@ -107,74 +160,9 @@
 	                }
 
                     if (settings.show_on_appear) {
-
-                        $self.one("load", function() {
-                            if (settings.load) {
-                                settings.load.call(self, elements.length, settings);
-                            }
-                        });
-
-                        var original = $self.data(settings.data_attribute);
-                        $self.hide();
-
-                        self.processed = true;
-
-                        /* Remove image from array so it is not looped next time. */
-                        var temp = $.grep(elements, function(element) {
-                            return !element.processed;
-                        });
-                        elements = $(temp);
-
-                        /* Setting `src` in the original `img` */
-                        if ($self.is("img")) {
-                            $self.attr("src", original);
-                        } else {
-                            $self.css("background-image", "url('" + original + "')");
-                        }
-                        $self[settings.effect](settings.effect_speed);
-
-                        if (settings.display) {
-                            settings.display.call(self, elements.length, settings);
-                        }
-
+                        showOnAppear();
                     } else {
-
-                        /* Creating a new `img` in a DOM fragment. */
-                        $("<img />")
-
-                            /* Listening to the load event on the DOM fragment's `img`. */
-                            .one("load", function() {
-
-                                var original = $self.data(settings.data_attribute);
-                                $self.hide();
-
-                                /* Setting `src` in the original `img` when the DOM fragment's `img` loads. */
-                                if ($self.is("img")) {
-                                    $self.attr("src", original);
-                                } else {
-                                    $self.css("background-image", "url('" + original + "')");
-                                }
-                                $self[settings.effect](settings.effect_speed);
-
-                                self.processed = true;
-
-                                /* Remove image from array so it is not looped next time. */
-                                var temp = $.grep(elements, function(element) {
-                                    return !element.processed;
-                                });
-                                elements = $(temp);
-
-                                if (settings.display) {
-                                    settings.display.call(self, elements.length, settings);
-                                }
-
-                                if (settings.load) {
-                                    settings.load.call(self, elements.length, settings);
-                                }
-                            })
-
-                            /* Start loading the image source (reading from data attribute). */
-                            .attr("src", $self.data(settings.data_attribute));
+                        showOnLoad();
                     }
                 }
             });
