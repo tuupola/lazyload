@@ -28,8 +28,10 @@
             container       : window,
             data_attribute  : "original",
             skip_invisible  : true,
+            show_on_appear  : false,
             appear          : null,
             load            : null,
+            display         : null,
             placeholder     : "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAANSURBVBhXYzh8+PB/AAffA0nNPuCLAAAAAElFTkSuQmCC"
         };
 
@@ -88,7 +90,7 @@
             var self = this;
             var $self = $(self);
 
-            self.loaded = false;
+            self.processed = false;
 
             /* If no src attribute given use data:uri. */
             if ($self.attr("src") === undefined || $self.attr("src") === false) {
@@ -97,52 +99,90 @@
 
             /* When appear is triggered load original image. */
             $self.one("appear", function() {
-                if (!self.loaded) {
+                if (!self.processed) {
 
 	                /* Calling the settings.appear function if declared. */
 	                if (settings.appear) {
 	                    settings.appear.call(self, elements.length, settings);
 	                }
 
-                    /* Creating a new `img` in a DOM fragment. */
-                    $("<img />")
+                    if (settings.show_on_appear) {
 
-                        /* Listening to the load event on the DOM fragment's `img`. */
-                        .on("load", function() {
-
-                            var original = $self.attr("data-" + settings.data_attribute);
-                            $self.hide();
-
-                            /* Setting `src` in the original `img` when the DOM fragment's `img` loads. */
-                            if ($self.is("img")) {
-                                $self.attr("src", original);
-                            } else {
-                                $self.css("background-image", "url('" + original + "')");
-                            }
-                            $self[settings.effect](settings.effect_speed);
-
-                            self.loaded = true;
-
-                            /* Remove image from array so it is not looped next time. */
-                            var temp = $.grep(elements, function(element) {
-                                return !element.loaded;
-                            });
-                            elements = $(temp);
-
+                        $self.one("load", function() {
                             if (settings.load) {
                                 settings.load.call(self, elements.length, settings);
                             }
-                        })
+                        });
 
-                        /* Start loading the image source (reading from data attribute). */
-                        .attr("src", $self.data(settings.data_attribute));
+                        var original = $self.data(settings.data_attribute);
+                        $self.hide();
+
+                        self.processed = true;
+
+                        /* Remove image from array so it is not looped next time. */
+                        var temp = $.grep(elements, function(element) {
+                            return !element.processed;
+                        });
+                        elements = $(temp);
+
+                        /* Setting `src` in the original `img` */
+                        if ($self.is("img")) {
+                            $self.attr("src", original);
+                        } else {
+                            $self.css("background-image", "url('" + original + "')");
+                        }
+                        $self[settings.effect](settings.effect_speed);
+
+                        if (settings.display) {
+                            settings.display.call(self, elements.length, settings);
+                        }
+
+                    } else {
+
+                        /* Creating a new `img` in a DOM fragment. */
+                        $("<img />")
+
+                            /* Listening to the load event on the DOM fragment's `img`. */
+                            .one("load", function() {
+
+                                var original = $self.data(settings.data_attribute);
+                                $self.hide();
+
+                                /* Setting `src` in the original `img` when the DOM fragment's `img` loads. */
+                                if ($self.is("img")) {
+                                    $self.attr("src", original);
+                                } else {
+                                    $self.css("background-image", "url('" + original + "')");
+                                }
+                                $self[settings.effect](settings.effect_speed);
+
+                                self.processed = true;
+
+                                /* Remove image from array so it is not looped next time. */
+                                var temp = $.grep(elements, function(element) {
+                                    return !element.processed;
+                                });
+                                elements = $(temp);
+
+                                if (settings.display) {
+                                    settings.display.call(self, elements.length, settings);
+                                }
+
+                                if (settings.load) {
+                                    settings.load.call(self, elements.length, settings);
+                                }
+                            })
+
+                            /* Start loading the image source (reading from data attribute). */
+                            .attr("src", $self.data(settings.data_attribute));
+                    }
                 }
             });
         
 	        /* When wanted event is triggered load original image by triggering appear. */
             if (0 !== settings.event.indexOf("scroll")) {
                 $self.on(settings.event, function() {
-                    if (!self.loaded) {
+                    if (!self.processed) {
                         $self.trigger("appear");
                     }
                 });
