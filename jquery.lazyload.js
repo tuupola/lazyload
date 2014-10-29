@@ -104,43 +104,42 @@
 	                    settings.appear.call(self, elements.length, settings);
 	                }
 
-	                /* Creating a new `img` in a DOM fragment */
-	                $("<img />")
+                    /* Creating a new `img` in a DOM fragment. */
+                    $("<img />")
 
-	                    /* Listening to the load event on the DOM fragment's `img`. */
-	                    .on("load", function() {
+                        /* Listening to the load event on the DOM fragment's `img`. */
+                        .on("load", function() {
 
-	                        var original = $self.attr("data-" + settings.data_attribute);
-	                        $self.hide();
+                            var original = $self.attr("data-" + settings.data_attribute);
+                            $self.hide();
 
-	                        /* Setting `src` in the original `img` when the DOM fragment's `img` loads. */
-	                        if ($self.is("img")) {
-	                            $self.attr("src", original);
-	                        } else {
-	                            $self.css("background-image", "url('" + original + "')");
-	                        }
-	                        $self[settings.effect](settings.effect_speed);
+                            /* Setting `src` in the original `img` when the DOM fragment's `img` loads. */
+                            if ($self.is("img")) {
+                                $self.attr("src", original);
+                            } else {
+                                $self.css("background-image", "url('" + original + "')");
+                            }
+                            $self[settings.effect](settings.effect_speed);
 
-	                        self.loaded = true;
+                            self.loaded = true;
 
-	                        /* Remove image from array so it is not looped next time. */
-	                        var temp = $.grep(elements, function(element) {
-	                            return !element.loaded;
-	                        });
-	                        elements = $(temp);
+                            /* Remove image from array so it is not looped next time. */
+                            var temp = $.grep(elements, function(element) {
+                                return !element.loaded;
+                            });
+                            elements = $(temp);
 
-	                        if (settings.load) {
-	                            settings.load.call(self, elements.length, settings);
-	                        }
-	                    })
+                            if (settings.load) {
+                                settings.load.call(self, elements.length, settings);
+                            }
+                        })
 
-	                    /* Start loading the image source (reading from data attribute). */
-	                    .attr("src", $self.attr("data-" + settings.data_attribute));
+                        /* Start loading the image source (reading from data attribute). */
+                        .attr("src", $self.data(settings.data_attribute));
                 }
             });
         
-	        /* When wanted event is triggered load original image */
-	        /* by triggering appear.                              */
+	        /* When wanted event is triggered load original image by triggering appear. */
             if (0 !== settings.event.indexOf("scroll")) {
                 $self.on(settings.event, function() {
                     if (!self.loaded) {
