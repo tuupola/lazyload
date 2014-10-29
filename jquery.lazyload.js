@@ -97,7 +97,7 @@
 
             /* When appear is triggered load original image. */
             $self.one("appear", function() {
-                if (!this.loaded) {
+                if (!self.loaded) {
 
 	                /* Calling the settings.appear function if declared. */
 	                if (settings.appear) {
