@@ -83,6 +83,7 @@
             });
         }
 
+	    /* Cycle every image in the set. */
         this.each(function() {
             var self = this;
             var $self = $(self);
@@ -98,48 +99,48 @@
             $self.one("appear", function() {
                 if (!this.loaded) {
 
-                /* Calling the settings.appear function if declared. */
-                if (settings.appear) {
-                    settings.appear.call(self, elements.length, settings);
+	                /* Calling the settings.appear function if declared. */
+	                if (settings.appear) {
+	                    settings.appear.call(self, elements.length, settings);
+	                }
+
+	                /* Creating a new `img` in a DOM fragment */
+	                $("<img />")
+
+	                    /* Listening to the load event on the DOM fragment's `img`. */
+	                    .on("load", function() {
+
+	                        var original = $self.attr("data-" + settings.data_attribute);
+	                        $self.hide();
+
+	                        /* Setting `src` in the original `img` when the DOM fragment's `img` loads. */
+	                        if ($self.is("img")) {
+	                            $self.attr("src", original);
+	                        } else {
+	                            $self.css("background-image", "url('" + original + "')");
+	                        }
+	                        $self[settings.effect](settings.effect_speed);
+
+	                        self.loaded = true;
+
+	                        /* Remove image from array so it is not looped next time. */
+	                        var temp = $.grep(elements, function(element) {
+	                            return !element.loaded;
+	                        });
+	                        elements = $(temp);
+
+	                        if (settings.load) {
+	                            settings.load.call(self, elements.length, settings);
+	                        }
+	                    })
+
+	                    /* Start loading the image source (reading from data attribute). */
+	                    .attr("src", $self.attr("data-" + settings.data_attribute));
                 }
-
-                    /* Creating a new `img` in a DOM fragment */
-                    $("<img />")
-
-                        /* Listening to the load event on the DOM fragment's `img`. */
-                        .on("load", function() {
-
-                            var original = $self.attr("data-" + settings.data_attribute);
-                            $self.hide();
-
-                            /* Setting `src` in the original `img` when the DOM fragment's `img` loads. */
-                            if ($self.is("img")) {
-                                $self.attr("src", original);
-                            } else {
-                                $self.css("background-image", "url('" + original + "')");
-                            }
-                            $self[settings.effect](settings.effect_speed);
-
-                            self.loaded = true;
-
-                            /* Remove image from array so it is not looped next time. */
-                            var temp = $.grep(elements, function(element) {
-                                return !element.loaded;
-                            });
-                            elements = $(temp);
-
-                            if (settings.load) {
-                                settings.load.call(self, elements.length, settings);
-                            }
-                        })
-
-                        /* Start loading the image source (reading from data attribute). */
-                        .attr("src", $self.attr("data-" + settings.data_attribute));
-            }
-        });
+            });
         
-            /* When wanted event is triggered load original image */
-            /* by triggering appear.                              */
+	        /* When wanted event is triggered load original image */
+	        /* by triggering appear.                              */
             if (0 !== settings.event.indexOf("scroll")) {
                 $self.on(settings.event, function() {
                     if (!self.loaded) {
