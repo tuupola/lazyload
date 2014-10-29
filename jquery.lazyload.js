@@ -58,7 +58,7 @@
 
         }
 
-        if(options) {
+        if (options) {
             /* Maintain BC for a couple of versions. */
             if (undefined !== options.failurelimit) {
                 options.failure_limit = options.failurelimit;
@@ -78,7 +78,7 @@
 
         /* Fire one scroll event per scroll. Not one scroll event per image. */
         if (0 === settings.event.indexOf("scroll")) {
-            $container.bind(settings.event, function() {
+            $container.on(settings.event, function() {
                 return update();
             });
         }
@@ -98,10 +98,10 @@
             $self.one("appear", function() {
                 if (!this.loaded) {
 
-                    /* Calling the settings.appear function if declared. */
-                    if (settings.appear) {
-                        settings.appear.call(self, elements.length, settings);
-                    }
+                /* Calling the settings.appear function if declared. */
+                if (settings.appear) {
+                    settings.appear.call(self, elements.length, settings);
+                }
 
                     /* Creating a new `img` in a DOM fragment */
                     $("<img />")
@@ -135,13 +135,13 @@
 
                         /* Start loading the image source (reading from data attribute). */
                         .attr("src", $self.attr("data-" + settings.data_attribute));
-                }
-            });
-
+            }
+        });
+        
             /* When wanted event is triggered load original image */
             /* by triggering appear.                              */
             if (0 !== settings.event.indexOf("scroll")) {
-                $self.bind(settings.event, function() {
+                $self.on(settings.event, function() {
                     if (!self.loaded) {
                         $self.trigger("appear");
                     }
@@ -150,7 +150,7 @@
         });
 
         /* Check if something appears when window is resized. */
-        $window.bind("resize", function() {
+        $window.on("resize", function() {
             update();
         });
 
