@@ -97,8 +97,7 @@
             $self.one("appear", function() {
                 if (!this.loaded) {
                     if (settings.appear) {
-                        var elements_left = elements.length;
-                        settings.appear.call(self, elements_left, settings);
+                        settings.appear.call(self, elements.length, settings);
                     }
                     $("<img />")
                         .bind("load", function() {
@@ -121,8 +120,7 @@
                             elements = $(temp);
 
                             if (settings.load) {
-                                var elements_left = elements.length;
-                                settings.load.call(self, elements_left, settings);
+                                settings.load.call(self, elements.length, settings);
                             }
                         })
                         .attr("src", $self.attr("data-" + settings.data_attribute));
