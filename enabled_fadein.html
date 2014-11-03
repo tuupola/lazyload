@@ -39,21 +39,21 @@ _gaq.push(['_trackPageview']);
         <a href="http://www.appelsiini.net/projects"><span class="label label-danger">Projects</span></a>
         <br>
         <div>
-          <iframe src="http://ghbtns.com/github-btn.html?user=tuupola&amp;repo=jquery_lazyload&amp;type=watch&amp;count=true&amp;size=small" allowtransparency="true" frameborder="0" scrolling="0" width="92" height="30"></iframe>    
+          <iframe src="http://ghbtns.com/github-btn.html?user=tuupola&amp;repo=jquery_lazyload&amp;type=watch&amp;count=true&amp;size=small" allowtransparency="true" frameborder="0" scrolling="0" width="94" height="30"></iframe>
           <iframe src="http://ghbtns.com/github-btn.html?user=tuupola&amp;repo=jquery_lazyload&amp;type=fork&amp;count=true&amp;size=small" allowtransparency="true" frameborder="0" scrolling="0" width="90" height="30"></iframe>
         </div>
       </div>
     </div>
   </div>
-   
+
   <div class="container">
     <div class="col-md-10 col-lg-8 col-md-offset-1 col-lg-offset-2">
-      
+
       <h2>Plugin enabled with fadein effect</h2>
       <p>
         Images below the fold (the ones lower than window bottom) are not loaded. When scrolling down
         they are loaded when needed. Images appear using <a href="http://docs.jquery.com/Effects/fadeIn">fadeIn</a>
-        effect. Empty cache and shift-reload to test again. Compare this to page where plugin is 
+        effect. Empty cache and shift-reload to test again. Compare this to page where plugin is
         <a href="enabled.html">without effects</a>.
       </p>
       <pre class="prettyprint">
@@ -70,10 +70,10 @@ $("img.lazy").lazyload({
         <img class="lazy img-responsive" data-original="img/bmw_m3_gt.jpg" width="765" height="574" alt="BMW M3 GT"><br/>
         <img class="lazy img-responsive" data-original="img/corvette_pitstop.jpg" width="765" height="574" alt="Corvette Pitstop"><br/>
       </div>
-      
+
     </div>
   </div>
-  
+
   <div class="bottom-menu bottom-menu-large bottom-menu-inverse">
     <div class="container">
       <div class="col-md-offset-1 col-lg-offset-2">
@@ -114,13 +114,14 @@ $("img.lazy").lazyload({
   </div>
 
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-  <script src="jquery.lazyload.js?v=1.9.0"></script>
+  <script src="jquery.lazyload.js?v=1.9.1"></script>
   <script src="http://www.appelsiini.net/js/demo.js"></script>
   <script type="text/javascript" charset="utf-8">
   $(function() {
      $("img.lazy").lazyload({
          effect : "fadeIn"
      });
+
   });
   </script>
 </body>

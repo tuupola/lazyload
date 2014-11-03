@@ -25,16 +25,29 @@ This causes all images of class lazy to be lazy loaded.
 
 More information on "Lazy Load":http://www.appelsiini.net/projects/lazyload project page.
 
+h4. Install with "bower":http://bower.io
+
+<pre>$ bower install jquery.lazyload</pre>
+
 h1. License
 
 All code licensed under the "MIT License":http://www.opensource.org/licenses/mit-license.php. All images licensed under "Creative Commons Attribution 3.0 Unported License":http://creativecommons.org/licenses/by/3.0/deed.en_US. In other words you are basically free to do whatever you want. Just don't remove my name from the source.
 
 h1. Changelog
 
+h2. 1.9.3
+
+* Improved Bower support
+
+h2. 1.9.2
+
+* Bower support ("mrzmyr":https://github.com/mrzmyr)
+
 h2. 1.9.1
 
 * Fix iOS5 detection for iPhone  ("Berik Visschens":https://github.com/berikv)
 * Use .attr() instead of .data() since jQuery caches values when using latter. Fixes "#37":https://github.com/tuupola/jquery_lazyload/pull/37, "#144":https://github.com/tuupola/jquery_lazyload/issues/144 and "#101":https://github.com/tuupola/jquery_lazyload/issues/101 ("Lorenz an Mey":https://github.com/swiftyone).
+* Do not add data:uri placeholder for non image elements.
 
 h3. 1.9.0
 
