@@ -93,11 +93,6 @@
 
             self.processed = false;
 
-            /* If no src attribute given use data:uri. */
-            if ($self.attr("src") === undefined || $self.attr("src") === false) {
-                $self.attr("src", settings.placeholder);
-            }
-
             /* When appear is triggered load original image. */
             $self.one("appear", function() {
 
@@ -109,12 +104,9 @@
                     } else {
                         $self.css("background-image", "url('" + original + "')");
                     }
-                    /* Executing effect for effect_speed, and calling display callback. */
-                    $self[settings.effect](settings.effect_speed);
-                    callCallback("display");
                 }
 
-                function removeFromElements() {
+                function removeFromArray() {
                     /* Remove image from array so it is not looped next time. */
                     self.processed = true;
                     var temp = $.grep(elements, function(element) {
@@ -133,19 +125,27 @@
                     $self.one("load", function() {
                         callCallback("load");
                     });
-                    $self.hide();
-                    removeFromElements();
+                    removeFromArray();
                     setImageAndDisplay();
+                    callCallback("display");
                 }
 
                 function showOnLoad() {
+                    /* If no src attribute given use data:uri. */
+                    if (!$self.attr("src")) {
+                        $self.attr("src", settings.placeholder);
+                    }
                     /* Creating a new `img` in a DOM fragment. */
                     $("<img />")
                         /* Listening to the load event on the DOM fragment's `img`. */
                         .one("load", function() {
+                            /* Initially hide the img, to show it later, eventually with a show effect. */
                             $self.hide();
-                            removeFromElements();
+                            removeFromArray();
                             setImageAndDisplay();
+                            /* Executing effect for effect_speed, and calling display callback. */
+                            $self[settings.effect](settings.effect_speed);
+                            callCallback("display");
                             callCallback("load");
                         })
                         /* Start loading the image source (reading from data attribute). */
@@ -159,6 +159,7 @@
 	                    settings.appear.call(self, elements.length, settings);
 	                }
 
+                    /* Forking behaviour depending on show_on_appear (true value is ideal for progressive jpeg). */
                     if (settings.show_on_appear) {
                         showOnAppear();
                     } else {
