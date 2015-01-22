@@ -16,7 +16,7 @@
 (function($, window, document, undefined) {
     var $window = $(window);
 
-    $.fn.lazyload = function(options) {
+    $.fn.lazyload = function(options,callback) {
         var elements = this;
         var $container;
         var settings = {
@@ -115,6 +115,10 @@
                             $self[settings.effect](settings.effect_speed);
 
                             self.loaded = true;
+                            /* Callback after this image loaded */
+                            if(callback){
+                                callback.call(self)
+                            }
 
                             /* Remove image from array so it is not looped next time. */
                             var temp = $.grep(elements, function(element) {
