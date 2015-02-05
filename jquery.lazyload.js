@@ -95,12 +95,17 @@
 
             /* When appear is triggered load original image. */
             $self.one("appear", function() {
+                var $img = $self.data("loadingImg");
+                if ($img) {
+                    $img.off("load");
+                    $self.data("loadingImg", null);
+                }
                 if (!this.loaded) {
                     if (settings.appear) {
                         var elements_left = elements.length;
                         settings.appear.call(self, elements_left, settings);
                     }
-                    $("<img />")
+                    $img = $("<img />")
                         .bind("load", function() {
 
                             var original = $self.attr("data-" + settings.data_attribute);
@@ -126,6 +131,7 @@
                             }
                         })
                         .attr("src", $self.attr("data-" + settings.data_attribute));
+                    $self.data("loadingImg", $img);
                 }
             });
 
