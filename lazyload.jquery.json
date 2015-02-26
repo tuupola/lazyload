@@ -1,6 +1,6 @@
 {
     "name": "lazyload",
-    "version": "1.9.3",
+    "version": "1.9.4",
     "title": "Lazy Load",
     "author": {
         "name": "Mika Tuupola",
@@ -14,7 +14,6 @@
         }
     ],
     "dependencies": {
-        "jquery": ">=1.5"
     },
     "description": "Delay loading of images in long web pages. Images outside of viewport wont be loaded before user scrolls to them.",
     "keywords": [
@@ -23,7 +22,7 @@
         "load",
         "image"
     ],
-  "homepage": "http://www.appelsiini.net/projects/lazyload",
+    "homepage": "http://www.appelsiini.net/projects/lazyload",
     "bugs": "https://github.com/tuupola/jquery_lazyload/issues",
     "docs": "http://www.appelsiini.net/projects/lazyload",
     "demo": "http://www.appelsiini.net/projects/lazyload/enabled_fadein.html",

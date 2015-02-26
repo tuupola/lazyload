@@ -1,6 +1,6 @@
 {
-  "name": "lazyload",
-  "version": "1.9.3",
+  "name": "jquery-lazyload",
+  "version": "1.9.4",
   "engines": {
     "node": ">= 0.8.0"
   },
@@ -18,5 +18,20 @@
     "grunt-contrib-uglify": "~0.2.4",
     "grunt-contrib-jasmine": "~0.5.2",
     "grunt-contrib-watch": "~0.5.3"
-  }
+  },
+  "description": "Lazyload images with jQuery",
+  "bugs": {
+    "url": "https://github.com/tuupola/jquery_lazyload/issues"
+  },
+  "homepage": "http://www.appelsiini.net/projects/lazyload",
+  "main": "Gruntfile.js",
+  "files": [
+      "jquery.lazyload.js",
+      "jquery.scrollstop.js"
+  ],
+  "keywords": [
+    "jquery-plugin",
+    "ecosystem:jquery"
+  ],
+  "license": "MIT"
 }
