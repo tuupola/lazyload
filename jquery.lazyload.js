@@ -26,6 +26,7 @@
             effect          : "show",
             container       : window,
             data_attribute  : "original",
+            bgi_attribute   : "bgi",
             skip_invisible  : true,
             appear          : null,
             load            : null,
@@ -106,9 +107,12 @@
                         .bind("load", function() {
 
                             var original = $self.attr("data-" + settings.data_attribute);
+                            var bgi = $self.attr("data-" + settings.bgi_attribute);
                             $self.hide();
                             if ($self.is("img")) {
                                 $self.attr("src", original);
+                            } else if ( typeof bgi !== 'undefined' )  {
+                                $self.css("background-image", bgi.replace('LAZYURL',original));
                             } else {
                                 $self.css("background-image", "url('" + original + "')");
                             }
