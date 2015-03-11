@@ -13,7 +13,13 @@
  *
  */
 
-(function($, window, document, undefined) {
+(function (factory) {
+  if(typeof module === "object" && typeof module.exports === "object") {
+    factory(require("jquery"), window, document);
+  } else {
+    factory(jQuery, window, document);
+  }
+}(function($, window, document, undefined) {
     var $window = $(window);
 
     $.fn.lazyload = function(options) {
@@ -239,4 +245,4 @@
         "left-of-fold"   : function(a) { return !$.rightoffold(a, {threshold : 0}); }
     });
 
-})(jQuery, window, document);
+}));
