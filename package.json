@@ -24,6 +24,9 @@
     "url": "https://github.com/tuupola/jquery_lazyload/issues"
   },
   "homepage": "http://www.appelsiini.net/projects/lazyload",
+  "browser": {
+    "jquery-lazyload": "jquery.lazyload.js"
+  },
   "main": "Gruntfile.js",
   "files": [
       "jquery.lazyload.js",
