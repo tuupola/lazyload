@@ -13,7 +13,6 @@
   "license": "MIT",
   "ignore": [
     "**/.*",
-    "**/*.min.js",
     "**/*.html",
     "**/*.textile",
     "Gruntfile.js",
