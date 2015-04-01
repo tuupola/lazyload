@@ -1,4 +1,4 @@
-/*
+/*!
  * Lazy Load - jQuery plugin for lazy loading images
  *
  * Copyright (c) 2007-2015 Mika Tuupola
