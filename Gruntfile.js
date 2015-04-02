@@ -5,7 +5,7 @@ module.exports = function(grunt) {
         pkg: grunt.file.readJSON("package.json"),
         uglify : {
             options: {
-                banner: "/*! Lazy Load <%= pkg.version %> - MIT license - Copyright 2010-2013 Mika Tuupola */\n"
+                banner: "/*! Lazy Load <%= pkg.version %> - MIT license - Copyright 2010-2015 Mika Tuupola */\n"
             },
             target: {
                 files: {
