@@ -9,7 +9,7 @@
  * Project home:
  *   http://www.appelsiini.net/projects/lazyload
  *
- * Version:  1.9.3
+ * Version:  1.9.5
  *
  */
 
@@ -26,7 +26,7 @@
             effect          : "show",
             container       : window,
             data_attribute  : "original",
-            skip_invisible  : true,
+            skip_invisible  : false,
             appear          : null,
             load            : null,
             placeholder     : "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAANSURBVBhXYzh8+PB/AAffA0nNPuCLAAAAAElFTkSuQmCC"
