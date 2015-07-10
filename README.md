@@ -10,20 +10,20 @@ Lazy Load is inspired by [YUI ImageLoader](http://developer.yahoo.com/yui/imagel
 
 Lazy Load depends on jQuery. Include them both in end of your HTML code:
 
-```
+```html
 <script src="jquery.js" type="text/javascript"></script>
 <script src="jquery.lazyload.js" type="text/javascript"></script>
 ```
 
 You must alter your HTML code. URL of the real image must be put into data-original attribute. It is good idea to give Lazy Loaded image a specific class. This way you can easily control which images plugin is binded to. Note that you should have width and height attributes in your image tag.
 
-```
+```html
 <img class="lazy" data-original="img/example.jpg" width="640" height="480">
 ```
 
 then in your code do:
 
-```
+```js
 $("img.lazy").lazyload();
 ```
 
@@ -36,7 +36,7 @@ More information on [Lazy Load](http://www.appelsiini.net/projects/lazyload) pro
 You can install with [bower](http://bower.io/) or [npm](https://www.npmjs.com/).
 
 
-```
+```sh
 $ bower install jquery.lazyload
 $ npm install jquery-lazyload
 ```
