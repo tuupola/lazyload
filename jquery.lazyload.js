@@ -127,6 +127,7 @@
                                 settings.load.call(self, elements_left, settings);
                             }
                         })
+                        .on( "error", settings.onpreloaderror )
                         .attr("src", $self.attr("data-" + settings.data_attribute));
                 }
             });
