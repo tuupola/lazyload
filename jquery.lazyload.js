@@ -27,6 +27,7 @@
             container       : window,
             data_attribute  : "original",
             skip_invisible  : false,
+            skip_all        : false,
             appear          : null,
             load            : null,
             placeholder     : "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAANSURBVBhXYzh8+PB/AAffA0nNPuCLAAAAAElFTkSuQmCC"
@@ -102,6 +103,11 @@
                         var elements_left = elements.length;
                         settings.appear.call(self, elements_left, settings);
                     }
+
+                    if (settings.skip_all) {
+                        return whenImgIsLoaded(self);
+                    }
+
                     $("<img />")
                         .bind("load", function() {
 
@@ -114,18 +120,7 @@
                             }
                             $self[settings.effect](settings.effect_speed);
 
-                            self.loaded = true;
-
-                            /* Remove image from array so it is not looped next time. */
-                            var temp = $.grep(elements, function(element) {
-                                return !element.loaded;
-                            });
-                            elements = $(temp);
-
-                            if (settings.load) {
-                                var elements_left = elements.length;
-                                settings.load.call(self, elements_left, settings);
-                            }
+                            whenImgIsLoaded(self);
                         })
                         .attr("src", $self.attr("data-" + settings.data_attribute));
                 }
@@ -166,6 +161,21 @@
 
         return this;
     };
+
+    function whenImgIsLoaded(thisImg) {
+        thisImg.loaded = true;
+
+        /* Remove image from array so it is not looped next time. */
+        var temp = $.grep(elements, function(element) {
+            return !element.loaded;
+        });
+        elements = $(temp);
+
+        if (settings.load) {
+            var elements_left = elements.length;
+            settings.load.call(thisImg, elements_left, settings);
+        }
+    }
 
     /* Convenience methods in jQuery namespace.           */
     /* Use as  $.belowthefold(element, {threshold : 100, container : window}) */

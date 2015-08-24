@@ -41,6 +41,23 @@ $ bower install jquery.lazyload
 $ npm install jquery-lazyload
 ```
 
+## API
+
+```js
+$('img.lazy').lazyload({
+  threshold       : 0,                // images to load earlier use threshold parameter
+  failure_limit   : 0,                // the maximum failure limit before giving up
+  event           : "scroll",         // custom event type
+  effect          : "show",           // can also be 'fadeIn', etc.
+  container       : window,           // img containers
+  data_attribute  : "original",       // custom data-* attribute name
+  skip_invisible  : false,            // dealing With Invisible Images
+  skip_all        : false,            // donot load all the imgs, useful when only watch the callback events.
+  appear          : null,             // callback before loading the img
+  load            : null,             // callback after loading the img
+  placeholder     : "data:base64..."  // placeholder img
+})
+```
 
 # License
 
