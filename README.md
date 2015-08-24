@@ -55,7 +55,7 @@ $('img.lazy').lazyload({
   skip_all        : false,            // donot load all the imgs, useful when only watch the callback events.
   appear          : null,             // callback before loading the img
   load            : null,             // callback after loading the img
-  placeholder     : "data:base644..." // placeholder img
+  placeholder     : "data:base64..."  // placeholder img
 })
 ```
 
