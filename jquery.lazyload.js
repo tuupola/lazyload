@@ -143,7 +143,7 @@
         });
 
         /* Check if something appears when window is resized. */
-        $window.bind("resize", function() {
+        $window.bind("resize.jqlazyload", function() {
             update();
         });
 
