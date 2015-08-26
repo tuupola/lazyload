@@ -109,6 +109,8 @@
                             $self.hide();
                             if ($self.is("img")) {
                                 $self.attr("src", original);
+                            } if ($self.is("video")) {
+                                $self.attr("poster", original);
                             } else {
                                 $self.css("background-image", "url('" + original + "')");
                             }
