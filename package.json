@@ -1,6 +1,6 @@
 {
   "name": "jquery-lazyload",
-  "version": "1.9.5",
+  "version": "1.9.6",
   "engines": {
     "node": ">= 0.8.0"
   },
@@ -24,7 +24,7 @@
     "url": "https://github.com/tuupola/jquery_lazyload/issues"
   },
   "homepage": "http://www.appelsiini.net/projects/lazyload",
-  "main": "Gruntfile.js",
+  "main": "jquery.lazyload.js",
   "files": [
       "jquery.lazyload.js",
       "jquery.scrollstop.js"
