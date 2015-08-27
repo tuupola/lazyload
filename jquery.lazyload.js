@@ -26,6 +26,7 @@
             effect          : "show",
             container       : window,
             data_attribute  : "original",
+            attribute       : "contentUrl",
             skip_invisible  : false,
             appear          : null,
             load            : null,
@@ -55,6 +56,10 @@
                 }
             });
 
+        }
+
+        function getOriginal($e) {
+            return $e.attr("data-" + settings.data_attribute) || $e.attr(settings.attribute);
         }
 
         if(options) {
@@ -98,6 +103,8 @@
             /* When appear is triggered load original image. */
             $self.one("appear", function() {
                 if (!this.loaded) {
+                    var original = getOriginal($self);
+
                     if (settings.appear) {
                         var elements_left = elements.length;
                         settings.appear.call(self, elements_left, settings);
@@ -105,7 +112,6 @@
                     $("<img />")
                         .bind("load", function() {
 
-                            var original = $self.attr("data-" + settings.data_attribute);
                             $self.hide();
                             if ($self.is("img")) {
                                 $self.attr("src", original);
@@ -127,7 +133,7 @@
                                 settings.load.call(self, elements_left, settings);
                             }
                         })
-                        .attr("src", $self.attr("data-" + settings.data_attribute));
+                        .attr("src", original);
                 }
             });
 

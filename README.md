@@ -29,6 +29,17 @@ $("img.lazy").lazyload();
 
 This causes all images of class lazy to be lazy loaded.
 
+If you have adopted microformats ([schema.org](https://schema.org/ImageObject)'s example):
+```
+<img class="lazy" itemprop="image" contentUrl="img/example.jpg" width="640" height="480">
+```
+
+then in your code do:
+
+```
+$("img.lazy").lazyload({attribute: "contentUrl"});
+```
+
 More information on [Lazy Load](http://www.appelsiini.net/projects/lazyload) project page.
 
 ## Install
