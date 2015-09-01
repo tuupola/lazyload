@@ -104,15 +104,22 @@
                     }
                     $("<img />")
                         .bind("load", function() {
+                            var original = $self.attr("data-" + settings.data_attribute),
+                                isAnimated = settings.effect !== "show";
 
-                            var original = $self.attr("data-" + settings.data_attribute);
-                            $self.hide();
+                            if (isAnimated) {
+                                $self.hide();
+                            }
+
                             if ($self.is("img")) {
                                 $self.attr("src", original);
                             } else {
                                 $self.css("background-image", "url('" + original + "')");
                             }
-                            $self[settings.effect](settings.effect_speed);
+
+                            if (isAnimated) {
+                                $self[settings.effect](settings.effect_speed);
+                            }
 
                             self.loaded = true;
 
