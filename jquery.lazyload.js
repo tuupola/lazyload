@@ -29,7 +29,8 @@
             skip_invisible  : false,
             appear          : null,
             load            : null,
-            placeholder     : "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAANSURBVBhXYzh8+PB/AAffA0nNPuCLAAAAAElFTkSuQmCC"
+            placeholder     : "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAANSURBVBhXYzh8+PB/AAffA0nNPuCLAAAAAElFTkSuQmCC",
+            scroll_delay    : 0
         };
 
         function update() {
@@ -78,7 +79,15 @@
         /* Fire one scroll event per scroll. Not one scroll event per image. */
         if (0 === settings.event.indexOf("scroll")) {
             $container.bind(settings.event, function() {
-                return update();
+                if (settings.scroll_delay > 0) {
+                    clearTimeout($.data(this, "scrollTimer"));
+                    $.data(this, "scrollTimer", setTimeout(function() {
+                        /* Haven't scrolled in scroll_delay miliseconds */
+                        return update();
+                    }, settings.scroll_delay));    
+                } else {
+                    return update();
+                }
             });
         }
 
