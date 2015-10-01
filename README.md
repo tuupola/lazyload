@@ -29,6 +29,19 @@ $("img.lazy").lazyload();
 
 This causes all images of class lazy to be lazy loaded.
 
+You can use AMD or CommonJS to include Lazy Load by passing jQuery object to it:
+
+```js
+// CommonJS
+var jQuery = require('jquery');
+require('jquery-lazyload')(jQuery);
+
+// AMD
+define(['jquery', 'jquery.lazyload'], function (jQuery, lazyload) {
+  lazyload(jQuery)
+})
+```
+
 More information on [Lazy Load](http://www.appelsiini.net/projects/lazyload) project page.
 
 ## Install
