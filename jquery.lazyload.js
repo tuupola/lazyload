@@ -29,7 +29,7 @@
             skip_invisible  : false,
             appear          : null,
             load            : null,
-            throttle        : 1000,
+            throttle        : 500,
             placeholder     : "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAANSURBVBhXYzh8+PB/AAffA0nNPuCLAAAAAElFTkSuQmCC"
         };
 
@@ -40,18 +40,17 @@
             return function () {
                 var context = scope || this;
 
-                var now = +new Date,
-                        args = arguments;
+                var now = +new Date;
                 if (last && now < last + threshhold) {
                     // hold on to it
                     clearTimeout(deferTimer);
                     deferTimer = setTimeout(function () {
                         last = now;
-                        fn.apply(context, args);
+                        fn.apply(context, arguments);
                     }, threshhold);
                 } else {
                     last = now;
-                    fn.apply(context, args);
+                    fn.apply(context, arguments);
                 }
             };
         }
@@ -105,7 +104,7 @@
 
         /* Fire one scroll event per scroll. Not one scroll event per image. */
         if (0 === settings.event.indexOf("scroll")) {
-            $container.bind(settings.event, throttle(update, null, this));
+            $container.bind(settings.event, throttle(update));
         }
 
         this.each(function() {
@@ -169,7 +168,7 @@
         });
 
         /* Check if something appears when window is resized. */
-        $window.bind("resize", throttle(update, null, this));
+        $window.bind("resize", throttle(update));
 
         /* With IOS5 force loading images when navigating with back button. */
         /* Non optimal workaround. */
