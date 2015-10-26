@@ -34,7 +34,7 @@
         };
 
         function throttle(fn, threshhold, scope) {
-            threshhold || (threshhold = options.throttle);
+            threshhold || (threshhold = settings.throttle);
             var last,
                     deferTimer;
             return function () {
@@ -105,9 +105,7 @@
 
         /* Fire one scroll event per scroll. Not one scroll event per image. */
         if (0 === settings.event.indexOf("scroll")) {
-            throttle($container.bind(settings.event, function() {
-                return update();
-            }));
+            $container.bind(settings.event, throttle(update, null, this));
         }
 
         this.each(function() {
@@ -171,9 +169,7 @@
         });
 
         /* Check if something appears when window is resized. */
-        $window.bind("resize", function() {
-            throttle(update());
-        });
+        $window.bind("resize", throttle(update, null, this));
 
         /* With IOS5 force loading images when navigating with back button. */
         /* Non optimal workaround. */
