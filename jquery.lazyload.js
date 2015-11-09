@@ -104,8 +104,6 @@
                         settings.appear.call(self, elements_left, settings);
                     }
 
-                    $(self).hasClass(settings.loaded_class);
-
                     $("<img />")
                         .bind("load", function() {
 
