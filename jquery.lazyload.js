@@ -23,6 +23,7 @@
             threshold       : 0,
             failure_limit   : 0,
             event           : "scroll",
+            loaded_class    : "lazy-loaded",
             effect          : "show",
             container       : window,
             data_attribute  : "original",
@@ -102,8 +103,14 @@
                         var elements_left = elements.length;
                         settings.appear.call(self, elements_left, settings);
                     }
+
+                    $(self).hasClass(settings.loaded_class);
+
                     $("<img />")
                         .bind("load", function() {
+
+                            //adding loaded_class when image is loaded so on later call we can skip this images.
+                            $($self).addClass(settings.loaded_class);
 
                             var original = $self.attr("data-" + settings.data_attribute);
                             $self.hide();
@@ -128,6 +135,7 @@
                             }
                         })
                         .attr("src", $self.attr("data-" + settings.data_attribute));
+
                 }
             });
 
