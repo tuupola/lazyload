@@ -129,10 +129,10 @@
                             }
                         })
                         .bind("error", function () {
-							if (settings.error) {
-								settings.error.call(self, settings);
-							}
-						})
+				if (settings.error) {
+					settings.error.call(self, settings);
+				}
+			})
                         .attr("src", $self.attr("data-" + settings.data_attribute));
                 }
             });
