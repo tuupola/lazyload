@@ -132,7 +132,10 @@
                                 settings.load.call(self, elements_left, settings);
                             }
                         })
-                        .attr("src", $self.attr("data-" + settings.data_attribute));
+                        .attr({
+                            "src": $self.attr("data-" + settings.data_attribute),
+                            "srcset": $self.attr("data-" + settings.data_srcset) || ""
+                        });
                 }
             });
 
