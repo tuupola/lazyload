@@ -76,7 +76,7 @@
                       settings.container === window) ? $window : $(settings.container);
 
         /* Fire one scroll event per scroll. Not one scroll event per image. */
-        if (0 === settings.event.indexOf("scroll")) {
+        if (settings.event.indexOf("scroll") > -1) {
             $container.bind(settings.event, function() {
                 return update();
             });
@@ -133,7 +133,7 @@
 
             /* When wanted event is triggered load original image */
             /* by triggering appear.                              */
-            if (0 !== settings.event.indexOf("scroll")) {
+            if (settings.event.indexOf("scroll") === -1) {
                 $self.bind(settings.event, function() {
                     if (!self.loaded) {
                         $self.trigger("appear");
