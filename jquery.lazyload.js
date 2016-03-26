@@ -29,32 +29,59 @@
             skip_invisible  : false,
             appear          : null,
             load            : null,
+            throttle        : 500,
             placeholder     : "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAANSURBVBhXYzh8+PB/AAffA0nNPuCLAAAAAElFTkSuQmCC"
         };
 
+        function throttle(fn, threshhold, scope) {
+            threshhold || (threshhold = settings.throttle);
+            var last,
+                    deferTimer;
+            return function () {
+                var context = scope || this;
+
+                var now = +new Date;
+                if (last && now < last + threshhold) {
+                    // hold on to it
+                    clearTimeout(deferTimer);
+                    deferTimer = setTimeout(function () {
+                        last = now;
+                        fn.apply(context, arguments);
+                    }, threshhold);
+                } else {
+                    last = now;
+                    fn.apply(context, arguments);
+                }
+            };
+        }
+
         function update() {
+            if (elements.length <= 0)
+                return;
+
             var counter = 0;
 
-            elements.each(function() {
-                var $this = $(this);
+            for(var i = 0; i < elements.length; i++) {
+                var $this = $(elements[i]);
                 if (settings.skip_invisible && !$this.is(":visible")) {
                     return;
                 }
-                if ($.abovethetop(this, settings) ||
-                    $.leftofbegin(this, settings)) {
+                if ($.abovethetop(elements[i], settings) ||
+                    $.leftofbegin(elements[i], settings)) {
                         /* Nothing. */
-                } else if (!$.belowthefold(this, settings) &&
-                    !$.rightoffold(this, settings)) {
+                } else if (!$.belowthefold(elements[i], settings) &&
+                    !$.rightoffold(elements[i], settings)) {
                         $this.trigger("appear");
                         /* if we found an image we'll load, reset the counter */
                         counter = 0;
+                        elements.splice(i, 1);
+                        i--;
                 } else {
                     if (++counter > settings.failure_limit) {
                         return false;
                     }
                 }
-            });
-
+            };
         }
 
         if(options) {
@@ -77,9 +104,7 @@
 
         /* Fire one scroll event per scroll. Not one scroll event per image. */
         if (0 === settings.event.indexOf("scroll")) {
-            $container.bind(settings.event, function() {
-                return update();
-            });
+            $container.bind(settings.event, throttle(update));
         }
 
         this.each(function() {
@@ -143,9 +168,7 @@
         });
 
         /* Check if something appears when window is resized. */
-        $window.bind("resize", function() {
-            update();
-        });
+        $window.bind("resize", throttle(update));
 
         /* With IOS5 force loading images when navigating with back button. */
         /* Non optimal workaround. */
