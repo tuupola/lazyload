@@ -102,9 +102,8 @@
                         var elements_left = elements.length;
                         settings.appear.call(self, elements_left, settings);
                     }
-                    $("<img />")
-                        .bind("load", function() {
-
+                    if ($self.is("img")) {
+                        $("<img />").bind("load", function() {
                             var original = $self.attr("data-" + settings.data_attribute);
                             $self.hide();
                             if ($self.is("img")) {
@@ -126,8 +125,25 @@
                                 var elements_left = elements.length;
                                 settings.load.call(self, elements_left, settings);
                             }
-                        })
-                        .attr("src", $self.attr("data-" + settings.data_attribute));
+                        }).attr("src", $self.attr("data-" + settings.data_attribute));
+                    }
+                    else if ($self.is("iframe")) {
+                        $self.bind("load", function() {
+                            self.loaded = true;
+
+                            /* Remove image from array so it is not looped next time. */
+                            var temp = $.grep(elements, function(element) {
+                                return !element.loaded;
+                            });
+                            elements = $(temp);
+
+                            if (settings.load) {
+                                var elements_left = elements.length;
+                                settings.load.call(self, elements_left, settings);
+                            }
+
+                        }).attr("src", $self.attr("data-" + settings.data_attribute));
+                    }
                 }
             });
 
