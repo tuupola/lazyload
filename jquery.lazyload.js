@@ -103,8 +103,10 @@
                         var elements_left = elements.length;
                         settings.appear.call(self, elements_left, settings);
                     }
-                    $("<img />")
-                        .one("load", function() {
+
+                    if (!settings.quick_swap) {
+                        $("<img />")
+                        .bind("load", function() {
                             var original = $self.attr("data-" + settings.data_attribute);
                             $self.hide();
                             if ($self.is("img")) {
@@ -128,6 +130,28 @@
                             }
                         })
                         .attr("src", $self.attr("data-" + settings.data_attribute));
+                    } else {
+                        $("<img />").attr("src", $self.attr("data-" + settings.data_attribute));
+                        var original = $self.attr("data-" + settings.data_attribute);
+                        if ($self.is("img")) {
+                            $self.attr("src", original);
+                        } else {
+                            $self.css("background-image", "url('" + original + "')");
+                        }
+
+                        self.loaded = true;
+
+                        /* Remove image from array so it is not looped next time. */
+                        var temp = $.grep(elements, function(element) {
+                            return !element.loaded;
+                        });
+                        elements = $(temp);
+
+                        if (settings.load) {
+                            var elements_left = elements.length;
+                            settings.load.call(self, elements_left, settings);
+                        }
+                    }
                 }
             });
 
