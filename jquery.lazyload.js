@@ -131,7 +131,6 @@
                         })
                         .attr("src", $self.attr("data-" + settings.data_attribute));
                     } else {
-                        $("<img />").attr("src", $self.attr("data-" + settings.data_attribute));
                         var original = $self.attr("data-" + settings.data_attribute);
                         if ($self.is("img")) {
                             $self.attr("src", original);
