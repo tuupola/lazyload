@@ -27,7 +27,7 @@
             container       : window,
             data_attribute  : "original",
             skip_invisible  : false,
-            preload         : true,
+            cacheable       : true,
             appear          : null,
             load            : null,
             placeholder     : "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAANSURBVBhXYzh8+PB/AAffA0nNPuCLAAAAAElFTkSuQmCC"
@@ -103,10 +103,8 @@
                         var elements_left = elements.length;
                         settings.appear.call(self, elements_left, settings);
                     }
-
-                    if (settings.preload) {
-                        $("<img />")
-                        .bind("load", function() {
+                    if (settings.cacheable) {
+                        $("<img />").one("load", function() {
                             var original = $self.attr("data-" + settings.data_attribute);
                             $self.hide();
                             if ($self.is("img")) {
