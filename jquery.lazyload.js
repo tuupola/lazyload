@@ -106,7 +106,7 @@
                     if (settings.cacheable) {
                         $("<img />").one("load", function() {
                             var original = $self.attr("data-" + settings.data_attribute);
-                            $self.hide();
+                            $self.fadeOut(0);
                             if ($self.is("img")) {
                                 $self.attr("src", original);
                             } else {
