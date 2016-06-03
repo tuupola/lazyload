@@ -29,7 +29,10 @@
             skip_invisible  : false,
             appear          : null,
             load            : null,
-            placeholder     : "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAANSURBVBhXYzh8+PB/AAffA0nNPuCLAAAAAElFTkSuQmCC"
+            placeholder     : "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAANSURBVBhXYzh8+PB/AAffA0nNPuCLAAAAAElFTkSuQmCC",
+            retry_timeout   : 30000,
+            max_retry       : Infinity,
+            error           : null
         };
 
         function update() {
@@ -102,31 +105,51 @@
                         var elements_left = elements.length;
                         settings.appear.call(self, elements_left, settings);
                     }
-                    $("<img />")
-                        .one("load", function() {
-                            var original = $self.attr("data-" + settings.data_attribute);
-                            $self.hide();
-                            if ($self.is("img")) {
-                                $self.attr("src", original);
-                            } else {
-                                $self.css("background-image", "url('" + original + "')");
+                    var retryTimeout = null,
+                        retryCount = 0,
+                        img = null,
+                        loadFunction = function() {
+                            if (img) {
+                                img.off("load");
                             }
-                            $self[settings.effect](settings.effect_speed);
+                            img = $("<img />");
+                            img.one("load", function() {
+                                clearTimeout(retryTimeout);
+                                var original = $self.attr("data-" + settings.data_attribute);
+                                $self.hide();
+                                if ($self.is("img")) {
+                                    $self.attr("src", original);
+                                } else {
+                                    $self.css("background-image", "url('" + original + "')");
+                                }
+                                $self[settings.effect](settings.effect_speed);
 
-                            self.loaded = true;
+                                self.loaded = true;
 
-                            /* Remove image from array so it is not looped next time. */
-                            var temp = $.grep(elements, function(element) {
-                                return !element.loaded;
-                            });
-                            elements = $(temp);
+                                /* Remove image from array so it is not looped next time. */
+                                var temp = $.grep(elements, function(element) {
+                                    return !element.loaded;
+                                });
+                                elements = $(temp);
 
-                            if (settings.load) {
-                                var elements_left = elements.length;
-                                settings.load.call(self, elements_left, settings);
-                            }
-                        })
-                        .attr("src", $self.attr("data-" + settings.data_attribute));
+                                if (settings.load) {
+                                    var elements_left = elements.length;
+                                    settings.load.call(self, elements_left, settings);
+                                }
+                            }).attr("src", $self.attr("data-" + settings.data_attribute));
+                        },
+                        startLoad = function() {
+                            loadFunction();
+                            retryTimeout = setTimeout(function() {
+                                retryCount++;
+                                if (retryCount < settings.max_retry) {
+                                    startLoad();
+                                } else if (settings.error) {
+                                    settings.error.call(self);
+                                }
+                            }, settings.retry_timeout);
+                        };
+                    startLoad();
                 }
             });
 
