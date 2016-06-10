@@ -29,7 +29,7 @@
             skip_invisible  : false,
             appear          : null,
             load            : null,
-            placeholder     : "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAANSURBVBhXYzh8+PB/AAffA0nNPuCLAAAAAElFTkSuQmCC"
+            placeholder     : "data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20xmlns%3Axlink%3D%27http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%27%20viewBox%3D%270%200%20%7B%7Bw%7D%7D%20%7B%7Bh%7D%7D%27%3E%3Cdefs%3E%3Csymbol%20id%3D%27a%27%20viewBox%3D%270%200%2090%2066%27%20opacity%3D%270.3%27%3E%3Cpath%20d%3D%27M85%205v56H5V5h80m5-5H0v66h90V0z%27%2F%3E%3Ccircle%20cx%3D%2718%27%20cy%3D%2720%27%20r%3D%276%27%2F%3E%3Cpath%20d%3D%27M56%2014L37%2039l-8-6-17%2023h67z%27%2F%3E%3C%2Fsymbol%3E%3C%2Fdefs%3E%3Cuse%20xlink%3Ahref%3D%27%23a%27%20width%3D%2720%25%27%20x%3D%2740%25%27%2F%3E%3C%2Fsvg%3E"
         };
 
         function update() {
