@@ -15,6 +15,7 @@
 
 (function($, window, document, undefined) {
     var $window = $(window);
+    var namespace = "jLazyLoad";
 
     $.fn.lazyload = function(options) {
         var elements = this;
@@ -22,7 +23,7 @@
         var settings = {
             threshold       : 0,
             failure_limit   : 0,
-            event           : "scroll",
+            event           : "scroll."+namespace,
             effect          : "show",
             container       : window,
             data_attribute  : "original",
@@ -77,6 +78,7 @@
 
         /* Fire one scroll event per scroll. Not one scroll event per image. */
         if (0 === settings.event.indexOf("scroll")) {
+            $container.off(settings.event);
             $container.bind(settings.event, function() {
                 return update();
             });
@@ -134,6 +136,7 @@
             /* When wanted event is triggered load original image */
             /* by triggering appear.                              */
             if (0 !== settings.event.indexOf("scroll")) {
+                $container.off(settings.event);
                 $self.bind(settings.event, function() {
                     if (!self.loaded) {
                         $self.trigger("appear");
@@ -143,7 +146,8 @@
         });
 
         /* Check if something appears when window is resized. */
-        $window.bind("resize", function() {
+        $window.off("resize."+namespace);
+        $window.bind("resize."+namespace, function() {
             update();
         });
 
