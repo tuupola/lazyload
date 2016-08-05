@@ -24,6 +24,7 @@
             failure_limit   : 0,
             event           : "scroll",
             effect          : "show",
+            start_delay     : 0,
             container       : window,
             data_attribute  : "original",
             skip_invisible  : false,
@@ -102,31 +103,34 @@
                         var elements_left = elements.length;
                         settings.appear.call(self, elements_left, settings);
                     }
-                    $("<img />")
-                        .one("load", function() {
-                            var original = $self.attr("data-" + settings.data_attribute);
-                            $self.hide();
-                            if ($self.is("img")) {
-                                $self.attr("src", original);
-                            } else {
-                                $self.css("background-image", "url('" + original + "')");
-                            }
-                            $self[settings.effect](settings.effect_speed);
+                    
+                    setTimeout(function(){
+                      $("<img />")
+                          .one("load", function() {
+                              var original = $self.attr("data-" + settings.data_attribute);
+                              $self.hide();
+                              if ($self.is("img")) {
+                                  $self.attr("src", original);
+                              } else {
+                                  $self.css("background-image", "url('" + original + "')");
+                              }
+                              $self[settings.effect](settings.effect_speed);
 
-                            self.loaded = true;
+                              self.loaded = true;
 
-                            /* Remove image from array so it is not looped next time. */
-                            var temp = $.grep(elements, function(element) {
-                                return !element.loaded;
-                            });
-                            elements = $(temp);
+                              /* Remove image from array so it is not looped next time. */
+                              var temp = $.grep(elements, function(element) {
+                                  return !element.loaded;
+                              });
+                              elements = $(temp);
 
-                            if (settings.load) {
-                                var elements_left = elements.length;
-                                settings.load.call(self, elements_left, settings);
-                            }
-                        })
-                        .attr("src", $self.attr("data-" + settings.data_attribute));
+                              if (settings.load) {
+                                  var elements_left = elements.length;
+                                  settings.load.call(self, elements_left, settings);
+                              }
+                          })
+                          .attr("src", $self.attr("data-" + settings.data_attribute));
+                      }, settings.start_delay);
                 }
             });
 
