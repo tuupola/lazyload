@@ -105,13 +105,13 @@
                     $("<img />")
                         .one("load", function() {
                             var original = $self.attr("data-" + settings.data_attribute);
-                            $self.hide();
+                            $self.css('opacity', 0);
                             if ($self.is("img")) {
                                 $self.attr("src", original);
                             } else {
                                 $self.css("background-image", "url('" + original + "')");
                             }
-                            $self[settings.effect](settings.effect_speed);
+                            $self.animate({"opacity": 1}, (settings.effect == 'fadeIn') ? (settings.effect_speed || 500) : 0);
 
                             self.loaded = true;
 
