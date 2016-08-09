@@ -82,7 +82,7 @@
             });
         }
 
-        this.each(function() {
+        elements.each(function() {
             var self = this;
             var $self = $(self);
 
