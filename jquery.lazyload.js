@@ -18,6 +18,7 @@
 
     $.fn.lazyload = function(options) {
         var elements = this;
+        var eventNameSpace = '.lazyload';
         var $container;
         var settings = {
             threshold       : 0,
@@ -57,6 +58,18 @@
 
         }
 
+        $.fn.lazyload.destroy = function() {
+            $window.off(eventNameSpace);
+            $container.off(eventNameSpace);
+
+            elements.each(function() {
+                var self = this;
+                var $self = $(self);
+
+                $self.off(eventNameSpace);
+            });
+        }
+
         if(options) {
             /* Maintain BC for a couple of versions. */
             if (undefined !== options.failurelimit) {
@@ -77,7 +90,7 @@
 
         /* Fire one scroll event per scroll. Not one scroll event per image. */
         if (0 === settings.event.indexOf("scroll")) {
-            $container.on(settings.event, function() {
+            $container.on(settings.event + eventNameSpace, function() {
                 return update();
             });
         }
@@ -133,7 +146,7 @@
             /* When wanted event is triggered load original image */
             /* by triggering appear.                              */
             if (0 !== settings.event.indexOf("scroll")) {
-                $self.on(settings.event, function() {
+                $self.on(settings.event + eventNameSpace, function() {
                     if (!self.loaded) {
                         $self.trigger("appear");
                     }
@@ -142,14 +155,14 @@
         });
 
         /* Check if something appears when window is resized. */
-        $window.on("resize", function() {
+        $window.on("resize" + eventNameSpace, function() {
             update();
         });
 
         /* With IOS5 force loading images when navigating with back button. */
         /* Non optimal workaround. */
         if ((/(?:iphone|ipod|ipad).*os 5/gi).test(navigator.appVersion)) {
-            $window.on("pageshow", function(event) {
+            $window.on("pageshow" + eventNameSpace, function(event) {
                 if (event.originalEvent && event.originalEvent.persisted) {
                     elements.each(function() {
                         $(this).trigger("appear");
