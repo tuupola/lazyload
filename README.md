@@ -29,6 +29,12 @@ $("img.lazy").lazyload();
 
 This causes all images of class lazy to be lazy loaded.
 
+For destroying event listeners:
+
+```js
+$("img.lazy").lazyload.destroy();
+```
+
 More information on [Lazy Load](http://www.appelsiini.net/projects/lazyload) project page.
 
 ## Install
@@ -45,4 +51,3 @@ $ npm install jquery-lazyload
 # License
 
 All code licensed under the [MIT License](http://www.opensource.org/licenses/mit-license.php). All images licensed under [Creative Commons Attribution 3.0 Unported License](http://creativecommons.org/licenses/by/3.0/deed.en_US). In other words you are basically free to do whatever you want. Just don't remove my name from the source.
-
