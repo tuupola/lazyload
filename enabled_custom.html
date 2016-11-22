@@ -1,0 +1,154 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>Lazy Load Enabled</title>
+  <meta name="generator" content="Mephisto" />
+  <link rel="alternate" type="application/atom+xml" href="http://feeds.feedburner.com/tuupola" title="Atom feed" />
+  <link href="http://www.appelsiini.net/stylesheets/main2.css" rel="stylesheet" type="text/css" />
+  <style type="text/css">
+  #sidebar {
+    width: 0px;
+  }
+  #content {
+    width: 770px;
+  }
+  .lazy{
+    height:500px;
+    width:100%;
+    display:block;
+    background-color:#ccc;
+    background-repeat:no-repeat;
+    background-position:50% 50%;
+    background-size:contain;
+    background-image:url('img/grey.gif')
+    float: left;
+    border: 1px solid #999;
+    margin-top: 4px;
+    padding: 6px;
+    margin-right: 7px;
+  }
+  </style>
+
+  <script>
+  var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-190966-1']);
+      _gaq.push(['_trackPageview']);
+      _gaq.push(['_trackPageLoadTime']);
+    
+  (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+  </script>
+</head>
+
+<body>    
+  <div id="wrap"> 
+    <div id="header">
+      <p>
+        <h1>Lazy Load</h1><br />
+        <small>Image lazy loader plugin for jQuery.</small>
+        <ul id="nav">
+          <li id="first"><a href="/" class="active">weblog</a></li>
+          <li><a href="/projects" class="last">projects</a></li>
+          <!--
+          <li><a href="/cv" class="last">cv</a></li>
+        -->
+        </ul>
+      </p>
+    </div>
+    <div id="content">
+      
+  <h2>Custom callbacks</h2>
+  <div class="entry">
+    
+    <p>
+     This page shows a custom behavior on "load" and on "appear"
+     Each image is loaded then set as a background image of a div container.
+    </p>
+
+    <code>
+      <pre>
+          $("div.lazy").lazyload({
+            appear:function(){
+              var $el = $(this);
+              if(!$el.hasClass('lazy-loaded')){
+                $el.addClass('lazy-loaded');
+                $el.css('opacity',0);
+              }
+            }
+          , load:function(left,settings){
+              var $el = $(this);
+              console.log($el[0])
+              var url = $el.data(settings.data_attribute);
+              $el.css('background-image','url('+url+')');
+              $el.animate({'opacity':1},'slow')
+            }
+          });
+    </pre>   
+    </code>
+
+    <div class="lazy" data-original="img/bmw_m1_hood.jpg">
+      <noscript>
+        <img src="img/bmw_m1_hood.jpg" width="765" height="574" alt="BMW M1 Hood">
+      </noscript>
+    </div>
+    <div class="lazy" data-original="img/bmw_m1_side.jpg">
+      <noscript>
+        <img src="img/bmw_m1_side.jpg" width="765" height="574" alt="BMW M1 Side">
+      </noscript>
+    </div>
+    <div class="lazy" data-original="img/viper_1.jpg">
+      <noscript>
+        <img src="img/viper_1.jpg" width="765" height="574" alt="Viper 1">
+      </noscript>
+    </div>
+    <div class="lazy" data-original="img/viper_corner.jpg">
+      <noscript>
+        <img src="img/viper_corner.jpg" width="765" height="574" alt="Viper Corner">
+      </noscript>
+    </div>
+    <div class="lazy" data-original="img/bmw_m3_gt.jpg">
+      <noscript>
+        <img src="img/bmw_m3_gt.jpg" width="765" height="574" alt="BMW M3 GT">
+      </noscript>
+    </div>
+    <div class="lazy" data-original="img/corvette_pitstop.jpg">
+      <noscript>
+        <img src="img/corvette_pitstop.jpg" width="765" height="574" alt="Corvette Pitstop">
+      </noscript>
+    </div>
+
+    <div id="sidebar">
+
+  </div>
+  
+  <div id="footer">
+  </div>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js" charset="utf-8"></script>
+  <script src="jquery.lazyload.js?v=1.8.3" charset="utf-8"></script>
+  <script type="text/javascript" charset="utf-8">
+      $(function() {
+          $("div.lazy").lazyload({
+            appear:function(){
+              var $el = $(this);
+              if(!$el.hasClass('lazy-loaded')){
+                $el.addClass('lazy-loaded');
+                $el.css('opacity',0);
+              }
+            }
+          , load:function(left,settings){
+              var $el = $(this);
+              console.log($el[0])
+              var url = $el.data(settings.data_attribute);
+              $el.css('background-image','url('+url+')');
+              $el.animate({'opacity':1},'slow')
+            }
+          });
+      });
+  </script>
+</body>
+</html>
