@@ -31,7 +31,12 @@
             load            : null,
             placeholder     : "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAANSURBVBhXYzh8+PB/AAffA0nNPuCLAAAAAElFTkSuQmCC"
         };
-
+        
+        /* Avoid redundant event binding when selector is empty. */
+        if (!this.length) {
+            return this;
+        }
+        
         function update() {
             var counter = 0;
 
