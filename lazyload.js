@@ -85,8 +85,12 @@
                 entries.forEach(entry => {
                     if (entry.intersectionRatio > 0) {
                         self.observer.unobserve(entry.target);
-                        entry.target.src = entry.target.getAttribute(self.settings.attribute);
-                        console.log(entry.target.src);
+                        let original = entry.target.getAttribute(self.settings.attribute);
+                        if ("img" === entry.target.tagName.toLowerCase()) {
+                            entry.target.src = original;
+                        } else {
+                            entry.target.style.backgroundImage = "url(" + original + ")";
+                        }
                     }
                 });
             }, observerConfig);
