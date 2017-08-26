@@ -27,15 +27,26 @@ let images = document.querySelectorAll("[data-src]");
 let lazy = new LazyLoad(images);
 ```
 
-If you use jQuery there is a wrapper which provides familiar syntax.
+## jQuery Wrapper
+
+If you use jQuery there is a wrapper which you can use with the familiar old syntax. Note that to provide BC it uses `data-original` by default. This should be a drop in replacement for the previous version of the plugin.
+
+```html
+<img class="lazy" data-original="img/example.jpg" width="765" height="574">
+<img class="lazy" src="img/example-thumb.jpg" data-original="img/example.jpg" width="765" height="574">
+```
 
 ```js
-$("[data-src]").lazyload();
+$(".lazy").lazyload();
 ```
 
 ## Install
 
-Here be dragons.
+This is still work in progree. There are no releases yet. In the meanwhile you can use rawgit.
+
+```
+$ wget https://rawgit.com/tuupola/jquery_lazyload/2.x/lazyload.js
+```
 
 # License
 

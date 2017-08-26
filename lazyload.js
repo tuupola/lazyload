@@ -60,6 +60,8 @@
 
     function LazyLoad(images, options) {
         this.settings = extend(defaults, options || {});
+        console.log(options);
+        console.log(this.settings);
         this.images = images || document.querySelectorAll(this.settings.selector);
         this.observer = null;
         this.init();
@@ -124,12 +126,14 @@
 
     root.lazyload = function(images, options) {
         return new LazyLoad(images, options);
-    }
+    };
 
     /* TODO: jQuery support should be opt-in. */
     if(window.jQuery) {
         const $ = window.jQuery;
         $.fn.lazyload = function (options) {
+            options = options || {};
+            options.attribute = options.attribute || "data-original";
             new LazyLoad($.makeArray(this), options);
             return this;
         };
