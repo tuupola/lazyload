@@ -105,7 +105,7 @@
                     $("<img />")
                         .one("load", function() {
                             var original = $self.attr("data-" + settings.data_attribute);
-                            $self.hide();
+                            $self.hide().addClass('lazy-loaded');
                             if ($self.is("img")) {
                                 $self.attr("src", original);
                             } else {
