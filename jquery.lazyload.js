@@ -104,11 +104,13 @@
                     }
                     $("<img />")
                         .one("load", function() {
-                            var original = $self.attr("data-" + settings.data_attribute);
+                            var original = $self.attr("data-" + settings.data_attribute),
+                                isImg = $self.is("img");
+
                             $self.hide();
-                            if ($self.is("img")) {
+                            if (isImg && $self.attr('src') !== original) {
                                 $self.attr("src", original);
-                            } else {
+                            } else if(!isImg) {
                                 $self.css("background-image", "url('" + original + "')");
                             }
                             $self[settings.effect](settings.effect_speed);
