@@ -1,0 +1,21 @@
+{
+    "esversion": 6,
+    "curly": true,
+    "eqeqeq": true,
+    "eqnull": true,
+    "immed": true,
+    "noarg": true,
+    "quotmark": "double",
+    "trailing": true,
+    "undef": true,
+    "unused": "vars",
+
+    "node": true,
+    "jquery": true,
+    "browser": true,
+
+    "predef": [
+        "define",
+        "IntersectionObserver"
+    ]
+}
