@@ -32,31 +32,72 @@
             placeholder     : "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs="
         };
 
-        function update() {
+        function triggerAppear(firstElement, step) {
             var counter = 0;
 
-            elements.each(function() {
-                var $this = $(this);
-                if (settings.skip_invisible && !$this.is(":visible")) {
-                    return;
-                }
-                if ($.abovethetop(this, settings) ||
-                    $.leftofbegin(this, settings)) {
-                        /* Nothing. */
-                } else if (!$.belowthefold(this, settings) &&
-                    !$.rightoffold(this, settings)) {
-                        $this.trigger("appear");
-                        /* if we found an image we'll load, reset the counter */
-                        counter = 0;
+            // iterate downwards or upwards (depending on step value)
+            // show images to be loaded, until failure_limit counter is exceeded
+            for (var i = firstElement; i >= 0 && i < elements.length; i += step) {
+                var element = elements[i];
+                var $element = $(element);
+
+                if (!$.abovethetop(element, settings) && !$.leftofbegin(element, settings) &&
+                    !$.belowthefold(element, settings) && !$.rightoffold(element, settings)) {
+                    // element in viewport - reset counter
+                    counter = 0;
+                    if (settings.skip_invisible && !$element.is(":visible") || $element.loaded) {
+                        // do nothing
+                    } else {
+                        // trigger "appear"
+                        $element.trigger("appear");
+                    }
                 } else {
-                    if (++counter > settings.failure_limit) {
-                        return false;
+                    // to many failures -> stop iterating
+                    if (++counter >= settings.failure_limit) {
+                        return;
                     }
                 }
-            });
-
+            }
         }
 
+        function update() {
+            if (elements.length == 0) {
+                // Elements are empty - nothing will be found anyway
+                return;
+            }
+
+            /* Set initial values - lower and upper indices pointing at beginning and end of array */
+            var lowerIndex = 0;
+            var upperIndex = elements.length - 1;
+            var testedIndex;
+
+            /* Binary search algorithm - test image in the middle of range: <lowerIndex, upperIndex>.
+             Always look for middle value between lowerIndex and upperIndex */
+            while (upperIndex > lowerIndex+1) {
+                testedIndex = lowerIndex + Math.floor((upperIndex - lowerIndex) / 2);
+                var testedElement = elements[testedIndex];
+
+                // testedIndex appears to be above viewport
+                // there is no use testing smaller indices => lowerIndex = testedIndex
+                if ($.abovethetop(testedElement, settings) ||
+                    $.leftofbegin(testedElement, settings)) {
+                    lowerIndex = testedIndex;
+
+                    // testedIndex appears to be below viewport
+                    // there is no use testing bigger indices => upperIndex = testedIndex
+                } else if ($.belowthefold(testedElement, settings) ||
+                    $.rightoffold(testedElement, settings)) {
+                    upperIndex = testedIndex;
+                } else {
+                    break;
+                }
+            }
+
+            // iterate over images downwards, beginning with testedIndex
+            triggerAppear(testedIndex, -1);
+            // iterate over images upwards, beginning with testedIndex
+            triggerAppear(testedIndex, 1);
+        }
         if(options) {
             /* Maintain BC for a couple of versions. */
             if (undefined !== options.failurelimit) {
