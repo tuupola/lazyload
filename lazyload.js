@@ -11,7 +11,7 @@
     "use strict";
 
     const defaults = {
-        attribute: "data-src",
+        src: "data-src",
         selector: "[data-src]"
     };
 
@@ -60,8 +60,6 @@
 
     function LazyLoad(images, options) {
         this.settings = extend(defaults, options || {});
-        console.log(options);
-        console.log(this.settings);
         this.images = images || document.querySelectorAll(this.settings.selector);
         this.observer = null;
         this.init();
@@ -72,7 +70,7 @@
 
             /* Without observers load everything and bail out early. */
             if (!root.IntersectionObserver) {
-                this.load();
+                this.loadImages();
                 return;
             }
 
@@ -87,11 +85,11 @@
                 entries.forEach(entry => {
                     if (entry.intersectionRatio > 0) {
                         self.observer.unobserve(entry.target);
-                        let original = entry.target.getAttribute(self.settings.attribute);
+                        let src = entry.target.getAttribute(self.settings.src);
                         if ("img" === entry.target.tagName.toLowerCase()) {
-                            entry.target.src = original;
+                            entry.target.src = src;
                         } else {
-                            entry.target.style.backgroundImage = "url(" + original + ")";
+                            entry.target.style.backgroundImage = "url(" + src + ")";
                         }
                     }
                 });
@@ -104,11 +102,11 @@
 
         loadAndDestroy: function () {
             if (!this.settings) { return; }
-            this.load();
+            this.loadImages();
             this.destroy();
         },
 
-        load: function () {
+        loadImages: function () {
             if (!this.settings) { return; }
             this.images.forEach(image => {
                 image.src = image.getAttribute(this.settings.attribute);
@@ -117,8 +115,6 @@
 
         destroy: function () {
             if (!this.settings) { return; }
-            console.log(this.settings);
-
             this.observer.disconnect();
             this.settings = null;
         }
@@ -128,12 +124,11 @@
         return new LazyLoad(images, options);
     };
 
-    /* TODO: jQuery support should be opt-in. */
-    if(window.jQuery) {
+    if (window.jQuery) {
         const $ = window.jQuery;
         $.fn.lazyload = function (options) {
             options = options || {};
-            options.attribute = options.attribute || "data-original";
+            options.attribute = options.attribute || "data-src";
             new LazyLoad($.makeArray(this), options);
             return this;
         };
