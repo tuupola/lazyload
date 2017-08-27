@@ -29,6 +29,7 @@
             skip_invisible  : false,
             appear          : null,
             load            : null,
+            error           : null,
             placeholder     : "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAANSURBVBhXYzh8+PB/AAffA0nNPuCLAAAAAElFTkSuQmCC"
         };
 
@@ -129,6 +130,11 @@
                                 settings.load.call(self, elements_left, settings);
                             }
                         })
+                        .bind("error", function () {
+				if (settings.error) {
+					settings.error.call(self, settings);
+				}
+			})
                         .attr("src", $self.attr("data-" + settings.data_attribute));
                 }
             });
