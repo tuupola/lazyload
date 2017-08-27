@@ -29,6 +29,7 @@
             skip_invisible  : false,
             appear          : null,
             load            : null,
+            error           : null,
             placeholder     : "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAANSURBVBhXYzh8+PB/AAffA0nNPuCLAAAAAElFTkSuQmCC"
         };
 
@@ -127,6 +128,19 @@
                             if (settings.load) {
                                 var elements_left = elements.length;
                                 settings.load.call(self, elements_left, settings);
+                            }
+                        }).bind("error", function() {
+                            self.error = true;
+
+                            /* Remove image from array so it is not looped next time. */
+                            var temp = $.grep(elements, function(element) {
+                                return !element.error;
+                            });
+                            elements = $(temp);
+
+                            if (settings.error) {
+                                var elements_left = elements.length;
+                                settings.error.call(self, elements_left, settings);
                             }
                         })
                         .attr("src", $self.attr("data-" + settings.data_attribute));
