@@ -13,7 +13,7 @@
     const defaults = {
         src: "data-src",
         srcset: "data-srcset",
-        selector: "[data-src]"
+        selector: ".lazyload"
     };
 
     /**
