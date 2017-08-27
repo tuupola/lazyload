@@ -116,7 +116,14 @@
         loadImages: function () {
             if (!this.settings) { return; }
             this.images.forEach(image => {
-                image.src = image.getAttribute(this.settings.attribute);
+                let src = image.getAttribute(this.settings.src);
+                let srcset = image.getAttribute(this.settings.srcset);
+                if (src) {
+                    image.src = src;
+                }
+                if (srcset) {
+                    image.srcset = srcset;
+                }
             });
         },
 
