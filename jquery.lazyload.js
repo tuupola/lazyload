@@ -22,7 +22,7 @@
         var settings = {
             threshold       : 0,
             failure_limit   : 0,
-            event           : "scroll",
+            event           : "scroll.lazyload",
             effect          : "show",
             container       : window,
             data_attribute  : "original",
@@ -77,7 +77,7 @@
 
         /* Fire one scroll event per scroll. Not one scroll event per image. */
         if (0 === settings.event.indexOf("scroll")) {
-            $container.on(settings.event, function() {
+            $container.off(settings.event).on(settings.event, function() {
                 return update();
             });
         }
@@ -136,7 +136,7 @@
             /* When wanted event is triggered load original image */
             /* by triggering appear.                              */
             if (0 !== settings.event.indexOf("scroll")) {
-                $self.on(settings.event, function() {
+                $self.off(settings.event).on(settings.event, function() {
                     if (!self.loaded) {
                         $self.trigger("appear");
                     }
@@ -145,7 +145,7 @@
         });
 
         /* Check if something appears when window is resized. */
-        $window.on("resize", function() {
+        $window.off("resize.lazyload").bind("resize.lazyload", function() {
             update();
         });
 
