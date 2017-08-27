@@ -1,7 +1,7 @@
 /*!
  * Lazy Load - jQuery plugin for lazy loading images
  *
- * Copyright (c) 2007-2015 Mika Tuupola
+ * Copyright (c) 2007-2017 Mika Tuupola
  *
  * Licensed under the MIT license:
  *   http://www.opensource.org/licenses/mit-license.php
@@ -9,7 +9,7 @@
  * Project home:
  *   http://www.appelsiini.net/projects/lazyload
  *
- * Version:  1.9.7
+ * Version:  1.10.0-dev
  *
  */
 
@@ -108,11 +108,11 @@
                             var original = $self.attr("data-" + settings.data_attribute);
                             var srcset = $self.attr("data-" + settings.data_srcset);
 
-                            if (original != $self.attr("src")) {
+                            if (original !== $self.attr("src")) {
                                 $self.hide();
                                 if ($self.is("img")) {
                                     $self.attr("src", original);
-                                    if (srcset != null) {
+                                    if (srcset !== null) {
                                         $self.attr("srcset", srcset);
                                     }
                                 } else {

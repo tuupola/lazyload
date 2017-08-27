@@ -5,7 +5,7 @@ module.exports = function(grunt) {
         pkg: grunt.file.readJSON("package.json"),
         uglify : {
             options: {
-                banner: "/*! Lazy Load <%= pkg.version %> - MIT license - Copyright 2010-2015 Mika Tuupola */\n"
+                banner: "/*! Lazy Load <%= pkg.version %> - MIT license - Copyright 2007-2017 Mika Tuupola */\n"
             },
             target: {
                 files: {
@@ -47,7 +47,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks("grunt-contrib-jshint");
     grunt.loadNpmTasks("grunt-contrib-jasmine");
     grunt.loadNpmTasks("grunt-contrib-watch");
-    grunt.loadNpmTasks('grunt-contrib-connect');
+    grunt.loadNpmTasks("grunt-contrib-connect");
 
     //grunt.registerTask("test", ["jshint", "jasmine"]);
     grunt.registerTask("test", ["jshint"]);
