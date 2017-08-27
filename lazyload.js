@@ -118,11 +118,15 @@
             this.images.forEach(image => {
                 let src = image.getAttribute(this.settings.src);
                 let srcset = image.getAttribute(this.settings.srcset);
-                if (src) {
-                    image.src = src;
-                }
-                if (srcset) {
-                    image.srcset = srcset;
+                if ("img" === image.tagName.toLowerCase()) {
+                    if (src) {
+                        image.src = src;
+                    }
+                    if (srcset) {
+                        image.srcset = srcset;
+                    }
+                } else {
+                    image.style.backgroundImage = "url(" + src + ")";
                 }
             });
         },
