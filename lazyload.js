@@ -12,6 +12,7 @@
 
     const defaults = {
         src: "data-src",
+        srcset: "data-srcset",
         selector: "[data-src]"
     };
 
@@ -86,8 +87,14 @@
                     if (entry.intersectionRatio > 0) {
                         self.observer.unobserve(entry.target);
                         let src = entry.target.getAttribute(self.settings.src);
+                        let srcset = entry.target.getAttribute(self.settings.srcset);
                         if ("img" === entry.target.tagName.toLowerCase()) {
-                            entry.target.src = src;
+                            if (src) {
+                                entry.target.src = src;
+                            }
+                            if (srcset) {
+                                entry.target.srcset = srcset;
+                            }
                         } else {
                             entry.target.style.backgroundImage = "url(" + src + ")";
                         }
