@@ -26,6 +26,7 @@
             effect          : "show",
             container       : window,
             data_attribute  : "original",
+            data_srcset     : "srcset",
             skip_invisible  : false,
             appear          : null,
             load            : null,
@@ -105,11 +106,15 @@
                     $("<img />")
                         .one("load", function() {
                             var original = $self.attr("data-" + settings.data_attribute);
+                            var srcset = $self.attr("data-" + settings.data_srcset);
 
                             if (original != $self.attr("src")) {
                                 $self.hide();
                                 if ($self.is("img")) {
                                     $self.attr("src", original);
+                                    if (srcset != null) {
+                                        $self.attr("srcset", srcset);
+                                    }
                                 } else {
                                     $self.css("background-image", "url('" + original + "')");
                                 }
@@ -129,7 +134,10 @@
                                 settings.load.call(self, elements_left, settings);
                             }
                         })
-                        .attr("src", $self.attr("data-" + settings.data_attribute));
+                        .attr({
+                            "src": $self.attr("data-" + settings.data_attribute),
+                            "srcset": $self.attr("data-" + settings.data_srcset) || ""
+                        });
                 }
             });
 

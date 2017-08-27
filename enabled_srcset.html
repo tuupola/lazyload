@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta charset="utf-8">
+    <title>Lazy Load with srcset</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link type="text/css" media="screen" href="http://www.appelsiini.net/css/appelsiini.css" rel="stylesheet">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="shortcut icon" href="http://www.appelsiini.net/img/favicon.ico">
+    <!--[if lt IE 9]>
+    <script src="js/html5shiv.js"></script>
+    <![endif]-->
+    <script>
+        //<![CDATA[
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-190966-1']);
+        _gaq.push(['_trackPageview']);
+        (function() {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+        //]]>
+    </script>
+    <style type="text/css">
+        .container img {
+            margin-bottom: 10px;
+        }
+
+        #container {
+            height: 600px;
+            overflow: scroll;
+        }
+    </style>
+</head>
+
+<body>
+<div class="jumbotron">
+    <div class="container">
+        <div class="col-md-10 col-lg-8 col-md-offset-1 col-lg-offset-2">
+            <h1>Lazy Load Plugin for jQuery</h1>
+            <a href="http://www.appelsiini.net/"><span class="label label-info">Blog</span></a>
+            <a href="http://www.appelsiini.net/projects"><span class="label label-danger">Projects</span></a>
+            <br>
+            <div>
+                <iframe src="http://ghbtns.com/github-btn.html?user=tuupola&amp;repo=jquery_lazyload&amp;type=watch&amp;count=true&amp;size=small" allowtransparency="true" frameborder="0" scrolling="0" width="94" height="30"></iframe>
+                <iframe src="http://ghbtns.com/github-btn.html?user=tuupola&amp;repo=jquery_lazyload&amp;type=fork&amp;count=true&amp;size=small" allowtransparency="true" frameborder="0" scrolling="0" width="90" height="30"></iframe>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="col-md-10 col-lg-8 col-md-offset-1 col-lg-offset-2">
+
+        <h2>Plugin enabled on container with srcset</h2>
+        <p>
+            Images below the visible area (the ones lower than container bottom) are not loaded. When scrolling down
+            they are loaded when needed. Empty cache and shift-reload to test again. Compare this to page where plugin is
+            <a href="disabled.html">disabled</a> or same page with <a href="enabled_fadein.html">fadein effect</a>.
+        </p>
+      <pre class="prettyprint">
+$("img.lazy").lazyload({
+    effect : "fadeIn",
+    container: $("#container")
+});
+      </pre>
+      <pre class="prettyprint">
+#container {
+    height: 600px;
+    overflow: scroll;
+}
+      </pre>
+        <pre class="prettyprint">&lt;img class="lazy" data-original="img/example.jpg" width="765" height="574"&gt;</pre>
+        <div id="container">
+            <img class="lazy img-responsive" data-original="img/bmw_m1_hood.jpg" data-srcset="img/corvette_pitstop.jpg 2x" width="765" height="574" alt="BMW M1 Hood"><br/>
+            <img class="lazy img-responsive" data-original="img/bmw_m1_side.jpg" data-srcset="img/bmw_m3_gt.jpg 2x" width="765" height="574" alt="BMW M1 Side"><br/>
+            <img class="lazy img-responsive" data-original="img/viper_1.jpg" data-srcset="img/viper_corner.jpg 2x" width="765" height="574" alt="Viper 1"><br/>
+            <img class="lazy img-responsive" data-original="img/viper_corner.jpg" data-srcset="img/viper_1.jpg 2x" width="765" height="574" alt="Viper Corner"><br/>
+            <img class="lazy img-responsive" data-original="img/bmw_m3_gt.jpg" data-srcset="img/bmw_m1_side.jpg 2x" width="765" height="574" alt="BMW M3 GT"><br/>
+            <img class="lazy img-responsive" data-original="img/corvette_pitstop.jpg" data-srcset="img/bmw_m1_hood.jpg 2x" width="765" height="574" alt="Corvette Pitstop"><br/>
+        </div>
+
+    </div>
+</div>
+
+<div class="bottom-menu bottom-menu-large bottom-menu-inverse">
+    <div class="container">
+        <div class="col-md-offset-1 col-lg-offset-2">
+            <div class="col-sm-3 col-md-2">
+                <h5 class="title">CATEGORIES</h5>
+                <ul class="bottom-links">
+                    <li><a href="http://www.appelsiini.net/javascript">JavaScript</a></li>
+                    <li><a href="http://www.appelsiini.net/ruby">Ruby</a></li>
+                    <li><a href="http://www.appelsiini.net/avr">AVR</a></li>
+                </ul>
+            </div>
+            <div class="col-sm-3 col-md-2">
+                <h5 class="title">PROJECTS</h5>
+                <ul class="bottom-links">
+                    <li><a href="http://www.appelsiini.net/projects/lazyload">Lazy Load</a></li>
+                    <li><a href="http://www.appelsiini.net/projects/chained">Chained</a></li>
+                    <li><a href="http://www.appelsiini.net/projects/jeditable">Jeditable</a></li>
+                    <li><a href="http://www.appelsiini.net/projects/viewport">Viewport</a></li>
+                    <li><a href="http://www.appelsiini.net/projects/rack-facebook-methodfix">Facebook Methodfix</a></li>
+                    <li><a href="http://www.appelsiini.net/projects/rack-funky-cache">Funky Cache</a></li>
+                </ul>
+            </div>
+            <div class="col-sm-3 col-md-2">
+                <h5 class="title">ABOUT</h5>
+                <ul class="bottom-links">
+                    <li><a data-action="GitHub" data-label="footer" href="https://github.com/tuupola" class="icon-github-sign icon-large track"> GitHub</a></li>
+                    <li><a data-action="Twitter" data-label="footer" href="https://twitter.com/tuupola" class="icon-twitter-sign icon-large track"> Twitter</a></li>
+                    <li><a data-action="Google+" data-label="footer" href="https://plus.google.com/114333901699201512043?rel=author" class="icon-google-plus-sign icon-large track"> Google+</a></li>
+                </ul>
+            </div>
+            <div class="col-sm-3 col-md-5 col-lg-4">
+                Built using the awesome <a class="track" data-action="Designmodo" data-label="footer" style="color: #ffffff;" href="http://designmodo.com/flat/?u=583">Flat UI Pro</a> framework by Designmodo.
+                <br><br>
+                © 2013 Mika Tuupola.
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap core JavaScript -->
+<script src="http://butter.appelsiini.net/vendor/jquery/jquery.min.js"></script>
+<script src="http://butter.appelsiini.net/vendor/tether/tether.min.js"></script>
+<script src="http://butter.appelsiini.net/vendor/bootstrap/js/bootstrap.min.js"></script>
+
+<!-- Custom scripts for this template -->
+<script src="http://butter.appelsiini.net/js/prettify.js"></script>
+<script src="http://butter.appelsiini.net/js/clean-blog.js"></script>
+<script src="jquery.lazyload.js?v=1.10.0"></script>
+
+<script type="text/javascript" charset="utf-8">
+    $(function() {
+        $("img.lazy").lazyload({effect : "fadeIn", container: $("#container")});
+    });
+</script>
+</body>
+</html>
