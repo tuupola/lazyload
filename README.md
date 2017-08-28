@@ -9,8 +9,10 @@ This is a modern vanilla JavaScript version of the original [Lazy Load](https://
 By default Lazy Load assumes the URL of the original high resolution image can be found in `data-src` attribute. You can also include an optional low resolution placeholder in the `src` attribute.
 
 ```html
-<img class="lazyload" data-src="img/example.jpg" width="765" height="574">
-<img class="lazyload" src="img/example-thumb.jpg" data-src="img/example.jpg" width="765" height="574">
+<script src="https://cdn.jsdelivr.net/npm/lazyload@2.0.0-beta.1/lazyload.js"></script>
+
+<img class="lazyload" data-src="img/example.jpg" width="765" height="574" />
+<img class="lazyload" src="img/example-thumb.jpg" data-src="img/example.jpg" width="765" height="574" />
 ```
 
 With the HTML in place you can then initialize the plugin using the factory method. If you do not pass any settings or image elements it will lazyload all images with class `lazyload`.
@@ -127,10 +129,11 @@ To reduce the amount of request you can use data uri images as the placeholder.
 
 ## Install
 
-This is still work in progress. There are no releases yet. In the meanwhile you can use rawgit.
+This is still work in progress. You can install beta version with yarn or npm.
 
 ```
-$ wget https://rawgit.com/tuupola/jquery_lazyload/2.x/lazyload.js
+$ yarn add lazyload
+$ npm install lazyload
 ```
 
 # License
