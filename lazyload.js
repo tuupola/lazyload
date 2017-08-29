@@ -83,7 +83,7 @@
             };
 
             this.observer = new IntersectionObserver(function(entries) {
-                entries.forEach(entry => {
+                entries.forEach(function (entry) {
                     if (entry.intersectionRatio > 0) {
                         self.observer.unobserve(entry.target);
                         let src = entry.target.getAttribute(self.settings.src);
@@ -102,8 +102,8 @@
                 });
             }, observerConfig);
 
-            this.images.forEach(image => {
-                this.observer.observe(image);
+            this.images.forEach(function (image) {
+                self.observer.observe(image);
             });
         },
 
@@ -115,9 +115,11 @@
 
         loadImages: function () {
             if (!this.settings) { return; }
-            this.images.forEach(image => {
-                let src = image.getAttribute(this.settings.src);
-                let srcset = image.getAttribute(this.settings.srcset);
+
+            let self = this;
+            this.images.forEach(function (image) {
+                let src = image.getAttribute(self.settings.src);
+                let srcset = image.getAttribute(self.settings.srcset);
                 if ("img" === image.tagName.toLowerCase()) {
                     if (src) {
                         image.src = src;
