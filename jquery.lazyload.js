@@ -134,6 +134,9 @@
                                 settings.load.call(self, elements_left, settings);
                             }
                         })
+                        .bind("error", function(){
+                            $(self).trigger("error");
+                        })
                         .attr({
                             "src": $self.attr("data-" + settings.data_attribute),
                             "srcset": $self.attr("data-" + settings.data_srcset) || ""
