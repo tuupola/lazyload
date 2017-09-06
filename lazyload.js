@@ -88,16 +88,23 @@
                         self.observer.unobserve(entry.target);
                         let src = entry.target.getAttribute(self.settings.src);
                         let srcset = entry.target.getAttribute(self.settings.srcset);
-                        if ("img" === entry.target.tagName.toLowerCase()) {
-                            if (src) {
-                                entry.target.src = src;
+                        let downloadingImage = new Image();
+                        downloadingImage.onload = function() {
+                            if ("img" === entry.target.tagName.toLowerCase()) {
+                                if (src) {
+                                    entry.target.src = src;
+                                }
+                                if (srcset) {
+                                    entry.target.srcset = srcset;
+                                }
+                            } else {
+                                entry.target.style.backgroundImage = "url(" + src + ")";
                             }
-                            if (srcset) {
-                                entry.target.srcset = srcset;
-                            }
-                        } else {
-                            entry.target.style.backgroundImage = "url(" + src + ")";
-                        }
+                            entry.target.classList.remove("loading");
+                        };
+                        downloadingImage.src = src;
+                        entry.target.src = "";
+                        entry.target.classList.add("loading");
                     }
                 });
             }, observerConfig);
@@ -120,16 +127,23 @@
             this.images.forEach(function (image) {
                 let src = image.getAttribute(self.settings.src);
                 let srcset = image.getAttribute(self.settings.srcset);
-                if ("img" === image.tagName.toLowerCase()) {
-                    if (src) {
-                        image.src = src;
+                let downloadingImage = new Image();
+                downloadingImage.onload = function() {
+                    if ("img" === image.tagName.toLowerCase()) {
+                        if (src) {
+                            image.src = src;
+                        }
+                        if (srcset) {
+                            image.srcset = srcset;
+                        }
+                    } else {
+                        image.style.backgroundImage = "url(" + src + ")";
                     }
-                    if (srcset) {
-                        image.srcset = srcset;
-                    }
-                } else {
-                    image.style.backgroundImage = "url(" + src + ")";
-                }
+                    image.classList.remove("loading");
+                };
+                downloadingImage.src = src;
+                image.src = "";
+                image.classList.add("loading");
             });
         },
 
