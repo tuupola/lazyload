@@ -103,7 +103,7 @@
                             entry.target.classList.remove("loading");
                         };
                         downloadingImage.src = src;
-                        if(!entry.target.src) { entry.target = ""; }
+                        if(!entry.target.src) { entry.target.src = ""; }
                         entry.target.classList.add("loading");
                     }
                 });
