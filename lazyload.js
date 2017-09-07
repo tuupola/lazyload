@@ -103,7 +103,7 @@
                             entry.target.classList.remove("loading");
                         };
                         downloadingImage.src = src;
-                        entry.target.src = "";
+                        if(!entry.target.src) { entry.target = ""; }
                         entry.target.classList.add("loading");
                     }
                 });
@@ -142,7 +142,7 @@
                     image.classList.remove("loading");
                 };
                 downloadingImage.src = src;
-                image.src = "";
+                if(!image.src) { image.src = ""; }
                 image.classList.add("loading");
             });
         },
