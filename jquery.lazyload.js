@@ -90,11 +90,16 @@
             self.loaded = false;
 
             /* If no src attribute given use data:uri. */
-            if ($self.attr("src") === undefined || $self.attr("src") === false) {
-                if ($self.is("img")) {
+            if ($self.is("img")) {
+                if ($self.attr("src") === undefined || $self.attr("src") === false) {
                     $self.attr("src", settings.placeholder);
                 }
+            } else {
+                if (!$self.css("background-image")) {
+                    $self.css("background-image", "url('" + settings.placeholder + "')");
+                }
             }
+
 
             /* When appear is triggered load original image. */
             $self.one("appear", function() {
