@@ -25,6 +25,7 @@
             event           : "scroll.lazyload",
             effect          : "show",
             container       : window,
+            parent          : null,
             data_attribute  : "original",
             data_srcset     : "srcset",
             skip_invisible  : false,
@@ -36,17 +37,17 @@
         function update() {
             var counter = 0;
 
-            elements.each(function() {
-                var $this = $(this);
+            elements.each(function() { 
+                var $this = settings.parent == null ? $(this) : $(settings.parent);
                 if (settings.skip_invisible && !$this.is(":visible")) {
                     return;
                 }
-                if ($.abovethetop(this, settings) ||
-                    $.leftofbegin(this, settings)) {
+                if ($.abovethetop($this, settings) ||
+                    $.leftofbegin($this, settings)) {
                         /* Nothing. */
-                } else if (!$.belowthefold(this, settings) &&
-                    !$.rightoffold(this, settings)) {
-                        $this.trigger("appear");
+                } else if (!$.belowthefold($this, settings) &&
+                    !$.rightoffold($this, settings)) {
+                        $(this).trigger("appear");
                         /* if we found an image we'll load, reset the counter */
                         counter = 0;
                 } else {
