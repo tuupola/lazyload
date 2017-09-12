@@ -115,6 +115,8 @@
                                     if (srcset != null) {
                                         $self.attr("srcset", srcset);
                                     }
+                                } if ($self.is("video")) {
+                                    $self.attr("poster", original);
                                 } else {
                                     $self.css("background-image", "url('" + original + "')");
                                 }
