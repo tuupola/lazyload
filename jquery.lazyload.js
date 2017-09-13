@@ -21,6 +21,7 @@
         var $container;
         var settings = {
             threshold       : 0,
+            wait            : 0,
             failure_limit   : 0,
             event           : "scroll.lazyload",
             effect          : "show",
@@ -97,8 +98,29 @@
             }
 
             /* When appear is triggered load original image. */
-            $self.one("appear", function() {
+            var replace_src = function(event, waited) {
                 if (!this.loaded) {
+                    /* Wait before loading image if needed. */
+                    if (settings.wait > 0) {
+                        if (! waited) {
+                            setTimeout(function() { replace_src(event, true); }, settings.wait);
+                            return;
+                        } else {
+                            // triggered from setTimeout.
+                            // Check image is still in viewport.
+
+                            if ($.abovethetop($self, settings) ||
+                                $.leftofbegin($self, settings) ||
+                                $.belowthefold($self, settings) ||
+                                $.rightoffold($self, settings)) {
+                                // Do not load image. Restore a handler.
+                                $self.one("appear", replace_src);
+                                return;
+                            }
+                        }
+                    }
+
+                    /* Load image */
                     if (settings.appear) {
                         var elements_left = elements.length;
                         settings.appear.call(self, elements_left, settings);
@@ -141,7 +163,8 @@
                             "srcset": $self.attr("data-" + settings.data_srcset) || ""
                         });
                 }
-            });
+            };
+            $self.one("appear", replace_src);
 
             /* When wanted event is triggered load original image */
             /* by triggering appear.                              */
