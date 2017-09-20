@@ -143,6 +143,11 @@
                 }
             });
 
+            /* For dynamically added images, trigger appear when added inside the viewport */
+            if ($.isReady && $.inviewport($self, settings)) {
+                $self.trigger("appear");
+            }
+
             /* When wanted event is triggered load original image */
             /* by triggering appear.                              */
             if (0 !== settings.event.indexOf("scroll")) {
