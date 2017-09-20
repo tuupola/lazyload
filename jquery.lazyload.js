@@ -56,6 +56,12 @@
                 }
             });
 
+            /* Remove images that are not on the page */
+            var temp = $.grep(elements, function(element) {
+                return document.contains(element);
+            });
+            elements = $(temp);
+
         }
 
         if(options) {
