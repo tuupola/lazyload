@@ -1,8 +1,8 @@
 (function (root, factory) {
-    if (typeof define === "function" && define.amd) {
-        define([], factory(root));
-    } else if (typeof exports === "object") {
+    if (typeof exports === "object") {
         module.exports = factory(root);
+    } else if (typeof define === "function" && define.amd) {
+        define([], factory(root));
     } else {
         root.LazyLoad = factory(root);
     }
@@ -144,8 +144,8 @@
         return new LazyLoad(images, options);
     };
 
-    if (window.jQuery) {
-        const $ = window.jQuery;
+    if (root.jQuery) {
+        const $ = root.jQuery;
         $.fn.lazyload = function (options) {
             options = options || {};
             options.attribute = options.attribute || "data-src";
