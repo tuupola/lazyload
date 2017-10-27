@@ -84,20 +84,16 @@
     LazyLoad.prototype = {
         init: function() {
 
-            /* Without observers load everything and bail out early. */
-            if (!root.IntersectionObserver) {
-                this.loadImages();
-                return;
-            }
-
             let self = this;
             let observerConfig = {
                 root: null,
                 rootMargin: "0px",
                 threshold: [0]
             };
-
-            this.observer = new IntersectionObserver(function(entries) {
+            
+         var io=(root.IntersectionObserver?root.IntersectionObserver:this.IntersectionObserver); 
+         
+         this.observer = new io(function(entries) {
                 entries.forEach(function (entry) {
                     if (entry.intersectionRatio > 0) {
                         self.observer.unobserve(entry.target);
@@ -155,6 +151,77 @@
         }
     };
 
+    
+  LazyLoad.prototype.IntersectionObserver=function (callback,options_in){
+ 
+      var o={ 	
+         root:window,
+         rootMargin:null, //Margin around the root. Can have values similar to the css margin property: "10px 20px 30px 40px" (t
+         threshold:null, //  indicate at what % of visiblity of the target [0, 0.25, 0.5, 0.75, 1]
+
+         offset:1, //Смешение срабатывания[-1 весь объект, >0 часть что сверху на столько пикселей]
+         offsetTop:options_in && options_in.offset?options_in.offset:100, //Увеличение верхней границы экрана для срабатывания
+         offsetBottom:options_in && options_in.offset?options_in.offset:100, //Увеличение нижней границы экрана для срабатывания
+      };
+      $.extend(o,options_in);	
+      o.root=o.root?o.root:window;
+
+
+
+      var observe_objects=[];
+
+      this.observe=function(object){
+         observe_objects[observe_objects.length]=object;         
+      }
+
+      this.unobserve=function(object){
+         var objects=[];
+         observe_objects.forEach(function (each_object) {
+            if (each_object!=object) 
+               objects[objects.length]=each_object;         
+         });           
+         observe_objects=objects;
+      }
+      
+      var check_viewport=function(){
+         var root_scroll_top=$(o.root).scrollTop()-o.offsetTop;
+         var root_height=$(o.root).height()+o.offsetTop+o.offsetBottom;
+
+         /*
+   		entry.time;               // a DOMHightResTimeStamp indicating when the intersection occurred.
+        entry.rootBounds;         // a DOMRectReadOnly for the intersection observer's root.
+        entry.boundingClientRect; // a DOMRectReadOnly for the intersection observer's target.
+        entry.intersectionRect;   // a DOMRectReadOnly for the visible portion of the intersection observer's target.
+        entry.intersectionRatio;  // the number for the ratio of the intersectionRect to the boundingClientRect.
+        entry.target;             // the Element whose intersection with the intersection root changed.
+*/           
+
+         observe_objects.forEach(function(each_object) {
+            var object=each_object;
+            var $object=$(each_object);
+
+            var object_height=$object.height();            
+            var object_top=$object.offset().top;            
+ 
+            if (object_top+object_height<root_scroll_top+root_height && object_top>root_scroll_top ||
+            	object_top<root_scroll_top+root_height && object_top+object_height>root_scroll_top+root_height ||
+               object_top<root_scroll_top && object_top+object_height>root_scroll_top
+               ){ 
+               
+               var ret={};
+               ret.intersectionRatio=1;
+               ret.target=object;
+               callback([ret]);
+            }
+         });
+
+      }
+
+      $(o.root).off('scroll.IntersectionObserver, load.IntersectionObserver, resize.IntersectionObserver').on('scroll.IntersectionObserver, load.IntersectionObserver, resize.IntersectionObserver',check_viewport)       
+      check_viewport();
+   }  
+
+    
     root.lazyload = function(images, options) {
         return new LazyLoad(images, options);
     };
