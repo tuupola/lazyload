@@ -164,8 +164,7 @@
         $.fn.lazyload = function (options) {
             options = options || {};
             options.attribute = options.attribute || "data-src";
-            new LazyLoad($.makeArray(this), options);
-            return this;
+            return new LazyLoad($.makeArray(this), options);
         };
     }
 
