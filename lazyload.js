@@ -1,5 +1,5 @@
 /*!
- * Lazy Load - JavaScript plugin for lazy loading images
+ * Lazy Load - JavaScript plugin for lazy loading images and iframes
  *
  * Copyright (c) 2007-2017 Mika Tuupola
  *
@@ -103,7 +103,10 @@
                         self.observer.unobserve(entry.target);
                         let src = entry.target.getAttribute(self.settings.src);
                         let srcset = entry.target.getAttribute(self.settings.srcset);
-                        if ("img" === entry.target.tagName.toLowerCase()) {
+                        if (
+                            "img" === entry.target.tagName.toLowerCase() ||
+                            "iframe" === entry.target.tagName.toLowerCase()
+                        ) {
                             if (src) {
                                 entry.target.src = src;
                             }
@@ -135,7 +138,10 @@
             this.images.forEach(function (image) {
                 let src = image.getAttribute(self.settings.src);
                 let srcset = image.getAttribute(self.settings.srcset);
-                if ("img" === image.tagName.toLowerCase()) {
+                if (
+                    "img" === image.tagName.toLowerCase() ||
+                    "iframe" === image.tagName.toLowerCase()
+                ) {
                     if (src) {
                         image.src = src;
                     }
