@@ -21,6 +21,16 @@ With the HTML in place you can then initialize the plugin using the factory meth
 lazyload();
 ```
 
+If you prefer you can pass callback function. When the image is loaded, the function defined as 'onLoadCallback' is called.
+
+```js
+lazyload(null, {
+    onLoadCallback: function() {
+        console.log('callback function is called!');
+    }
+});
+```
+
 If you prefer you can explicitly pass the image elements to the factory. Use this for example if you use different class name.
 
 ```js
