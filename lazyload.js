@@ -30,7 +30,7 @@
         srcset: "data-srcset",
         selector: ".lazyload",
         root: null,
-        offset: "0px",
+        rootMargin: "0px",
         threshold: 0
     };
 
@@ -96,7 +96,7 @@
             let self = this;
             let observerConfig = {
                 root: this.settings.root,
-                rootMargin: this.settings.offset,
+                rootMargin: this.settings.rootMargin,
                 threshold: [this.settings.threshold]
             };
 
