@@ -28,7 +28,10 @@
     const defaults = {
         src: "data-src",
         srcset: "data-srcset",
-        selector: ".lazyload"
+        selector: ".lazyload",
+        root: null,
+        offset: "0px",
+        threshold: 0
     };
 
     /**
@@ -92,9 +95,9 @@
 
             let self = this;
             let observerConfig = {
-                root: null,
-                rootMargin: "0px",
-                threshold: [0]
+                root: this.settings.root,
+                rootMargin: this.settings.offset,
+                threshold: [this.settings.threshold]
             };
 
             this.observer = new IntersectionObserver(function(entries) {
