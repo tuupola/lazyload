@@ -98,7 +98,7 @@
             };
 
             this.observer = new IntersectionObserver(function(entries) {
-                entries.forEach(function (entry) {
++                Array.prototype.forEach.call(entries, function (entry) {
                     if (entry.intersectionRatio > 0) {
                         self.observer.unobserve(entry.target);
                         let src = entry.target.getAttribute(self.settings.src);
@@ -117,7 +117,7 @@
                 });
             }, observerConfig);
 
-            this.images.forEach(function (image) {
+            Array.prototype.forEach.call(this.images, function (image) {
                 self.observer.observe(image);
             });
         },
@@ -132,7 +132,7 @@
             if (!this.settings) { return; }
 
             let self = this;
-            this.images.forEach(function (image) {
+            Array.prototype.forEach.call(this.images, function (image) {
                 let src = image.getAttribute(self.settings.src);
                 let srcset = image.getAttribute(self.settings.srcset);
                 if ("img" === image.tagName.toLowerCase()) {
