@@ -17,13 +17,17 @@
     if (typeof exports === "object") {
         module.exports = factory(root);
     } else if (typeof define === "function" && define.amd) {
-        define([], factory(root));
+        define([], factory);
     } else {
         root.LazyLoad = factory(root);
     }
 }) (typeof global !== "undefined" ? global : this.window || this.global, function (root) {
 
     "use strict";
+
+    if (typeof define === "function" && define.amd){
+        root = window;
+    }
 
     const defaults = {
         src: "data-src",
