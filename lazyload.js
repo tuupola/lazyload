@@ -143,7 +143,7 @@
                         image.srcset = srcset;
                     }
                 } else {
-                    image.style.backgroundImage = "url(" + src + ")";
+                    image.style.backgroundImage = "url('" + src + "')";
                 }
             });
         },
