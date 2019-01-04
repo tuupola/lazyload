@@ -30,7 +30,7 @@
         srcset: "data-srcset",
         selector: ".lazyload",
         onLoaded: function(el) {
-            el.classList.add('loaded');
+            el.classList.add("loaded");
         }
     };
 
