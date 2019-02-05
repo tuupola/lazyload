@@ -30,7 +30,7 @@ travis: lint unit
 
 build:
 	echo "/*! Lazy Load 2.0.0-beta.2 - MIT license - Copyright 2007-2017 Mika Tuupola */" > lazyload.min.js
-	node_modules/.bin/uglifyjs --compress --mangle -- lazyload.js >> lazyload.min.js
+	node_modules/.bin/uglifyjs lazyload.js --compress --mangle --source-map --output lazyload.min.js
 
 all: deps test build
 
