@@ -101,18 +101,7 @@
                 entries.forEach(function (entry) {
                     if (entry.intersectionRatio > 0) {
                         self.observer.unobserve(entry.target);
-                        let src = entry.target.getAttribute(self.settings.src);
-                        let srcset = entry.target.getAttribute(self.settings.srcset);
-                        if ("img" === entry.target.tagName.toLowerCase()) {
-                            if (src) {
-                                entry.target.src = src;
-                            }
-                            if (srcset) {
-                                entry.target.srcset = srcset;
-                            }
-                        } else {
-                            entry.target.style.backgroundImage = "url(" + src + ")";
-                        }
+                        self.loadImage(entry.target);
                     }
                 });
             }, observerConfig);
@@ -127,24 +116,34 @@
             this.loadImages();
             this.destroy();
         },
+        
+        loadImage: function(image) {
+            image.onerror = function() {
+                image.onerror = null;
+                image.src = image.srcset = image.dataset.original;
+            };
+
+            let src = image.getAttribute(this.settings.src);
+            let srcset = image.getAttribute(this.settings.srcset);
+            if ("img" === image.tagName.toLowerCase()) {
+                if (src) {
+                    image.dataset.original = image.src;
+                    image.src = src;
+                }
+                if (srcset) {
+                    image.srcset = srcset;
+                }
+            } else {
+                image.style.backgroundImage = "url(" + src + ")";
+            }
+        },        
 
         loadImages: function () {
             if (!this.settings) { return; }
 
             let self = this;
             this.images.forEach(function (image) {
-                let src = image.getAttribute(self.settings.src);
-                let srcset = image.getAttribute(self.settings.srcset);
-                if ("img" === image.tagName.toLowerCase()) {
-                    if (src) {
-                        image.src = src;
-                    }
-                    if (srcset) {
-                        image.srcset = srcset;
-                    }
-                } else {
-                    image.style.backgroundImage = "url('" + src + "')";
-                }
+                self.loadImage(image);
             });
         },
 
