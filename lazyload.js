@@ -32,7 +32,10 @@
     const defaults = {
         src: "data-src",
         srcset: "data-srcset",
-        selector: ".lazyload"
+        selector: ".lazyload",
+        onLoaded: function(el) {
+            el.classList.add("loaded");
+        }
     };
 
     /**
@@ -105,6 +108,9 @@
                 entries.forEach(function (entry) {
                     if (entry.intersectionRatio > 0) {
                         self.observer.unobserve(entry.target);
+                        entry.target.onload = function () {
+                            self.settings.onLoaded(entry.target);
+                        };
                         let src = entry.target.getAttribute(self.settings.src);
                         let srcset = entry.target.getAttribute(self.settings.srcset);
                         if ("img" === entry.target.tagName.toLowerCase()) {
@@ -137,6 +143,9 @@
 
             let self = this;
             this.images.forEach(function (image) {
+                image.onload = function () {
+                    self.settings.onLoaded(image);
+                };
                 let src = image.getAttribute(self.settings.src);
                 let srcset = image.getAttribute(self.settings.srcset);
                 if ("img" === image.tagName.toLowerCase()) {
