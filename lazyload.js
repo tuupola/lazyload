@@ -1,7 +1,7 @@
 /*!
  * Lazy Load - JavaScript plugin for lazy loading images
  *
- * Copyright (c) 2007-2017 Mika Tuupola
+ * Copyright (c) 2007-2019 Mika Tuupola
  *
  * Licensed under the MIT license:
  *   http://www.opensource.org/licenses/mit-license.php
