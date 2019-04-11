@@ -17,13 +17,17 @@
     if (typeof exports === "object") {
         module.exports = factory(root);
     } else if (typeof define === "function" && define.amd) {
-        define([], factory(root));
+        define([], factory);
     } else {
         root.LazyLoad = factory(root);
     }
 }) (typeof global !== "undefined" ? global : this.window || this.global, function (root) {
 
     "use strict";
+
+    if (typeof define === "function" && define.amd){
+        root = window;
+    }
 
     const defaults = {
         src: "data-src",
@@ -101,7 +105,7 @@
             };
 
             this.observer = new IntersectionObserver(function(entries) {
-                entries.forEach(function (entry) {
+                Array.prototype.forEach.call(entries, function (entry) {
                     if (entry.intersectionRatio > 0) {
                         self.observer.unobserve(entry.target);
                         let src = entry.target.getAttribute(self.settings.src);
@@ -120,7 +124,7 @@
                 });
             }, observerConfig);
 
-            this.images.forEach(function (image) {
+            Array.prototype.forEach.call(this.images, function (image) {
                 self.observer.observe(image);
             });
         },
@@ -135,7 +139,7 @@
             if (!this.settings) { return; }
 
             let self = this;
-            this.images.forEach(function (image) {
+            Array.prototype.forEach.call(this.images, function (image) {
                 let src = image.getAttribute(self.settings.src);
                 let srcset = image.getAttribute(self.settings.srcset);
                 if ("img" === image.tagName.toLowerCase()) {
@@ -146,7 +150,7 @@
                         image.srcset = srcset;
                     }
                 } else {
-                    image.style.backgroundImage = "url(" + src + ")";
+                    image.style.backgroundImage = "url('" + src + "')";
                 }
             });
         },
