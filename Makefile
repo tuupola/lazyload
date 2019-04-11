@@ -30,7 +30,7 @@ travis: lint unit
 
 build:
 	node_modules/.bin/uglifyjs lazyload.js --compress --mangle --source-map --output lazyload.min.js
-	sed -i "1s/^/\/*! Lazy Load 2.0.0-rc.1 - MIT license - Copyright 2007-2019 Mika Tuupola *\/\n/" lazyload.min.js
+	sed -i "1s/^/\/*! Lazy Load 2.0.0-rc.2 - MIT license - Copyright 2007-2019 Mika Tuupola *\/\n/" lazyload.min.js
 
 all: deps test build
 

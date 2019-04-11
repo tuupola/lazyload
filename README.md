@@ -9,7 +9,7 @@ This is a modern vanilla JavaScript version of the original [Lazy Load](https://
 By default Lazy Load assumes the URL of the original high resolution image can be found in `data-src` attribute. You can also include an optional low resolution placeholder in the `src` attribute.
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/lazyload@2.0.0-rc.1/lazyload.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lazyload@2.0.0-rc.2/lazyload.js"></script>
 
 <img class="lazyload" data-src="img/example.jpg" width="765" height="574" />
 <img class="lazyload" src="img/example-thumb.jpg" data-src="img/example.jpg" width="765" height="574" />

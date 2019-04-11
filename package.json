@@ -1,6 +1,6 @@
 {
   "name": "lazyload",
-  "version": "2.0.0-rc.1",
+  "version": "2.0.0-rc.2",
   "description": "Vanilla JavaScript plugin for lazyloading images",
   "main": "lazyload.js",
   "repository": "https://github.com/tuupola/lazyload.git",
