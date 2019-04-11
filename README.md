@@ -1,4 +1,4 @@
-# [WIP] Lazy Load Remastered
+# Lazy Load Remastered
 
 Lazy Load delays loading of images in long web pages. Images outside of viewport will not be loaded before user scrolls to them. This is opposite of image preloading.
 
