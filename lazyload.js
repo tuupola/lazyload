@@ -106,7 +106,7 @@
 
             this.observer = new IntersectionObserver(function(entries) {
                 Array.prototype.forEach.call(entries, function (entry) {
-                    if (entry.intersectionRatio > 0) {
+                    if (entry.isIntersecting) {
                         self.observer.unobserve(entry.target);
                         let src = entry.target.getAttribute(self.settings.src);
                         let srcset = entry.target.getAttribute(self.settings.srcset);
