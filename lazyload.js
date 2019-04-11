@@ -117,6 +117,9 @@
                             if (srcset) {
                                 entry.target.srcset = srcset;
                             }
+                            if(self.settings.onLoadCallback) {
+                                entry.target.onload = self.settings.onLoadCallback;
+                            }
                         } else {
                             entry.target.style.backgroundImage = "url(" + src + ")";
                         }
