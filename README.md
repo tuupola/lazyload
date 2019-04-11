@@ -35,6 +35,16 @@ let images = document.querySelectorAll(".branwdo");
 new LazyLoad(images);
 ```
 
+The core IntersectionObserver can be configured by passing an additional argument
+
+```js
+new LazyLoad(images, {
+     root: null,
+     rootMargin: "0px",
+     threshold: 0
+});
+```
+
 ## Additional API
 
 To use the additional API you need to assign the plugin instance to a variable.
