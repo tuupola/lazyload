@@ -9,7 +9,7 @@
  * Project home:
  *   https://appelsiini.net/projects/lazyload
  *
- * Version: 2.0.0-beta.2
+ * Version: 2.0.0-rc.1
  *
  */
 
