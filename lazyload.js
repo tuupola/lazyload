@@ -118,7 +118,7 @@
                                 entry.target.srcset = srcset;
                             }
                         } else {
-                            entry.target.style.backgroundImage = "url(" + src + ")";
+                            entry.target.style.backgroundImage = "url('" + src + "')";
                         }
                     }
                 });
